@@ -3,9 +3,7 @@ import React from "react";
 import Image from "next/image";
 import HeroCta from "../components/HeroCta";
 
-type Props = {};
-
-export default function Hero({}: Props) {
+export default function Hero() {
   return (
     <section className="w-full px-4 py-10 bg-primary-800 lg:py-20 lg:px-10">
       <div className="flex flex-col items-center justify-between w-full grid-cols-2 mx-auto lg:grid lg:gap-10 max-w-7xl">
