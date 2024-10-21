@@ -1,14 +1,14 @@
 import React from "react";
 
 import Image from "next/image";
-import HeroCta from "../components/HeroCta";
+import HeroCta from "./HeroCta";
 
 export default function Hero() {
   return (
     <section className="w-full px-4 py-10 bg-primary-800 lg:py-20 lg:px-10">
-      <div className="flex flex-col items-center justify-between w-full grid-cols-2 mx-auto lg:grid lg:gap-10 max-w-7xl">
-        <div className="flex flex-col w-full gap-10 text-center text-white lg:gap-12 lg:text-start lg:py-12">
-          <div className="flex flex-col gap-4">
+      <div className="flex flex-col items-start justify-between w-full grid-cols-2 mx-auto lg:grid lg:gap-10 max-w-7xl">
+        <div className="flex flex-col w-full gap-10 text-center text-white lg:gap-12 lg:text-start">
+          <div className="flex flex-col gap-4 items-start">
             <h1 className=" text-[32px] lg:text-[56px] font-bold leading-tight ">
               Guaranteed salary - for you as a freelancer
             </h1>
@@ -32,7 +32,7 @@ export default function Hero() {
               width={72}
               alt="auktoriserat egenanställningsföretag 2023 EAFB INVOICERY"
             />
-            <div className="hidden lg:flex gap-[13px] items-center justify-start">
+            {/* <div className="hidden lg:flex gap-[13px] items-center justify-start">
               <span className="text-base font-semibold leading-normal ">
                 Excellent
               </span>
@@ -55,7 +55,7 @@ export default function Hero() {
                 width={81}
                 alt="Trustpilot logo"
               />
-            </div>
+            </div> */}
           </div>
         </div>
         <Image
