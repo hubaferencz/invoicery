@@ -17,6 +17,7 @@ export default function Hero() {
               freelancer. We take care of all the paperwork and guarantee salary
               so you can be independent without feeling lonely.
             </h4>
+            
           </div>
           <div className="flex flex-col items-center gap-4 lg:items-start">
             <HeroCta text="Register assignments" link="/register" />
