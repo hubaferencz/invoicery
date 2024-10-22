@@ -6,6 +6,8 @@ import React, { useState } from "react";
 import { Asap } from "next/font/google";
 import Cta from "../Cta";
 import LanguageDropdown from "./LanguageDropdown";
+import HeroCta from "@/app/(hero)/HeroCta";
+import SignIn from "./SignIn";
 
 const asap = Asap({ subsets: ["latin"] });
 
@@ -44,20 +46,21 @@ const languages = [
   { name: "Norwegian", code: "no" },
 ];
 
-// NavbarLink function should return JSX
 function NavbarLink({ title, route }: NavLink) {
   return (
     <Link href={route}>
-      <div className="hover:bg-black text-white hover:bg-opacity-10 rounded-full px-4 py-3 transition-all duration-300">
+      <div className="px-4 py-3 text-white transition-all duration-300 rounded-full hover:bg-black hover:bg-opacity-10 whitespace-nowrap">
         {title}
       </div>
     </Link>
   );
 }
 
-export default function Navbar({}: Props) {
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+export default function Navbar() {
+  const [dropdownOpen, setDropdownOpen] = useState(false); // For desktop language dropdown
   const [selectedLanguage, setSelectedLanguage] = useState("English");
+  const [isMenuOpen, setIsMenuOpen] = useState(false); // For mobile menu
+  const [isLanguageOpen, setIsLanguageOpen] = useState(false); // For mobile language dropdown
 
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
@@ -65,7 +68,8 @@ export default function Navbar({}: Props) {
 
   const handleSelectLanguage = (language: string) => {
     setSelectedLanguage(language);
-    setDropdownOpen(false); // Close dropdown after selection
+    setDropdownOpen(false);
+    setIsLanguageOpen(false);
   };
 
   const links: NavLink[] = [
@@ -75,11 +79,16 @@ export default function Navbar({}: Props) {
 
   return (
     <>
-      <nav className="w-full px-4 lg:py-[30px] bg-primary-800 lg:px-10">
-        <div className="flex flex-col items-center justify-between w-full grid-cols-2 mx-auto lg:grid lg:gap-10 max-w-7xl">
-          <div className="flex gap-10 items-center justify-start">
-            <Image src={"/logo.png"} alt="Logo" width={137} height={40} />
-            <div className="flex gap-4 items-center justify-center">
+      <nav className="w-full pt-12 pb-4 lg:pt-[30px] lg:pb-[30px] bg-black bg-opacity-50 lg:bg-primary-800 px-4 lg:px-10 fixed lg:relative top-0 left-0 right-0 z-10">
+        <div className="flex items-center justify-between w-full mx-auto max-w-7xl">
+          {/* Logo */}
+          <div className="flex items-center">
+            <Image src="/logo.png" alt="Logo" width={137} height={40} />
+          </div>
+
+          {/* Desktop Navigation */}
+          <div className="items-center justify-between flex-1 hidden gap-10 lg:flex">
+            <div className="flex items-center gap-4">
               {links.map((link) => (
                 <NavbarLink
                   key={link.route}
@@ -88,40 +97,51 @@ export default function Navbar({}: Props) {
                 />
               ))}
             </div>
+            <div className="flex items-center gap-4 font-medium">
+              <button
+                onClick={toggleDropdown}
+                className="text-white py-[14px] transition-all duration-300 flex gap-1 items-center"
+              >
+                {selectedLanguage}
+                <Image
+                  src="/icons/down-chev.svg"
+                  width={24}
+                  height={24}
+                  alt="Open language dropdown"
+                  className={`transform hidden lg:block transition-transform duration-300 ${
+                    dropdownOpen ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
+              <Link href="/sign-in">
+                <div className="text-white hover:bg-black hover:bg-opacity-10 rounded-xl px-3 py-[14px] transition-all duration-300">
+                  Sign in
+                </div>
+              </Link>
+              <Cta text="Create account" link="/create-account" />
+            </div>
           </div>
-          <div
-            className={`${asap.className} flex gap-4 items-center justify-end font-medium`}
-          >
+
+          {/* Mobile Navigation */}
+          <div className="flex items-center lg:hidden">
             <button
-              onClick={toggleDropdown}
-              className="text-white py-[14px] transition-all duration-300 flex gap-1 items-center"
+              onClick={() => setIsMenuOpen(true)}
+              className="text-white focus:outline-none"
             >
-              {selectedLanguage}
               <Image
-                src={"/icons/down-chev.svg"}
-                width={24}
-                height={24}
-                alt="open language dropdown"
-                className={`transform transition-transform duration-300 ${
-                  dropdownOpen ? "rotate-180" : ""
-                }`}
+                src="/icons/open.svg"
+                width={48}
+                height={48}
+                alt="Open menu"
               />
             </button>
-
-            {/* Language Dropdown */}
-
-            <Link href={"/sign-in"}>
-              <div className="text-white hover:bg-black hover:bg-opacity-10 rounded-xl px-3 py-[14px] transition-all duration-300">
-                {"Sign in"}
-              </div>
-            </Link>
-
-            <Cta text="Create account" link="/create-account" />
           </div>
         </div>
       </nav>
+
+      {/* Desktop Language Dropdown */}
       <div
-        className={`transition-all overflow-hidden text-sm font-medium max-h-0 duration-500 ease-in-out ${
+        className={`hidden lg:block transition-all overflow-hidden text-sm font-medium max-h-0 duration-500 ease-in-out ${
           dropdownOpen ? "max-h-96 h-min" : ""
         }`}
       >
@@ -131,6 +151,148 @@ export default function Navbar({}: Props) {
           onSelect={handleSelectLanguage}
         />
       </div>
+
+      {/* Mobile Menu */}
+      <div
+        className={`fixed inset-0 z-40 transition-transform transform ${
+          isMenuOpen ? "translate-y-0" : "-translate-y-full"
+        } duration-500`}
+      >
+        {/* Background Overlay */}
+        <div
+          className="fixed inset-0 bg-black bg-opacity-5"
+          onClick={() => {
+            setIsMenuOpen(false);
+            setIsLanguageOpen(false);
+          }}
+        ></div>
+
+        {/* Menu Container */}
+        <div className="fixed top-0 bottom-0 left-0 right-0 px-4 pt-16 overflow-hidden bg-primary-800">
+          {/* Dropdown Slide Effect */}
+          <div
+            className={`transform transition-transform duration-300 ${
+              isLanguageOpen ? "-translate-y-full" : "translate-y-0"
+            }`}
+          >
+            <div className="flex flex-col items-center justify-center w-full h-full gap-8">
+              <div
+                className={`${asap.className} flex flex-col items-center gap-8 w-full`}
+              >
+                <Image
+                  src="/logo.png"
+                  alt="Logo"
+                  width={190}
+                  height={56}
+                  className=""
+                />
+                <div className="flex flex-col items-center justify-center w-full gap-4">
+                  <HeroCta text="Create account" link="/create-account" />
+                  <SignIn />
+                </div>
+              </div>
+              {/* Centered Logo */}
+              <div className="flex flex-col items-center w-full gap-8 py-8 border-t border-b border-primary-500">
+                {links.map((link) => (
+                  <Link
+                    href={link.route}
+                    key={link.route}
+                    className="text-2xl font-medium text-center text-white "
+                  >
+                    {link.title}
+                  </Link>
+                ))}
+
+                {/* Language Selector */}
+              </div>
+              <button
+                onClick={() => setIsLanguageOpen(true)}
+                className="text-white py-[14px] transition-all duration-300 flex gap-1 items-center"
+              >
+                {selectedLanguage}
+                <Image
+                  src="/icons/down-chev.svg"
+                  width={24}
+                  height={24}
+                  alt="Open language dropdown"
+                  className={`block lg:hidden -rotate-90`}
+                />
+              </button>
+            </div>
+          </div>
+
+          {/* Language Dropdown */}
+          <div
+            className={`absolute top-0 left-0 px-4 right-0 bottom-0 bg-primary-800 pt-12 overflow-hidden transform transition-transform duration-300 ${
+              isLanguageOpen ? "translate-x-0" : "translate-x-full"
+            }`}
+          >
+            {/* Slide-in from Right to Left */}
+            <div className="flex flex-col h-full">
+              {/* Back Button */}
+              <div className="py-1.5 border-b border-primary-500 w-full border-opacity-30">
+                <button
+                  onClick={() => setIsLanguageOpen(false)}
+                  className="flex items-center gap-2 px-4 py-4 text-primary-300"
+                >
+                  <Image
+                    src="/icons/down-chev.svg"
+                    width={24}
+                    height={24}
+                    alt="Open language dropdown"
+                    className={`block lg:hidden rotate-90`}
+                  />
+                  Back
+                </button>
+              </div>
+              {/* Language List */}
+              <div className="flex-1 overflow-y-auto text-white">
+                <div className="flex flex-col items-center gap-4 py-4 pb-40">
+                  {languages.map((language) => (
+                    <span
+                      key={language.code}
+                      className={`py-0.5 font-bold select-none ${
+                        selectedLanguage === language.name
+                          ? "text-secondary-500 "
+                          : ""
+                      }`}
+                      onClick={() => handleSelectLanguage(language.name)}
+                    >
+                      {language.name}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="absolute w-full h-10 -mb-1 transform -translate-x-1/2 bottom-28 left-1/2 bg-gradient-to-t from-primary-800 to-transparent"></div>
+
+          {/* Close Button */}
+          <button
+            onClick={() => {
+              setIsMenuOpen(false);
+              setIsLanguageOpen(false);
+            }}
+            className="absolute bottom-0 flex items-start justify-center w-full pt-4 pb-12 transform -translate-x-1/2 bg-primary-800 left-1/2 "
+          >
+            <Image
+              src="/icons/close.svg"
+              width={48}
+              height={48}
+              alt="Close menu"
+            />
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile Hero Image */}
+      <Image
+        src="/hero/hero.png"
+        alt="Hero Image"
+        width={620}
+        height={500}
+        className="block w-full lg:hidden"
+      />
     </>
   );
 }
