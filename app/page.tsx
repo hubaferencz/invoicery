@@ -2,6 +2,7 @@
 
 import Features from "./(features)/Features";
 import Hero from "./(hero)/Hero";
+import Statistics from "./(statistics)/Statistics";
 import Steps from "./(steps)/Steps";
 
 const features = [
@@ -54,6 +55,17 @@ const steps = [
   },
 ];
 
+const stats = [
+  { start: 100, finish: 1500, title: "umbrellas (2023)" },
+  { start: 200, finish: 5000, title: "full time freelancers" },
+  {
+    start: 0,
+    finish: 12,
+    title: "costumers have paid an invoice",
+    measurement: "biljon",
+  },
+];
+
 export default async function Home() {
   return (
     <>
@@ -66,13 +78,14 @@ export default async function Home() {
         heroImage={"/hero/bg.png"}
         heroImageAlt={"small business owner standing in front of business"}
       />
-      <section className="w-full px-4 py-[72px] bg-white lg:py-20 lg:px-10">
+      <div className="w-full px-4 py-[72px] bg-white lg:py-20 lg:px-10">
         <div className="flex flex-col items-center justify-start mx-auto max-w-7xl lg:gap-20">
           <Features features={features} />
           <div className=" bg-[#EBEBEB] h-[1px] w-full hidden lg:block"></div>
           <Steps steps={steps} />
         </div>
-      </section>
+      </div>
+      <Statistics stats={stats} />
     </>
   );
 }

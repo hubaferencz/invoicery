@@ -24,6 +24,9 @@ const config: Config = {
         secondary: {
           500: "#FF8800",
         },
+        teal: {
+          600: "#20B098",
+        },
       },
     },
   },
