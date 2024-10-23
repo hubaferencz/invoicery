@@ -168,16 +168,16 @@ export default function Navbar() {
         ></div>
 
         {/* Menu Container */}
-        <div className="fixed top-0 bottom-0 left-0 right-0 px-4 pt-16 overflow-hidden bg-primary-800">
+        <div className="fixed top-0 bottom-0 left-0 right-0 px-4 pt-8 overflow-hidden bg-primary-800">
           {/* Dropdown Slide Effect */}
           <div
             className={`transform transition-transform duration-300 ${
               isLanguageOpen ? "-translate-y-full" : "translate-y-0"
             }`}
           >
-            <div className="flex flex-col items-center justify-center w-full h-full gap-8">
+            <div className="flex flex-col items-center justify-center w-full h-full">
               <div
-                className={`${asap.className} flex flex-col items-center gap-8 w-full`}
+                className={`${asap.className} flex flex-col items-center gap-8 w-full mb-8`}
               >
                 <Image
                   src="/logo.png"
@@ -192,7 +192,7 @@ export default function Navbar() {
                 </div>
               </div>
               {/* Centered Logo */}
-              <div className="flex flex-col items-center w-full gap-8 py-8 border-t border-b border-primary-500">
+              <div className="flex flex-col items-center w-full gap-8 py-8 mb-4 border-t border-b border-primary-500">
                 {links.map((link) => (
                   <Link
                     href={link.route}
@@ -223,7 +223,7 @@ export default function Navbar() {
 
           {/* Language Dropdown */}
           <div
-            className={`absolute top-0 left-0 px-4 right-0 bottom-0 bg-primary-800 pt-12 overflow-hidden transform transition-transform duration-300 ${
+            className={`absolute top-0 left-0 px-4 right-0 bottom-0 bg-primary-800 pt-8 overflow-hidden transform transition-transform duration-300 ${
               isLanguageOpen ? "translate-x-0" : "translate-x-full"
             }`}
           >
@@ -265,7 +265,6 @@ export default function Navbar() {
               </div>
             </div>
           </div>
-          <div className="absolute w-full h-10 -mb-1 transform -translate-x-1/2 bottom-28 left-1/2 bg-gradient-to-t from-primary-800 to-transparent"></div>
 
           {/* Close Button */}
           <button
@@ -273,7 +272,7 @@ export default function Navbar() {
               setIsMenuOpen(false);
               setIsLanguageOpen(false);
             }}
-            className="absolute bottom-0 flex items-start justify-center w-full pt-4 pb-12 transform -translate-x-1/2 bg-primary-800 left-1/2 "
+            className="absolute bottom-0 flex items-start justify-center w-full pt-4 pb-8 transform -translate-x-1/2 bg-primary-800 left-1/2 "
           >
             <Image
               src="/icons/close.svg"
