@@ -82,9 +82,9 @@ export default function Navbar() {
       <nav className="w-full pt-12 pb-4 lg:pt-[30px] lg:pb-[30px] bg-black bg-opacity-50 lg:bg-primary-800 px-4 lg:px-10 fixed lg:relative top-0 left-0 right-0 z-10">
         <div className="flex items-center justify-between w-full mx-auto max-w-7xl">
           {/* Logo */}
-          <div className="flex items-center">
+          <Link href={"/"} className="flex items-center">
             <Image src="/logo.png" alt="Logo" width={137} height={40} />
-          </div>
+          </Link>
 
           {/* Desktop Navigation */}
           <div className="items-center justify-between flex-1 hidden gap-10 lg:flex">
@@ -97,7 +97,9 @@ export default function Navbar() {
                 />
               ))}
             </div>
-            <div className="flex items-center gap-4 font-medium">
+            <div className={`${asap.className} flex items-center gap-4 font-medium`} style={{
+                  letterSpacing: "0.32px",
+                }}>
               <button
                 onClick={toggleDropdown}
                 className="text-white py-[14px] transition-all duration-300 flex gap-1 items-center"
@@ -179,6 +181,9 @@ export default function Navbar() {
             <div className="flex flex-col items-center justify-center w-full h-full">
               <div
                 className={`${asap.className} flex flex-col items-center gap-8 w-full mb-8`}
+                style={{
+                  letterSpacing: "0.32px",
+                }}
               >
                 <Image
                   src="/logo.png"

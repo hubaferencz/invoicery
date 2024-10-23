@@ -2,6 +2,7 @@
 
 import Features from "./(features)/Features";
 import Hero from "./(hero)/Hero";
+import Steps from "./(steps)/Steps";
 
 const features = [
   {
@@ -26,6 +27,33 @@ const features = [
   },
 ];
 
+const steps = [
+  {
+    rank: 1,
+    title: "You find missions",
+    subtitle: "Register the assignment",
+    description:
+      "Start by registering your upcoming assignment. It's free and no obligation but allows Invoicery to verify the customer and accept the assignment agreement.",
+    image: "/steps/1.png",
+  },
+  {
+    rank: 2,
+    title: "Invoicery accepts the assignment",
+    subtitle: "Billing automatically",
+    description:
+      "When Invoicery has accepted the assignment, invoices are automatically sent to the customer and we handle all paperwork such as payment of tax, employer's contribution and pension.",
+    image: "/steps/2.png",
+  },
+  {
+    rank: 3,
+    title: "You get a guaranteed salary",
+    subtitle: "Taxed & cleared every month",
+    description:
+      "Invoicery pays your salary every month on the 25th, as with regular employment. You can sit back and enjoy complete security.",
+    image: "/steps/3.png",
+  },
+];
+
 export default async function Home() {
   return (
     <>
@@ -42,7 +70,7 @@ export default async function Home() {
         <div className="flex flex-col items-center justify-start mx-auto max-w-7xl lg:gap-20">
           <Features features={features} />
           <div className=" bg-[#EBEBEB] h-[1px] w-full hidden lg:block"></div>
-          {/* <Features features={features} /> */}
+          <Steps steps={steps} />
         </div>
       </section>
     </>
