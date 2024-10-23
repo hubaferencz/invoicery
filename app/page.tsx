@@ -1,6 +1,6 @@
 // page.tsx
 
-import Features from "./(features)/Features";
+import Features from "./(features-first)/Features";
 import Hero from "./(hero)/Hero";
 import Statistics from "./(statistics)/Statistics";
 import Steps from "./(steps)/Steps";

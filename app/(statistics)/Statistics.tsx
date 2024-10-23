@@ -30,11 +30,11 @@ export default function Statistics({ stats }: StatisticsProps) {
       <div className="absolute inset-0 bg-[#3A7663] opacity-70"></div>
 
       {/* Content */}
-      <div className="relative flex flex-col items-center text-center text-white justify-center gap-2 lg:px-20 font-bold text-[28px] lg:text-[40px] leading-tight z-10">
+      <div className=" flex flex-col items-center text-center text-white justify-center gap-2 lg:px-20 font-bold text-[28px] lg:text-[40px] leading-tight z-10">
         <h2>Frilans Finans</h2>
         <h3>A part of something bigger</h3>
       </div>
-      <div className="relative z-10 grid items-start justify-center grid-cols-1 pt-4 text-center text-white lg:pt-0 gap-14 md:gap-10 lg:px-40 md:grid-cols-3">
+      <div className="z-10 grid items-start justify-center grid-cols-1 pt-4 text-center text-white  lg:pt-0 gap-14 md:gap-10 lg:px-40 md:grid-cols-3">
         {stats.map((stat, index) => (
           <SlotMachineStat
             key={index}
