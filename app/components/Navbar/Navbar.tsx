@@ -121,6 +121,7 @@ export default function Navbar() {
               <Cta text="Create account" link="/create-account" />
             </div>
           </div>
+          
 
           {/* Mobile Navigation */}
           <div className="flex items-center lg:hidden">
@@ -264,8 +265,9 @@ export default function Navbar() {
                 </div>
               </div>
             </div>
+            <div className="absolute w-full h-10 -mb-1 transform -translate-x-1/2 bottom-24 left-1/2 bg-gradient-to-t from-primary-800 to-transparent"></div>
           </div>
-
+          
           {/* Close Button */}
           <button
             onClick={() => {
