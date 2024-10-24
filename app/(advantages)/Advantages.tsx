@@ -23,9 +23,8 @@ export default function Advantages({ advantages }: AdvantagesProps) {
     {
       loop: false,
       slides: {
-
-        perView: 1.1  , // Show 1 full card and part of the next one
-        spacing: 16, // Space between slides
+        perView: 1.1,
+        spacing: 16,
       },
       slideChanged(s) {
         setCurrentSlide(s.track.details.rel);
@@ -36,8 +35,8 @@ export default function Advantages({ advantages }: AdvantagesProps) {
 
   return (
     <section className="bg-teal-100 lg:py-[100px] py-[72px] px-4 lg:px-10">
-      <div className="flex flex-col gap-10 lg:gap-12">
-        {/* Header */}
+      <div className="flex flex-col gap-10 mx-auto lg:gap-12 max-w-7xl">
+
         <div className="flex flex-col items-center justify-center gap-4 lg:gap-6 lg:px-36">
           <div className="text-[28px] leading-tight text-center lg:text-[40px] gap-1.5 md:gap-0 flex flex-col font-extrabold">
             <span>Safe and easy</span>
@@ -102,10 +101,7 @@ export default function Advantages({ advantages }: AdvantagesProps) {
 
         {/* Slider for screens below lg */}
         <div className="flex flex-col items-start justify-start w-full gap-8 px-0 lg:hidden">
-          <div
-            ref={sliderRef}
-            className="keen-slider"
-          >
+          <div ref={sliderRef} className="keen-slider">
             {advantages.map((advantage) => (
               <div
                 key={advantage.rank}
