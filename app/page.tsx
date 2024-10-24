@@ -5,6 +5,7 @@ import Advantages from "./(advantages)/Advantages";
 import Hero from "./(hero)/Hero";
 import Statistics from "./(statistics)/Statistics";
 import Steps from "./(steps)/Steps";
+import ContactUs from "./(contact-us)/ContactUs";
 
 const features = [
   {
@@ -92,6 +93,42 @@ const advantages = [
   },
 ];
 
+const contactInfo = [
+  {
+    icon: "phone",
+    title: "You can reach us by phone",
+    description:
+      "We help you by phone, email and chat weekdays 09:00-17:00. The chat is also open on Sundays 15:00-20:00.",
+    contact: "0771-151000",
+    type: "phone",
+    action: null,
+  },
+  {
+    icon: "phone-volume",
+    title: "Do you want to be called",
+    description: "Leave your name and phone number and we'll call you.",
+    contact: "link",
+    type: "link",
+    action: "Get a call",
+  },
+  {
+    icon: "envelope",
+    title: "Feel free to ask a question",
+    description: "Feel free to email us, we normally respond within 24 hours.",
+    contact: "info@frilansfinans.se",
+    type: "email",
+    action: null,
+  },
+  {
+    icon: "calendar-circle-user",
+    title: "Interested in our solutions?",
+    description: "Book a physical or video meeting at a time that suits you.",
+    contact: "link",
+    type: "link",
+    action: "Book a meeting",
+  },
+];
+
 export default async function Home() {
   return (
     <>
@@ -114,6 +151,7 @@ export default async function Home() {
       <Statistics stats={stats} />
 
       <Advantages advantages={advantages} />
+      <ContactUs contactInfo={contactInfo} />
     </>
   );
 }
