@@ -25,6 +25,7 @@ const config: Config = {
           500: "#FF8800",
         },
         teal: {
+          100: "#D7EBE5",
           600: "#20B098",
         },
       },

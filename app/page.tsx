@@ -1,6 +1,7 @@
 // page.tsx
 
 import Features from "./(features-first)/Features";
+import Advantages from "./(advantages)/Advantages";
 import Hero from "./(hero)/Hero";
 import Statistics from "./(statistics)/Statistics";
 import Steps from "./(steps)/Steps";
@@ -66,6 +67,31 @@ const stats = [
   },
 ];
 
+const advantages = [
+  {
+    rank: 1,
+    title: "Guaranteed salary.",
+    subtitle: "The 25th of every month",
+    description: "Fastest payout, no hidden fees.",
+    icon: "wallet",
+  },
+  {
+    rank: 2,
+    title: "Secure self-employment",
+    subtitle: "A solid and good business",
+    description:
+      "Authorized self-employment company, it ensures a solid and good business.",
+    icon: "verified",
+  },
+  {
+    rank: 3,
+    title: "Fast support team",
+    subtitle: "Always available to you",
+    description: "Customer support is available to answer all your questions.",
+    icon: "support",
+  },
+];
+
 export default async function Home() {
   return (
     <>
@@ -86,6 +112,8 @@ export default async function Home() {
         </div>
       </div>
       <Statistics stats={stats} />
+
+      <Advantages advantages={advantages} />
     </>
   );
 }

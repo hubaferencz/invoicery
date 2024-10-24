@@ -79,7 +79,7 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="w-full pt-12 pb-4 lg:pt-[30px] lg:pb-[30px] bg-black bg-opacity-50 lg:bg-primary-800 px-4 lg:px-10 fixed lg:relative top-0 left-0 right-0 z-10">
+      <nav className="w-full pt-12 pb-4 lg:pt-[30px] lg:pb-[30px] bg-black bg-opacity-50 lg:bg-primary-800 px-4 lg:px-10 fixed lg:relative top-0 left-0 right-0 z-30">
         <div className="flex items-center justify-between w-full mx-auto max-w-7xl">
           {/* Logo */}
           <Link href={"/"} className="flex items-center">
