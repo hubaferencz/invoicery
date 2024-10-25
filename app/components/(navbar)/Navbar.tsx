@@ -55,7 +55,7 @@ function NavbarLink({ title, route }: NavLink) {
   );
 }
 
-export default function Dickbar() {
+export default function Navbar() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState("English");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
