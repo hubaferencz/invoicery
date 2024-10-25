@@ -10,15 +10,12 @@ import HeroCta from "@/app/(hero)/HeroCta";
 import LanguageDropdown from "./LanguageDropdown";
 import SignIn from "./SignIn";
 
-
 const asap = Asap({ subsets: ["latin"] });
 
 type NavLink = {
   title: string;
   route: string;
 };
-
-type Props = {};
 
 const languages = [
   { name: "Bulgarian", code: "bg" },
@@ -59,10 +56,10 @@ function NavbarLink({ title, route }: NavLink) {
 }
 
 export default function Navbar() {
-  const [dropdownOpen, setDropdownOpen] = useState(false); // For desktop language dropdown
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState("English");
-  const [isMenuOpen, setIsMenuOpen] = useState(false); // For mobile menu
-  const [isLanguageOpen, setIsLanguageOpen] = useState(false); // For mobile language dropdown
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isLanguageOpen, setIsLanguageOpen] = useState(false);
 
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
@@ -99,9 +96,12 @@ export default function Navbar() {
                 />
               ))}
             </div>
-            <div className={`${asap.className} flex items-center gap-4 font-medium`} style={{
-                  letterSpacing: "0.32px",
-                }}>
+            <div
+              className={`${asap.className} flex items-center gap-4 font-medium`}
+              style={{
+                letterSpacing: "0.32px",
+              }}
+            >
               <button
                 onClick={toggleDropdown}
                 className="text-white py-[14px] transition-all duration-300 flex gap-1 items-center"
@@ -125,7 +125,6 @@ export default function Navbar() {
               <Cta text="Create account" link="/create-account" />
             </div>
           </div>
-          
 
           {/* Mobile Navigation */}
           <div className="flex items-center lg:hidden">
@@ -274,7 +273,7 @@ export default function Navbar() {
             </div>
             <div className="absolute w-full h-10 -mb-1 transform -translate-x-1/2 bottom-24 left-1/2 bg-gradient-to-t from-primary-800 to-transparent"></div>
           </div>
-          
+
           {/* Close Button */}
           <button
             onClick={() => {
