@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
-import Cta from "../components/Cta";
+import Cta from "./Cta";
 
 type ContactInfo = {
   icon: string;
@@ -38,12 +38,15 @@ export default function ContactUs({ contactInfo }: ContactUsProps) {
   return (
     <section className="px-4 py-20 bg-gray-400 lg:px-20">
       <div className="flex flex-col gap-10 mx-auto lg:gap-12 max-w-7xl">
-        <div className="grid lg:grid-cols-2">
-          <div className="p-10 "></div>
-          <div className="flex flex-col items-start justify-center w-full gap-10 px-10 py-16 bg-white rounded-xl lg:py-6">
+        <div className="grid lg:grid-cols-2 gap-10 items-center">
+          <div className=" bg-green-400 w-full hidden lg:block p-10 h-full min-h-[466px]">
+            <div className="bg-red-300 w-full h-full"></div>
+          </div>
+          <div className="flex h-min flex-col items-start justify-center w-full gap-10 px-10 py-10 bg-white bg-opacity-90 rounded-xl">
             <div className="flex flex-col items-start justify-center gap-6">
-              <h3 className="text-[32px] lg:text-[40px] font-bold leading-tight">
-              We are here for you<br />
+              <h3 className="text-[32px] lg:text-[40px] font-bold leading-snug">
+                We are here for you
+                <br />
                 <span className=" text-[#04567D]">contact us</span>
               </h3>
               <p
@@ -56,7 +59,7 @@ export default function ContactUs({ contactInfo }: ContactUsProps) {
                 created do we keep 6% of the invoice amount.
               </p>
             </div>
-            <Cta link="/" text="Create account" />
+            <Cta link="/faq" text="Our most frequently asked questions" />
           </div>
         </div>
 

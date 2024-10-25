@@ -36,7 +36,7 @@ export default function Advantages({ advantages }: AdvantagesProps) {
 
   return (
     <section className="bg-teal-100 lg:py-[100px] py-[72px] px-4 lg:px-10">
-      <div className="max-w-screen-[1360px] mx-auto flex flex-col items-center justify-center">
+
       <div className="flex flex-col gap-10 mx-auto lg:gap-12">
         <div className="flex flex-col items-center justify-center gap-4 lg:gap-6 lg:px-36">
           <div className="text-[28px] leading-tight text-center lg:text-[40px] gap-1.5 md:gap-0 flex flex-col font-extrabold">
@@ -183,7 +183,7 @@ export default function Advantages({ advantages }: AdvantagesProps) {
             </div>
           </div>
         </div>
-      </div></div>
+      </div>
     </section>
   );
 }
