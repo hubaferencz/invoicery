@@ -36,15 +36,24 @@ export default function ContactUs({ contactInfo }: ContactUsProps) {
   );
 
   return (
-    <section className="px-4 py-20 bg-gray-400 lg:px-20">
-      <div className="flex flex-col gap-10 mx-auto lg:gap-12 max-w-7xl">
+    <section className="px-4 relative py-20 lg:px-20">
+      <div
+        className="absolute inset-0 bg-center bg-cover "
+        style={{
+          backgroundImage: "url('/contact-us.png')",
+        }}
+      ></div>
+
+      {/* Overlay with 70% opacity */}
+      {/* <div className="absolute inset-0 bg-[#3A7663] opacity-70"></div> */}
+      <div className="flex flex-col gap-10 mx-auto lg:gap-12 max-w-7xl bg-transparent">
         <div className="grid lg:grid-cols-2 gap-10 items-center">
-          <div className=" bg-green-400 w-full hidden lg:block p-10 h-full min-h-[466px]">
-            <div className="bg-red-300 w-full h-full"></div>
+          <div className="  w-full hidden lg:block p-10 h-full min-h-[466px]">
+            <div className=" w-full h-full"></div>
           </div>
-          <div className="flex h-min flex-col items-start justify-center w-full gap-10 px-10 py-10 bg-white bg-opacity-90 rounded-xl">
+          <div className="flex  z-10 h-min flex-col items-start justify-center w-full gap-10 p-4 lg:p-10 bg-white bg-opacity-90 rounded-xl">
             <div className="flex flex-col items-start justify-center gap-6">
-              <h3 className="text-[32px] lg:text-[40px] font-bold leading-snug">
+              <h3 className="text-[28px] lg:text-[40px] font-bold leading-snug">
                 We are here for you
                 <br />
                 <span className=" text-[#04567D]">contact us</span>
@@ -63,7 +72,7 @@ export default function ContactUs({ contactInfo }: ContactUsProps) {
           </div>
         </div>
 
-        <div className="flex flex-col items-start justify-center gap-10">
+        <div className=" z-10 flex flex-col items-start justify-center gap-10">
           <div className="items-start justify-center hidden grid-cols-4 gap-6 lg:grid">
             {contactInfo.map((contact) => (
               <div
