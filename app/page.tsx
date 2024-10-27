@@ -132,6 +132,7 @@ const contactInfo = [
 export default async function Home() {
   return (
     <>
+    <div className="absolute w-full h-28 bg-primary-800 top-0 hidden lg:block"></div>
       <Hero
         title={"Guaranteed salary - for you as a freelancer"}
         description={

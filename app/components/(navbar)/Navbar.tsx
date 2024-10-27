@@ -9,6 +9,7 @@ import Cta from "../Cta";
 import HeroCta from "@/app/(hero)/HeroCta";
 import LanguageDropdown from "./LanguageDropdown";
 import SignIn from "./SignIn";
+import { usePathname } from "next/navigation";
 
 const asap = Asap({ subsets: ["latin"] });
 
@@ -61,6 +62,12 @@ export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLanguageOpen, setIsLanguageOpen] = useState(false);
 
+  const pathname = usePathname();
+
+  // Define dynamic background color based on pathname
+  const heroImage = pathname === "/contact-us" ? "/contact-page.png" : "/hero/hero.png";
+
+
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
   };
@@ -78,8 +85,8 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="w-full pt-12 pb-4 lg:pt-[30px] lg:pb-[30px] bg-black bg-opacity-50 lg:bg-primary-800 px-4 lg:px-10 fixed lg:relative top-0 left-0 right-0 z-30">
-        <div className="flex items-center justify-between w-full mx-auto max-w-7xl">
+      <nav className="w-full pt-12 pb-4 lg:pt-[30px] lg:pb-[30px] bg-black bg-opacity-50 lg:bg-transparent px-4 lg:px-10 fixed lg:absolute top-0 left-0 right-0 z-30">
+        <div className="flex items-center justify-between w-full gap-10 mx-auto max-w-7xl">
           {/* Logo */}
           <Link href={"/"} className="flex items-center">
             <Image src="/logo.png" alt="Logo" width={137} height={40} />
@@ -145,7 +152,7 @@ export default function Navbar() {
 
       {/* Desktop Language Dropdown */}
       <div
-        className={`hidden lg:block transition-all overflow-hidden text-sm font-medium max-h-0 duration-500 ease-in-out ${
+        className={`hidden lg:block mt-28 transition-all overflow-hidden text-sm font-medium max-h-0 duration-500 ease-in-out ${
           dropdownOpen ? "max-h-96 h-min" : ""
         }`}
       >
@@ -294,7 +301,8 @@ export default function Navbar() {
 
       {/* Mobile Hero Image */}
       <Image
-        src="/hero/hero.png"
+
+        src={heroImage}
         alt="Hero Image"
         width={620}
         height={500}
