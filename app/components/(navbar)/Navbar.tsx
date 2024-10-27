@@ -80,7 +80,7 @@ export default function Navbar() {
 
   const links: NavLink[] = [
     { title: "Contact us", route: "/contact-us" },
-    { title: "Questions and answers", route: "/qa" },
+    { title: "Questions and answers", route: "/faq" },
   ];
 
   return (
