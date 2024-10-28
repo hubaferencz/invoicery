@@ -65,8 +65,12 @@ export default function Navbar() {
   const pathname = usePathname();
 
   // Define dynamic background color based on pathname
-  const heroImage = pathname === "/contact-us" ? "/contact-page.png" : "/hero/hero.png";
-
+  const heroImage =
+    pathname === "/contact-us"
+      ? "/contact-page.png"
+      : pathname === "/"
+      ? "/hero/hero.png"
+      : null;
 
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
@@ -85,7 +89,11 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="w-full pt-12 pb-4 lg:pt-[30px] lg:pb-[30px] bg-black bg-opacity-50 lg:bg-transparent px-4 lg:px-10 fixed lg:absolute top-0 left-0 right-0 z-30">
+      <nav
+        className={`w-full pt-12 pb-4 lg:pt-[30px] lg:pb-[30px] ${
+          heroImage ? "bg-black bg-opacity-50":"bg-transparent"
+        }  lg:bg-transparent px-4 lg:px-10 fixed lg:absolute top-0 left-0 right-0 z-30`}
+      >
         <div className="flex items-center justify-between w-full gap-10 mx-auto max-w-7xl">
           {/* Logo */}
           <Link href={"/"} className="flex items-center">
@@ -300,14 +308,15 @@ export default function Navbar() {
       </div>
 
       {/* Mobile Hero Image */}
-      <Image
-
-        src={heroImage}
-        alt="Hero Image"
-        width={620}
-        height={500}
-        className="block w-full lg:hidden"
-      />
+      {heroImage && (
+        <Image
+          src={heroImage}
+          alt="Hero Image"
+          width={620}
+          height={500}
+          className="block w-full lg:hidden"
+        />
+      )}
     </>
   );
 }
