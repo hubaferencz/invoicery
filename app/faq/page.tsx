@@ -3,78 +3,121 @@ import React, { useState, useRef, useEffect } from "react";
 import Search from "./Search";
 import Image from "next/image";
 
-// FAQ data structure with optional image
+import { Collapse } from 'react-collapse';
 const faqData = [
-  {
-    category: "10 most frequently asked questions",
-    questions: [
-      {
-        text: "How does Frilans Finans calculate my salary?",
-        answer:
-          "We calculate your salary based on the total invoice amount. We calculate your salary based on the total invoice amount. We calculate your salary based on the total invoice amount.",
-        image: "/hero/bg.png", // Optional image
-      },
-      {
-        text: "What expenses can I deduct as a freelancer?",
-        answer: "You can deduct expenses that are necessary for your work.",
-      },
-    ],
-  },
-  {
-    category: "Billing",
-    questions: [
-      {
-        text: "How do I receive my invoices?",
-        answer: "Invoices are sent to your registered email address.",
-      },
-    ],
-  },
-];
+    {
+      category: "10 most frequently asked questions",
+      questions: [
+        {
+          text: "How does Frilans Finans calculate my salary?",
+          answer:
+            "We calculate your salary based on the total invoice amount. We calculate your salary based on the total invoice amount. We calculate your salary based on the total invoice amount.",
+          image: "/hero/bg.png", // Optional image
+        },
+        {
+          text: "What expenses can I deduct as a freelancer?",
+          answer: "You can deduct expenses that are necessary for your work.",
+        },
+      ],
+    },
+    {
+      category: "Billing",
+      questions: [
+        {
+          text: "How do I receive my invoices?",
+          answer: "Invoices are sent to your registered email address.",
+        },
+      ],
+    },
+    {
+      category: "Self-employment",
+      questions: [
+        {
+          text: "What is considered self-employment income?",
+          answer: "Self-employment income includes all earnings from freelance or contract work.",
+        },
+        {
+          text: "How do I report my self-employment earnings?",
+          answer:
+            "You report self-employment earnings on a Schedule C form attached to your tax return.",
+        },
+      ],
+    },
+    {
+      category: "Deductions and expenses",
+      questions: [
+        {
+          text: "Can I deduct home office expenses?",
+          answer: "Yes, you can deduct expenses for a home office if it is exclusively used for work.",
+        },
+        {
+          text: "What are allowable travel expenses?",
+          answer:
+            "Travel expenses, like transport and accommodation related to work, can be deducted if they are necessary for your business.",
+        },
+      ],
+    },
+    {
+      category: "Health care allowance",
+      questions: [
+        {
+          text: "How does the health care allowance work?",
+          answer: "The health care allowance provides coverage for certain medical expenses under specific conditions.",
+        },
+        {
+          text: "What does the health care allowance cover?",
+          answer:
+            "It generally covers routine medical expenses, depending on the plan you have with us.",
+        },
+      ],
+    },
+    {
+      category: "Insurances",
+      questions: [
+        {
+          text: "What type of insurance is provided?",
+          answer: "We offer liability and health insurance options tailored to freelancers.",
+        },
+        {
+          text: "How do I file an insurance claim?",
+          answer:
+            "You can file a claim through your online account portal or by contacting our support team.",
+        },
+      ],
+    },
+  ];
+  
 
-// Collapsible Component
+
+// Collapsible Component with CSS Transition
 function Collapsible({
   isOpen,
   children,
-  dependency, // Add a dependency prop
 }: {
   isOpen: boolean;
   children: React.ReactNode;
-  dependency?: any; // Accept a dependency to re-run useEffect
 }) {
-  const contentRef = useRef<HTMLDivElement>(null);
-  const [height, setHeight] = useState<string>("0px");
-
-  useEffect(() => {
-    if (contentRef.current) {
-      if (isOpen) {
-        // Temporarily set height to 'auto' to get the full height
-        contentRef.current.style.height = "auto";
-        const fullHeight = `${contentRef.current.scrollHeight}px`;
-        contentRef.current.style.height = height; // Reset to previous height
-        // Force reflow
-        void contentRef.current.offsetHeight;
-        // Then set to full height for the transition
-        setHeight(fullHeight);
-      } else {
-        setHeight("0px");
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isOpen, dependency]); // Add dependency to useEffect dependencies
-
   return (
-    <div
-      ref={contentRef}
-      style={{
-        overflow: "hidden",
-        height: height,
-        transition: "height 0.5s ease-in-out",
+    <Collapse
+      isOpened={isOpen}
+      theme={{
+        collapse: "ReactCollapse--collapse", // CSS class for transition
       }}
     >
-      {children}
-    </div>
+      <div>{children}</div>
+    </Collapse>
   );
 }
+
+// CSS in JSX for ReactCollapse Transition
+const styles = (
+  <style jsx global>{`
+    .ReactCollapse--collapse {
+      transition: height 0.5s ease; /* Smooth slide animation */
+      overflow: hidden; /* Ensure content pushes down */
+    }
+  `}</style>
+);
 
 export default function Faq() {
   // State for larger screens
@@ -105,7 +148,6 @@ export default function Faq() {
       ...prevState,
       [categoryIndex]: !prevState[categoryIndex],
     }));
-    // Reset active question when category is collapsed
     if (expandedCategories[categoryIndex]) {
       setActiveQuestions((prevState) => ({
         ...prevState,
@@ -127,6 +169,7 @@ export default function Faq() {
 
   return (
     <>
+      {styles} {/* Include the CSS transition styles */}
       <div className="absolute w-full h-28 bg-[#04567D] top-0 hidden lg:block"></div>
       <section className="w-full px-4 py-20 bg-[#04567D] text-white lg:px-10 pt-40 lg:pt-20">
         <div className="flex flex-col items-start justify-start w-full gap-10 max-w-screen-md mx-auto">
@@ -143,9 +186,7 @@ export default function Faq() {
       </section>
 
       <div className="bg-white w-full px-4 py-10 lg:py-20 lg:px-10">
-        {/* Large Screens Layout */}
         <div className="hidden lg:flex gap-10 items-start justify-center mx-auto max-w-7xl lg:gap-20">
-          {/* Categories Section */}
           <div className="lg:w-[220px] flex flex-col items-start gap-6 justify-start">
             <h3 className="text-lg font-semibold">Category</h3>
             <ul className="flex flex-col gap-4">
@@ -174,7 +215,7 @@ export default function Faq() {
               {faqData[activeCategory].questions.map((question, idx) => (
                 <div
                   key={idx}
-                  className="border-t w-full"
+                  className="border-t border-[#CECECE] w-full"
                   onClick={() => toggleQuestion(idx)}
                 >
                   <div className="flex items-center justify-between py-6 cursor-pointer">
@@ -221,11 +262,9 @@ export default function Faq() {
           </div>
         </div>
 
-        {/* Small Screens Layout */}
         <div className="flex flex-col lg:hidden items-start justify-center mx-auto max-w-7xl">
           {faqData.map((category, categoryIdx) => (
-            <div key={categoryIdx} className="border-t w-full">
-              {/* Category Header */}
+            <div key={categoryIdx} className="border-t border-[#CECECE] w-full">
               <div
                 onClick={() => toggleCategory(categoryIdx)}
                 className="flex items-center justify-between py-6 cursor-pointer"
@@ -247,23 +286,23 @@ export default function Faq() {
               {/* Collapsible Category Section */}
               <Collapsible
                 isOpen={expandedCategories[categoryIdx]}
-                // Pass activeQuestions[categoryIdx] as a dependency
-                dependency={activeQuestions[categoryIdx]}
+                // dependency={activeQuestions[categoryIdx] }
+
               >
-                <div className="pl-4">
+                <div className="px-4">
                   {category.questions.map((question, idx) => (
-                    <div key={idx} className="border-t w-full">
+                    <div key={idx} className="border-t border-[#CECECE] w-full">
                       <div
                         onClick={() =>
                           toggleSmallScreenQuestion(categoryIdx, idx)
                         }
-                        className="flex items-center justify-between py-4 cursor-pointer"
+                        className="flex items-center justify-between py-6 gap-4 cursor-pointer"
                       >
                         <span
                           className={`${
                             activeQuestions[categoryIdx] === idx &&
                             "text-teal-600"
-                          } text-xl font-medium leading-normal`}
+                          } text-base font-normal lg:text-xl lg:font-medium leading-normal`}
                         >
                           {question.text}
                         </span>
@@ -284,8 +323,8 @@ export default function Faq() {
                       <Collapsible
                         isOpen={activeQuestions[categoryIdx] === idx}
                       >
-                        <div className="py-4 pl-4">
-                          <p className="mb-4 text-gray-700">
+                        <div className="py-4">
+                          <p className="mb-4 ">
                             {question.answer}
                           </p>
                           {question.image && (
