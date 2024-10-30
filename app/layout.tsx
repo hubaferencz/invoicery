@@ -20,7 +20,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} antialiased bg-primary-800`}>
+      <body
+        className={`${inter.className} antialiased bg-primary-800 `}
+        suppressHydrationWarning={true}
+      >
         <Navbar />
         <main>{children}</main>
         <Footer />
