@@ -35,36 +35,40 @@ export default function Advantages({ advantages }: AdvantagesProps) {
   );
 
   return (
-    <section className="bg-teal-100 lg:py-[100px] py-[72px] px-4 lg:px-10">
-
+    <section
+      aria-labelledby="advantages-heading"
+      className="bg-teal-100 lg:py-[100px] py-[72px] px-4 lg:px-10"
+    >
       <div className="flex flex-col gap-10 mx-auto lg:gap-12">
-        <div className="flex flex-col items-center justify-center gap-4 lg:gap-6 lg:px-36">
-          <div className="text-[28px] leading-tight text-center lg:text-[40px] gap-1.5 md:gap-0 flex flex-col font-extrabold">
+        <header className="flex flex-col items-center justify-center gap-4 lg:gap-6 lg:px-36">
+          <h2
+            id="advantages-heading"
+            className="text-[28px] leading-tight text-center lg:text-[40px] gap-1.5 md:gap-0 flex flex-col font-extrabold"
+          >
             <span>Safe and easy</span>
             <span className="text-teal-600 md:pl-2">
               for you and your customers
             </span>
-          </div>
+          </h2>
           <p
             className="text-base font-normal leading-normal text-center"
-            style={{
-              letterSpacing: "0.16px",
-            }}
+            style={{ letterSpacing: "0.16px" }}
           >
             With us, you can feel safe when invoicing without your own company.
             Since 1999, we've enabled more than 150,000 self-employed people to
             do their thing. We are today Sweden's leading self-employment
             company.
           </p>
-        </div>
+        </header>
+
         <div className="flex flex-col items-start justify-center gap-10">
+          {/* Desktop advantages grid */}
           <div className="items-start justify-center hidden grid-cols-3 gap-6 lg:grid">
             {advantages.map((advantage) => (
-              <div
+              <article
                 key={advantage.rank}
                 className="flex flex-col items-start justify-start h-full gap-6 p-6 text-left text-black bg-white rounded-xl"
               >
-                {/* Icon */}
                 <div className="p-4 mb-4 bg-teal-600 rounded-full aspect-square">
                   <Image
                     src={`/icons/${advantage.icon}.svg`}
@@ -80,32 +84,29 @@ export default function Advantages({ advantages }: AdvantagesProps) {
                   </h3>
                   <span
                     className="text-base font-normal leading-normal"
-                    style={{
-                      letterSpacing: "0.16px",
-                    }}
+                    style={{ letterSpacing: "0.16px" }}
                   >
                     {advantage.subtitle}
                   </span>
                 </div>
                 <p
                   className="text-base font-normal leading-normal text-start"
-                  style={{
-                    letterSpacing: "0.16px",
-                  }}
+                  style={{ letterSpacing: "0.16px" }}
                 >
                   {advantage.description}
                 </p>
-              </div>
+              </article>
             ))}
           </div>
+
+          {/* Mobile slider */}
           <div className="flex flex-col items-start justify-start w-full gap-8 px-0 lg:hidden">
-            <div ref={sliderRef} className="keen-slider">
+            <div ref={sliderRef} className="keen-slider" aria-live="polite">
               {advantages.map((advantage) => (
-                <div
+                <article
                   key={advantage.rank}
                   className="flex flex-col items-start justify-start min-h-full gap-6 p-6 text-left text-black bg-white keen-slider__slide rounded-xl"
                 >
-                  {/* Icon */}
                   <div className="p-4 mb-4 bg-teal-600 rounded-full aspect-square">
                     <Image
                       src={`/icons/${advantage.icon}.svg`}
@@ -121,32 +122,33 @@ export default function Advantages({ advantages }: AdvantagesProps) {
                     </h3>
                     <span
                       className="text-base font-normal leading-normal"
-                      style={{
-                        letterSpacing: "0.16px",
-                      }}
+                      style={{ letterSpacing: "0.16px" }}
                     >
                       {advantage.subtitle}
                     </span>
                   </div>
                   <p
                     className="text-base font-normal leading-normal text-start"
-                    style={{
-                      letterSpacing: "0.16px",
-                    }}
+                    style={{ letterSpacing: "0.16px" }}
                   >
                     {advantage.description}
                   </p>
-                </div>
+                </article>
               ))}
             </div>
+
             {/* Dots Navigation */}
-            <div className="flex justify-center w-full gap-8">
+            <div
+              className="flex justify-center w-full gap-8"
+              aria-label="Slider navigation"
+            >
               {advantages.map((_, idx) => (
                 <button
                   key={idx}
+                  aria-label={`Slide ${idx + 1}`}
                   onClick={() => slider.current?.moveToIdx(idx)}
                   className={`w-4 h-4 rounded-full ${
-                    currentSlide === idx ? "bg-[#04567D]" : "bg-[#D7D7D7]"
+                    currentSlide === idx ? "bg-teal-600" : "bg-[#D7D7D7]"
                   }`}
                 />
               ))}
@@ -160,7 +162,7 @@ export default function Advantages({ advantages }: AdvantagesProps) {
                 width={1000}
                 height={416}
                 className="w-full h-[416px] object-cover rounded-xl"
-                alt="test"
+                alt="Promotional image"
               />
             </div>
             <div className="flex flex-col items-start justify-center w-full gap-10 px-10 py-16 bg-white rounded-xl lg:py-6">

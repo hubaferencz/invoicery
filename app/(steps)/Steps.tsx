@@ -1,5 +1,5 @@
 import React from "react";
-import { Step } from "./Step"; // Import the individual Step component
+import { Step } from "./Step";
 import Cta from "./Cta";
 
 type StepData = {
@@ -16,12 +16,15 @@ type StepsProps = {
 
 export default function Steps({ steps }: StepsProps) {
   return (
-    <section className="flex flex-col items-start justify-start w-full gap-10 lg:gap-20 pt-36 lg:pt-0">
+    <section
+      className="flex flex-col items-start justify-start w-full gap-10 lg:gap-20 pt-36 lg:pt-0"
+      aria-label="Process Steps"
+    >
       <div className="flex flex-col items-center justify-center gap-6 text-center lg:px-36">
-        <div className="text-[28px] leading-tight lg:text-[40px] gap-1.5 md:gap-0 flex flex-col md:flex-row font-extrabold">
+        <h2 className="text-[28px] leading-tight lg:text-[40px] gap-1.5 md:gap-0 flex flex-col md:flex-row font-extrabold">
           <span>This is </span>
-          <span className=" text-[#20B098] md:pl-2">how it works</span>
-        </div>
+          <span className="text-[#20B098] md:pl-2">how it works</span>
+        </h2>
         <p className="text-base font-normal leading-normal lg:text-lg lg:font-semibold">
           Invoicery offers a simple and secure alternative to starting a
           business.

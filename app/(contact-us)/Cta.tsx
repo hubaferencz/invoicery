@@ -10,13 +10,15 @@ export default function Cta({ link, text }: Props) {
   return (
     <Link
       href={link}
-      className={`${asap.className} antialiased bg-[#04567D] rounded-xl font-medium text-white w-full text-center md:text-start md:w-min whitespace-nowrap`}
-      style={{
-        boxShadow: "0px 2px 8px 0px rgba(153, 153, 153, 0.20)",
-        letterSpacing: "0.32px",
-      }}
+      aria-label={text}
+      className={`${asap.className} antialiased bg-[#04567D] rounded-xl font-medium text-white w-full text-center md:text-start md:w-min whitespace-nowrap shadow-md hover:shadow-lg transition-shadow duration-300`}
     >
-      <div className="hover:bg-black hover:bg-opacity-10 rounded-xl px-6 py-[14px] transition-all duration-300">
+      <div
+        className="rounded-xl px-6 py-[14px] transition-colors duration-300 hover:bg-black hover:bg-opacity-10 focus:bg-black focus:bg-opacity-10"
+        style={{
+          letterSpacing: "0.32px",
+        }}
+      >
         {text}
       </div>
     </Link>

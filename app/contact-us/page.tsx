@@ -38,20 +38,19 @@ const contactInfo = [
   },
 ];
 
-export default async function Home() {
+export default async function Contact() {
   return (
     <>
-      <div className="absolute w-full h-28 bg-[#04567D] top-0 hidden lg:block"></div>
+      <div
+        className="absolute w-full h-28 bg-[#04567D] top-0 hidden lg:block"
+        aria-hidden="true"
+      ></div>
       <Hero
-        title={"Contact us"}
-        description={
-          "Do you have questions or do you need help with our services? . Do not hesitate to contact us! . Our dedicated team is here to listen to your needs and provide you with the support you need. Fill out the form below, or call us directly for quick help. We value your time and always strive to provide you with the best possible service."
-        }
-        // cta= {  "Register assignments"; "supportingText?: string" }
-        heroImage={"/contact-page.png"}
-        heroImageAlt={"small business owner standing in front of business"}
+        title="Contact us"
+        description="Do you have questions or need help with our services? Do not hesitate to contact us! Our dedicated team is here to listen to your needs and provide you with the support you need. Fill out the form below or call us directly for quick help. We value your time and always strive to provide you with the best possible service."
+        heroImage="/contact-page.png"
+        heroImageAlt="Small business owner standing in front of business"
       />
-
       <ContactUs contactInfo={contactInfo} />
       <Faq />
     </>

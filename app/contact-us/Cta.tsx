@@ -10,6 +10,7 @@ export default function Cta({ link, text }: Props) {
   return (
     <Link
       href={link}
+      aria-label={text}
       className={`${asap.className} antialiased mx-auto bg-[#E7F3F8] rounded-xl font-medium text-[#04567D] text-center md:text-start w-min whitespace-nowrap`}
       style={{
         boxShadow: "0px 2px 8px 0px rgba(153, 153, 153, 0.20)",

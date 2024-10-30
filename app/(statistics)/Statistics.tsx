@@ -17,7 +17,10 @@ type StatisticsProps = {
 
 export default function Statistics({ stats }: StatisticsProps) {
   return (
-    <div className="relative flex flex-col items-center justify-center w-full gap-10 py-[72px] px-4 lg:px-20 lg:py-20">
+    <section
+      aria-labelledby="stats-heading"
+      className="relative flex flex-col items-center justify-center w-full gap-10 py-[72px] px-4 lg:px-20 lg:py-20"
+    >
       {/* Background Image with Saturation */}
       <div
         className="absolute inset-0 bg-center bg-cover grayscale opacity-70"
@@ -30,10 +33,10 @@ export default function Statistics({ stats }: StatisticsProps) {
       <div className="absolute inset-0 bg-[#3A7663] opacity-70"></div>
 
       {/* Content */}
-      <div className=" flex flex-col items-center text-center text-white justify-center gap-2 lg:px-20 font-bold text-[28px] lg:text-[40px] leading-tight z-10">
-        <h2>Frilans Finans</h2>
-        <h3>A part of something bigger</h3>
-      </div>
+      <header className="flex flex-col items-center text-center text-white justify-center gap-2 lg:px-20 font-bold text-[28px] lg:text-[40px] leading-tight z-10">
+        <h2 id="stats-heading">Frilans Finans</h2>
+        <p aria-hidden="true">A part of something bigger</p>
+      </header>
       <div className="z-10 grid items-start justify-center grid-cols-1 pt-4 text-center text-white  lg:pt-0 gap-14 md:gap-10 lg:px-40 md:grid-cols-3">
         {stats.map((stat, index) => (
           <SlotMachineStat
@@ -45,7 +48,7 @@ export default function Statistics({ stats }: StatisticsProps) {
           />
         ))}
       </div>
-    </div>
+    </section>
   );
 }
 
@@ -58,17 +61,17 @@ function SlotMachineStat({ finish, title, measurement }: Stat) {
   return (
     <div ref={ref} className="flex flex-col items-center justify-center gap-2">
       <span
-        className=" text-[44px] lg:text-[52px] font-bold flex leading-none items-end gap-1.5"
+        className="text-[44px] lg:text-[52px] font-bold flex leading-none items-end gap-1.5"
         style={{ letterSpacing: "1.04px" }}
       >
-        <span>
+        <span aria-live="polite">
           {inView && (
             <SlotCounter value={String(finish)} duration={3} delay={0} />
           )}
         </span>
-        <span>{measurement && measurement}</span>
+        {measurement && <span>{measurement}</span>}
       </span>
-      <div className="text-base font-semibold lg:text-lg">{title}</div>
+      <p className="text-base font-semibold lg:text-lg">{title}</p>
     </div>
   );
 }

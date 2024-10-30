@@ -36,7 +36,10 @@ export default function ContactUs({ contactInfo }: ContactUsProps) {
   );
 
   return (
-    <section className="px-4 relative py-20 lg:px-20">
+    <section
+      aria-labelledby="contact-heading"
+      className="px-4 relative py-20 lg:px-20"
+    >
       <div
         className="absolute inset-0 bg-center bg-cover "
         style={{
@@ -44,20 +47,21 @@ export default function ContactUs({ contactInfo }: ContactUsProps) {
         }}
       ></div>
 
-      {/* Overlay with 70% opacity */}
-      {/* <div className="absolute inset-0 bg-[#3A7663] opacity-70"></div> */}
       <div className="flex flex-col gap-10 mx-auto lg:gap-12 max-w-7xl bg-transparent">
         <div className="grid lg:grid-cols-2 gap-10 items-center">
-          <div className="  w-full hidden lg:block p-10 h-full min-h-[466px]">
+          <div className="w-full hidden lg:block p-10 h-full min-h-[466px]">
             <div className=" w-full h-full"></div>
           </div>
-          <div className="flex  z-10 h-min flex-col items-start justify-center w-full gap-10 p-4 lg:p-10 bg-white bg-opacity-90 rounded-xl">
-            <div className="flex flex-col items-start justify-center gap-6">
-              <h3 className="text-[28px] lg:text-[40px] font-bold leading-snug">
+          <div className="flex z-10 h-min flex-col items-start justify-center w-full gap-10 p-4 lg:p-10 bg-white bg-opacity-90 rounded-xl">
+            <header className="flex flex-col items-start justify-center gap-6">
+              <h2
+                id="contact-heading"
+                className="text-[28px] lg:text-[40px] font-bold leading-snug"
+              >
                 We are here for you
                 <br />
-                <span className=" text-[#04567D]">contact us</span>
-              </h3>
+                <span className="text-[#04567D]">contact us</span>
+              </h2>
               <p
                 className="text-base font-normal leading-normal text-[#5E5C5C]"
                 style={{
@@ -67,16 +71,17 @@ export default function ContactUs({ contactInfo }: ContactUsProps) {
                 Creating an account is free of charge. Only when invoices are
                 created do we keep 6% of the invoice amount.
               </p>
-            </div>
+            </header>
             <Cta link="/faq" text="Our most frequently asked questions" />
           </div>
         </div>
 
-        <div className=" z-10 flex flex-col items-start justify-center gap-10">
+        <div className="z-10 flex flex-col items-start justify-center gap-10">
           <div className="items-start justify-center hidden grid-cols-4 gap-6 lg:grid">
             {contactInfo.map((contact) => (
-              <div
+              <article
                 key={contact.title}
+                aria-labelledby={`contact-title-${contact.title}`}
                 className="flex flex-col items-start justify-between h-full gap-6 p-6 text-left text-black bg-white rounded-md"
               >
                 <div className="flex flex-col items-start justify-start gap-2">
@@ -91,7 +96,10 @@ export default function ContactUs({ contactInfo }: ContactUsProps) {
                   </div>
 
                   <div className="flex flex-col items-start justify-start gap-2">
-                    <h3 className="text-lg font-semibold leading-normal">
+                    <h3
+                      id={`contact-title-${contact.title}`}
+                      className="text-lg font-semibold leading-normal"
+                    >
                       {contact.title}
                     </h3>
                     <p
@@ -118,15 +126,16 @@ export default function ContactUs({ contactInfo }: ContactUsProps) {
                     <span className="">{contact.action}</span>
                   )}
                 </div>
-              </div>
+              </article>
             ))}
           </div>
 
           <div className="flex flex-col items-start justify-start w-full gap-8 px-0 lg:hidden">
-            <div ref={sliderRef} className="keen-slider">
+            <div ref={sliderRef} className="keen-slider" aria-live="polite">
               {contactInfo.map((contact) => (
-                <div
+                <article
                   key={contact.title}
+                  aria-labelledby={`contact-title-${contact.title}`}
                   className="flex flex-col items-start justify-between min-h-full gap-6 p-4 text-left text-black bg-white rounded-md keen-slider__slide"
                 >
                   <div className="flex flex-col items-start justify-start gap-2 mb-2">
@@ -141,7 +150,10 @@ export default function ContactUs({ contactInfo }: ContactUsProps) {
                     </div>
 
                     <div className="flex flex-col items-start justify-start gap-1">
-                      <h3 className="text-lg font-medium leading-normal">
+                      <h3
+                        id={`contact-title-${contact.title}`}
+                        className="text-lg font-medium leading-normal"
+                      >
                         {contact.title}
                       </h3>
                     </div>
@@ -168,15 +180,19 @@ export default function ContactUs({ contactInfo }: ContactUsProps) {
                       <span className="">{contact.action}</span>
                     )}
                   </div>
-                </div>
+                </article>
               ))}
             </div>
 
-            <div className="flex justify-center w-full gap-8">
+            <div
+              className="flex justify-center w-full gap-8"
+              aria-label="Slider navigation"
+            >
               {contactInfo.map((_, idx) => (
                 <button
                   key={idx}
                   onClick={() => slider.current?.moveToIdx(idx)}
+                  aria-label={`Slide ${idx + 1}`}
                   className={`w-4 h-4 rounded-full ${
                     currentSlide === idx ? "bg-[#04567D]" : "bg-[#D7D7D7]"
                   }`}

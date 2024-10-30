@@ -132,7 +132,7 @@ const contactInfo = [
 export default async function Home() {
   return (
     <>
-    <div className="absolute w-full h-28 bg-primary-800 top-0 hidden lg:block"></div>
+      <div className="absolute w-full h-28 bg-primary-800 top-0 hidden lg:block"></div>
       <Hero
         title={"Guaranteed salary - for you as a freelancer"}
         description={
@@ -145,10 +145,15 @@ export default async function Home() {
       <div className="w-full px-4 py-[72px] bg-white lg:py-20 lg:px-10">
         <div className="flex flex-col items-center justify-start mx-auto max-w-7xl lg:gap-20">
           <Features features={features} />
-          <div className=" bg-[#EBEBEB] h-[1px] w-full hidden lg:block"></div>
+          <div
+            className="bg-[#EBEBEB] h-[1px] w-full hidden lg:block"
+            role="separator"
+            aria-hidden="true"
+          ></div>
           <Steps steps={steps} />
         </div>
       </div>
+
       <Statistics stats={stats} />
 
       <Advantages advantages={advantages} />

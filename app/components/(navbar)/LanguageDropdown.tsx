@@ -15,11 +15,17 @@ const LanguageDropdown: React.FC<LanguageDropdownProps> = ({
   onSelect,
 }) => {
   return (
-    <div className="bg-primary-700 w-full px-4 lg:py-[30px] text-white font-medium lg:px-10 flex items-center justify-center">
+    <div
+      className="bg-primary-700 w-full px-4 lg:py-[30px] text-white font-medium lg:px-10 flex items-center justify-center"
+      role="listbox"
+      aria-label="Select language"
+    >
       <div className="grid grid-cols-4 xl:grid-cols-5 gap-x-10 max-w-7xl w-full mx-auto items-start">
         {languages.map((language) => (
           <span
             key={language.code}
+            role="option"
+            aria-selected={selectedLanguage === language.name}
             className={`px-4 py-3 hover:bg-black hover:bg-opacity-10 transition-all duration-300 rounded-full w-min cursor-pointer max-w-[224px] ${
               selectedLanguage === language.name
                 ? "text-secondary-500 font-bold"
@@ -36,7 +42,3 @@ const LanguageDropdown: React.FC<LanguageDropdownProps> = ({
 };
 
 export default LanguageDropdown;
-
-
-
-

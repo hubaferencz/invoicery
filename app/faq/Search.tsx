@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React, { useState, ChangeEvent } from "react";
+import React, { ChangeEvent } from "react";
 
 type SearchProps = {
   searchTerm: string;
@@ -22,6 +22,7 @@ export default function Search({
       <input
         type="text"
         placeholder="Search"
+        aria-label="Search FAQs"
         value={searchTerm}
         onChange={(e: ChangeEvent<HTMLInputElement>) =>
           setSearchTerm(e.target.value)
@@ -30,14 +31,15 @@ export default function Search({
       />
       {searchTerm && (
         <div className=" rounded-full bg-[#04567D] p-1">
-        <Image
-          src={"/icons/x.svg"}
-          width={20}
-          height={20}
-          alt="clear search"
-          className="cursor-pointer invert"
-          onClick={clearSearch} // Use clearSearch function directly
-        /></div>
+          <Image
+            src={"/icons/x.svg"}
+            width={20}
+            height={20}
+            alt="clear search"
+            className="cursor-pointer invert"
+            onClick={clearSearch} // Use clearSearch function directly
+          />
+        </div>
       )}
     </form>
   );
