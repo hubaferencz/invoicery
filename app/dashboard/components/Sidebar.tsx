@@ -63,7 +63,7 @@ export default function Sidebar({}: Props) {
       </nav>
       <nav
         aria-label="Primary navigation"
-        className="w-full pt-12 pb-4 bg-white bg-opacity-20 px-4 flex justify-between items-center fixed lg:hidden z-30"
+        className="w-full pt-12 pb-4 bg-white bg-opacity-10 px-4 flex justify-between items-center fixed lg:hidden z-30"
       >
         <Image src={"/dashboard/logo.png"} height={24} width={180} alt="logo" />
         <div className="flex gap-4 items-center justify-end">
