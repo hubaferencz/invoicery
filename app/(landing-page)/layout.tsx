@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 
-import { Asap } from "next/font/google";
-
-const asap = Asap({ subsets: ["latin"] });
+import Navbar from "./components/(navbar)/Navbar";
+import Footer from "./components/(footer)/Footer";
 
 export const metadata: Metadata = {
   title: "INVOICERY",
@@ -14,5 +13,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <main>{children}</main>;
+  return (
+    <>
+      <Navbar />
+      <main>{children}</main>
+      <Footer />
+    </>
+  );
 }

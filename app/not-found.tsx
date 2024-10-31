@@ -1,8 +1,9 @@
-import HeroCta from "./(hero)/HeroCta";
+import HeroCta from "./(landing-page)/(hero)/HeroCta";
+
 
 export default function NotFound() {
   return (
-    <div className="flex items-center justify-center h-full px-4 text-white min-h-96 bg-primary-700 py-52 flex-col gap-10">
+    <div className="flex items-center justify-center h-full px-4 text-white min-h-screen bg-primary-700 py-52 flex-col gap-10">
       <h1 className="text-[32px] lg:text-[56px] font-bold leading-tight">
         Page not found 👀
       </h1>

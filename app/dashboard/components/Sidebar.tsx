@@ -8,7 +8,7 @@ export default function Sidebar({}: Props) {
   return (
     <>
       <nav
-        className={`hidden lg:flex w-64 p-6 flex-col items-start bg-white min-h-screen justify-start border-r border-[#EFEFEF] gap-14`}
+        className={`hidden lg:flex max-w-[260px] w-full p-6 flex-col items-start bg-white min-h-screen justify-start border-r border-[#EFEFEF] gap-14`}
       >
         <div className=" bg-[#04567D] p-4 rounded-[9px]">
           <Image src={"/logo.svg"} height={26} width={24} alt="logo" />

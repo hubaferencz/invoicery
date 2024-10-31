@@ -6,10 +6,11 @@ import React, { useEffect, useState } from "react";
 import { Asap } from "next/font/google";
 import Cta from "../Cta";
 
-import HeroCta from "@/app/(hero)/HeroCta";
+
 import LanguageDropdown from "./LanguageDropdown";
 import SignIn from "./SignIn";
 import { usePathname } from "next/navigation";
+import HeroCta from "../../(hero)/HeroCta";
 
 const asap = Asap({ subsets: ["latin"] });
 
@@ -65,7 +66,7 @@ export default function Navbar() {
 
   const pathname = usePathname();
   const heroImage =
-    pathname === "/contact-us"
+    pathname === "/contact"
       ? "/contact-page.png"
       : pathname === "/"
       ? "/hero/hero.png"
@@ -79,7 +80,7 @@ export default function Navbar() {
   };
 
   const links: NavLink[] = [
-    { title: "Contact us", route: "/contact-us" },
+    { title: "Contact us", route: "/contact" },
     { title: "Questions and answers", route: "/faq" },
   ];
   useEffect(() => {
