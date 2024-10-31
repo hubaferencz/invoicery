@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
-import { Inter } from "next/font/google";
+import { Asap } from "next/font/google";
 
-const inter = Inter({ subsets: ["latin"] });
+const asap = Asap({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "INVOICERY",
@@ -17,7 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.className} antialiased bg-white `}
+        className={`${asap.className} antialiased bg-white `}
         suppressHydrationWarning={true}
       >
         {/* <Navbar /> */}
