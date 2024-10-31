@@ -39,7 +39,7 @@ export default function Advantages({ advantages }: AdvantagesProps) {
       aria-labelledby="advantages-heading"
       className="bg-teal-100 lg:py-[100px] py-[72px] px-4 lg:px-10"
     >
-      <div className="flex flex-col gap-10 mx-auto lg:gap-12">
+      <div className="flex flex-col gap-10 mx-auto lg:gap-12 max-w-screen-2xl">
         <header className="flex flex-col items-center justify-center gap-4 lg:gap-6 lg:px-36">
           <h2
             id="advantages-heading"
