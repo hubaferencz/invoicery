@@ -48,8 +48,8 @@ export default function VerifyYourself({ verified, setVerified }: Props) {
   };
 
   const validateField = (field: string, value: string) => {
-    if (value.length < 3 || value.length > 30) {
-      setErrors({ ...errors, [field]: "Must be between 3 and 30 characters" });
+    if (value.length < 2 || value.length > 30) {
+      setErrors({ ...errors, [field]: "" });
     } else {
       setErrors({ ...errors, [field]: null });
     }
