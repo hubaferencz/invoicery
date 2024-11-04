@@ -5,12 +5,7 @@ import Tasks from "./components/tasks/Tasks";
 import Errands from "./components/errands/Errands";
 import How from "./components/how-it-works/How";
 
-
-
-
-type Props = {};
-
-export default function page({}: Props) {
+export default () => {
   return (
     <main className="flex overflow-x-clip w-full bg-[#F4F4F4]">
       <Sidebar />
@@ -19,9 +14,9 @@ export default function page({}: Props) {
         <div className=" flex flex-col items-start w-full justify-start gap-2 lg:gap-6 lg:p-6">
           <Tasks />
           <Errands />
-          <How/>
+          <How />
         </div>
       </div>
     </main>
   );
-}
+};
