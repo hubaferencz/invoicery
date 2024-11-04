@@ -106,14 +106,14 @@ export default function VerifyYourself({ verified, setVerified }: Props) {
             <input
               type="text"
               placeholder=" "
-              className="w-full pb-1 pt-4 text-sm focus:outline-none bg-transparent"
+              className="w-full pb-1 pt-4 text-base focus:outline-none bg-transparent"
               onFocus={() => handleFocus(label)}
               onBlur={() => handleBlur(label)}
               value={inputValues[label] || ""}
               onChange={(e) => handleChange(label, e.target.value)}
             />
-            <label
-              className={`absolute left-0 flex items-center gap-0.5 bottom-1.5 transition-all py-1 duration-200 ease-in-out text-[#878484] pointer-events-none  ${
+            <span
+              className={`absolute left-0 flex items-center gap-0.5 bottom-1.5 transition-all py-1 duration-200 ease-in-out text-[#878484] pointer-events-none text-sm ${
                 inputFocus[label] || inputValues[label]
                   ? "-translate-y-4 text-[10px]"
                   : ""
@@ -124,7 +124,7 @@ export default function VerifyYourself({ verified, setVerified }: Props) {
               {inputFocus[label] && errors[label] && (
                 <span className="text-[#EB6060] ml-2">{errors[label]}</span>
               )}
-            </label>
+            </span>
           </div>
         ))}
       </div>
