@@ -14,9 +14,14 @@ type FieldSection = {
   title?: string;
   fields: Field[];
 };
+type Props = {
+  verified: boolean;
+  setVerified: React.Dispatch<React.SetStateAction<boolean>>;
+};
 
-export default function VerifyYourself() {
+export default function VerifyYourself({ verified, setVerified }: Props) {
   const [showPopup, setShowPopup] = useState(false);
+  const [saving, setSaving] = useState(false);
   const [inputFocus, setInputFocus] = useState<{ [key: string]: boolean }>({});
   const [inputValues, setInputValues] = useState<{ [key: string]: string }>({});
   const [errors, setErrors] = useState<{ [key: string]: string | null }>({});
@@ -83,6 +88,15 @@ export default function VerifyYourself() {
     ],
   };
 
+  const handleSave = () => {
+    setSaving(true); // Start the saving animation
+    setTimeout(() => {
+      setVerified(true);
+      setShowPopup(false);
+      setSaving(false); // End the saving animation
+    }, 3000);
+  };
+
   const renderFields = ({ title, fields }: FieldSection) => (
     <div className="flex flex-col gap-2 w-full">
       {title && <h3 className="text-sm font-medium">{title}</h3>}
@@ -118,7 +132,7 @@ export default function VerifyYourself() {
   );
 
   return (
-    <div>
+    <div className={`${verified ? "hidden" : "block"}`}>
       {/* Verify Yourself Card */}
       <div
         className="w-full px-3 py-4 border border-[#F2F2F2] hover:border-[#d4d4d4] transition-all select-none cursor-pointer h-24 flex rounded-[9px] items-center justify-between bg-[#F2F2F2]"
@@ -162,7 +176,7 @@ export default function VerifyYourself() {
       <AnimatePresence>
         {showPopup && (
           <motion.div
-            className="fixed inset-0 z-50 flex items-start p-10 justify-center bg-black bg-opacity-50 overflow-y-scroll"
+            className="fixed inset-0 z-50 flex items-start md:p-10 justify-center bg-black bg-opacity-50 md:overflow-y-scroll"
             onClick={() => setShowPopup(false)}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -170,40 +184,38 @@ export default function VerifyYourself() {
           >
             <motion.div
               onClick={(e) => e.stopPropagation()}
-              className="bg-white md:max-w-[556px] md:rounded-md w-full h-full md:h-auto flex flex-col "
+              className="bg-white md:max-w-[556px] md:rounded-md z-10 w-full h-full overflow-y-scroll md:h-auto flex flex-col"
               initial={{ y: 50, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: 50, opacity: 0 }}
               transition={{ duration: 0.2 }}
             >
               {/* Close button and header styling */}
-
-                <div className="grid grid-cols-3 w-full p-4 md:p-6  items-center justify-between sm:border-b border-[#EFEFEF] md:rounded-t-md md:bg-white md:text-black bg-[#04567D] text-white pt-10 md:pt-6">
-                  <div className="col-span-1 flex items-center justify-start">
-                    <button
-                      onClick={() => setShowPopup(false)}
-                      className="text-sm text-[#5E5C5C] font-normal"
-                    >
-                      Cancel
-                    </button>
-                  </div>
-                  <div className="col-span-1 items-center justify-center text-center flex">
-                    <h2 className="font-medium text-base hidden md:block">
-                      Verify yourself
-                    </h2>
-                  </div>
-                  <div className="col-span-1 w-full flex items-end justify-end">
-                    <div className="cursor-pointer bg-white bg-opacity-20 w-10 h-10 rounded-full p-[5px] flex md:block items-center justify-center">
-                      <Image
-                        src={"/icons/chat.svg"}
-                        width={20}
-                        height={21}
-                        alt="support"
-                      />
-                    </div>
+              <div className="grid grid-cols-3 w-full p-4 md:p-6 items-center z-20 justify-between sm:border-b border-[#EFEFEF] md:rounded-t-md md:bg-white md:text-black bg-[#04567D] text-white pt-10 md:pt-6">
+                <div className="col-span-1 flex items-center justify-start">
+                  <button
+                    onClick={() => setShowPopup(false)}
+                    className="text-sm text-white md:text-[#5E5C5C] font-normal"
+                  >
+                    Cancel
+                  </button>
+                </div>
+                <div className="col-span-1 items-center justify-center text-center flex">
+                  <h2 className="font-medium text-base hidden md:block">
+                    Verify yourself
+                  </h2>
+                </div>
+                <div className="col-span-1 w-full flex items-end justify-end">
+                  <div className="cursor-pointer bg-white bg-opacity-20 w-10 h-10 rounded-full p-[5px] flex md:block items-center justify-center">
+                    <Image
+                      src={"/icons/chat.svg"}
+                      width={20}
+                      height={21}
+                      alt="support"
+                    />
                   </div>
                 </div>
-
+              </div>
 
               {/* Popup content */}
               <div className="flex flex-col items-start px-6 py-8 md:py-6 gap-6">
@@ -227,14 +239,15 @@ export default function VerifyYourself() {
 
                 {/* Submit Button */}
                 <button
-                  disabled={!allFieldsValid()}
+                  onClick={handleSave}
+                  disabled={!allFieldsValid() || saving}
                   className={`w-full py-[14px] text-base rounded-xl ${
-                    allFieldsValid()
+                    allFieldsValid() && !saving
                       ? "bg-[#04567D] text-white"
                       : "bg-[#04567D6B] text-white text-opacity-40"
                   }`}
                 >
-                  Save
+                  {saving ? "Saving..." : "Save"}
                 </button>
               </div>
             </motion.div>

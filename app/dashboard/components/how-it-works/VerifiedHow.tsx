@@ -1,7 +1,8 @@
 "use client";
 import Image from "next/image";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+// import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 type Step = {
   id: number;
@@ -18,7 +19,7 @@ const steps: Step[] = [
     linkText: "Read more",
     bgImage: "/how/register.jpg",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit...",
   },
   {
     id: 2,
@@ -26,7 +27,7 @@ const steps: Step[] = [
     linkText: "Read more",
     bgImage: "/how/verify.jpg",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit...",
   },
   {
     id: 3,
@@ -34,12 +35,14 @@ const steps: Step[] = [
     linkText: "Read more",
     bgImage: "/how/payed.png",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit...",
   },
 ];
 type Props = { verified: any };
-export default function How({ verified }: Props) {
+export default function VerifiedHow({ verified }: Props) {
   const [selectedStep, setSelectedStep] = useState<Step | null>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [scrollPosition, setScrollPosition] = useState(0);
 
   useEffect(() => {
     const handleEsc = (event: KeyboardEvent) => {
@@ -49,21 +52,69 @@ export default function How({ verified }: Props) {
     return () => window.removeEventListener("keydown", handleEsc);
   }, []);
 
+  // Handle left/right scroll
+  const scrollByAmount = 250;
+  const scrollLeft = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({ left: -scrollByAmount, behavior: "smooth" });
+    }
+  };
+
+  const scrollRight = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({ left: scrollByAmount, behavior: "smooth" });
+    }
+  };
+
+  useEffect(() => {
+    const updateScrollPosition = () => {
+      if (scrollRef.current) {
+        setScrollPosition(scrollRef.current.scrollLeft);
+      }
+    };
+
+    scrollRef.current?.addEventListener("scroll", updateScrollPosition);
+    return () => scrollRef.current?.removeEventListener("scroll", updateScrollPosition);
+  }, []);
+
+  const isAtStart = scrollPosition === 0;
+  const isAtEnd = scrollRef.current
+    ? scrollPosition + scrollRef.current.offsetWidth >= scrollRef.current.scrollWidth
+    : false;
+
   return (
-    <div
-      className={`bg-white max-w-[778px] p-6 w-full mx-auto lg:mx-0 ${
-        !verified ? "flex" : "hidden"
-      } flex-col gap-6 rounded-sm`}
-    >
-      <h2
-        className="leading-normal text-xl font-medium py-0.5"
-        style={{ letterSpacing: "0.20px" }}
-      >
+    <div className="bg-white h-min p-6 w-full flex flex-col gap-6 rounded-sm relative">
+      <h2 className="leading-normal text-xl font-medium py-0.5" style={{ letterSpacing: "0.20px" }}>
         This is how it works
       </h2>
 
-      {/* Wrapper with horizontal scroll on smaller screens */}
-      <div className="flex gap-3 overflow-x-auto grid-cols-3">
+      {/* Chevron Controls */}
+      <div className="absolute top-6 right-6 flex gap-2">
+        <button
+          onClick={scrollLeft}
+          disabled={isAtStart}
+          className={`p-1 rounded-full ${
+            isAtStart ? "text-gray-300 cursor-not-allowed" : "text-gray-700"
+          }`}
+        >
+          👈
+        </button>
+        <button
+          onClick={scrollRight}
+          disabled={isAtEnd}
+          className={`p-1 rounded-full ${
+            isAtEnd ? "text-gray-300 cursor-not-allowed" : "text-gray-700"
+          }`}
+        >
+          👉
+        </button>
+      </div>
+
+      {/* Steps Wrapper with Horizontal Scroll */}
+      <div
+        ref={scrollRef}
+        className="flex gap-3 overflow-x-clip    max-w-full grid-cols-3 scroll-smooth"
+      >
         {steps.map((step) => (
           <div
             key={step.id}
@@ -76,28 +127,22 @@ export default function How({ verified }: Props) {
               backgroundRepeat: "no-repeat",
             }}
           >
-            <h2
-              className="font-bold text-lg"
-              style={{ letterSpacing: "0.18px" }}
-            >
+            <h2 className="font-bold text-lg" style={{ letterSpacing: "0.18px" }}>
               {step.id}. {step.title}
             </h2>
-            <p
-              className="font-semibold text-xs"
-              style={{ letterSpacing: "0.18px" }}
-            >
+            <p className="font-semibold text-xs" style={{ letterSpacing: "0.18px" }}>
               {step.linkText}
             </p>
           </div>
         ))}
       </div>
 
-      {/* Popup overlay and content */}
+      {/* Popup Overlay and Content */}
       <AnimatePresence>
         {selectedStep && (
           <motion.div
             className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
-            onClick={() => setSelectedStep(null)} // Close on clicking outside
+            onClick={() => setSelectedStep(null)}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -115,15 +160,6 @@ export default function How({ verified }: Props) {
               onDragEnd={(e, info) => {
                 if (info.offset.y > 100) setSelectedStep(null);
               }}
-              style={{
-                ...(window.innerWidth >= 640
-                  ? {
-                      position: "relative",
-                      maxWidth: "xl",
-                      margin: "auto",
-                    }
-                  : { bottom: 0, position: "absolute", width: "100%" }),
-              }}
             >
               {/* Close button and mobile drag handle */}
               <div className="p-4 sm:p-6  flex items-center justify-between sm:border-b border-[#EFEFEF]">
@@ -140,7 +176,7 @@ export default function How({ verified }: Props) {
                 </div>
               </div>
 
-              {/* Popup content */}
+              {/* Popup Content */}
               <div className="flex flex-col items-start p-4 sm:p-6 gap-6">
                 <div className="relative overflow-hidden w-full h-[150px] rounded-lg">
                   <img
