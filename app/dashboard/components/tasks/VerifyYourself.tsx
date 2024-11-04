@@ -113,7 +113,7 @@ export default function VerifyYourself({ verified, setVerified }: Props) {
               onChange={(e) => handleChange(label, e.target.value)}
             />
             <label
-              className={`absolute left-0 flex items-center gap-0.5 bottom-1.5 transition-all py-1 duration-200 ease-in-out text-[#878484] pointer-events-none text-sm ${
+              className={`absolute left-0 flex items-center gap-0.5 bottom-1.5 transition-all py-1 duration-200 ease-in-out text-[#878484] pointer-events-none  ${
                 inputFocus[label] || inputValues[label]
                   ? "-translate-y-4 text-[10px]"
                   : ""
