@@ -6,6 +6,7 @@ import Tasks from "./components/tasks/Tasks";
 import Errands from "./components/errands/Errands";
 import How from "./components/how-it-works/How";
 import VerifiedHow from "./components/how-it-works/VerifiedHow";
+import Tools from "./components/tools/Tools";
 
 export default () => {
   const [verified, setVerified] = useState(false);
@@ -14,16 +15,16 @@ export default () => {
       <Sidebar />
       <div className="flex flex-col w-full">
         <Welcome />
-        <div className="flex w-full lg:p-6 lg:gap-6">
-          <div className=" flex flex-col max-w-full items-start w-full justify-start gap-2 lg:gap-6 ">
+        <div className="flex flex-col xl:flex-row justify-start items-start w-full lg:p-6 lg:gap-6">
+          <div className="flex flex-col max-w-[778px] w-full items-start gap-2 lg:gap-6">
             <Tasks setVerified={setVerified} verified={verified} />
-            <Errands />
-          <How verified={verified} />
+            <Errands verified={verified} />
+            <How verified={verified} />
           </div>
-          {/* <VerifiedHow verified={verified}/> */}
-          {/* <div className="w-full bg-slate-600 h-min">
-          <VerifiedHow verified={verified}/>
-          </div> */}
+          <div className="flex flex-col xl:max-w-min w-full gap-6">
+            {verified && <VerifiedHow verified={verified} />}
+            {verified && <Tools />}
+          </div>
         </div>
       </div>
     </main>

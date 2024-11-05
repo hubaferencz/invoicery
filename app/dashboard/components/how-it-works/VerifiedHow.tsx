@@ -18,24 +18,21 @@ const steps: Step[] = [
     title: "Register assignment",
     linkText: "Read more",
     bgImage: "/how/register.jpg",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit...",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit...",
   },
   {
     id: 2,
     title: "Verify yourself",
     linkText: "Read more",
     bgImage: "/how/verify.jpg",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit...",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit...",
   },
   {
     id: 3,
     title: "Get salary",
     linkText: "Read more",
     bgImage: "/how/payed.png",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit...",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit...",
   },
 ];
 type Props = { verified: any };
@@ -53,7 +50,7 @@ export default function VerifiedHow({ verified }: Props) {
   }, []);
 
   // Handle left/right scroll
-  const scrollByAmount = 250;
+  const scrollByAmount = 200;
   const scrollLeft = () => {
     if (scrollRef.current) {
       scrollRef.current.scrollBy({ left: -scrollByAmount, behavior: "smooth" });
@@ -74,46 +71,66 @@ export default function VerifiedHow({ verified }: Props) {
     };
 
     scrollRef.current?.addEventListener("scroll", updateScrollPosition);
-    return () => scrollRef.current?.removeEventListener("scroll", updateScrollPosition);
+    return () =>
+      scrollRef.current?.removeEventListener("scroll", updateScrollPosition);
   }, []);
 
   const isAtStart = scrollPosition === 0;
   const isAtEnd = scrollRef.current
-    ? scrollPosition + scrollRef.current.offsetWidth >= scrollRef.current.scrollWidth
+    ? scrollPosition + scrollRef.current.offsetWidth >=
+      scrollRef.current.scrollWidth
     : false;
 
   return (
-    <div className="bg-white h-min p-6 w-full flex flex-col gap-6 rounded-sm relative">
-      <h2 className="leading-normal text-xl font-medium py-0.5" style={{ letterSpacing: "0.20px" }}>
+    <div className="bg-white h-min p-6 w-full max-w-80 hidden xl:flex flex-col gap-6 rounded-sm relative">
+      <h2
+        className="leading-normal text-xl font-medium py-0.5"
+        style={{ letterSpacing: "0.20px" }}
+      >
         This is how it works
       </h2>
 
+
       {/* Chevron Controls */}
       <div className="absolute top-6 right-6 flex gap-2">
+        {/* Left Button */}
         <button
           onClick={scrollLeft}
           disabled={isAtStart}
-          className={`p-1 rounded-full ${
-            isAtStart ? "text-gray-300 cursor-not-allowed" : "text-gray-700"
+          className={`w-6 h-6 aspect-square rounded-full flex items-center justify-center ${
+            isAtStart ? "bg-[#CECECE]" : "bg-[#5E5C5C]"
           }`}
         >
-          👈
+          <Image
+            src="/icons/down-chev.svg"
+            width={24}
+            height={24}
+            alt="Back"
+            className=" rotate-90"
+          />
         </button>
+        {/* Right Button */}
         <button
           onClick={scrollRight}
           disabled={isAtEnd}
-          className={`p-1 rounded-full ${
-            isAtEnd ? "text-gray-300 cursor-not-allowed" : "text-gray-700"
+          className={`w-6 h-6 aspect-square rounded-full flex items-center justify-center ${
+            isAtEnd ? "bg-[#CECECE]" : "bg-[#5E5C5C]"
           }`}
         >
-          👉
+          <Image
+            src="/icons/down-chev.svg"
+            width={24}
+            height={24}
+            alt="Forward"
+            className=" -rotate-90"
+          />
         </button>
       </div>
 
       {/* Steps Wrapper with Horizontal Scroll */}
       <div
         ref={scrollRef}
-        className="flex gap-3 overflow-x-clip    max-w-full grid-cols-3 scroll-smooth"
+        className="flex gap-3 overflow-x-scroll max-w-sm grid-cols-3 scroll-smooth"
       >
         {steps.map((step) => (
           <div
@@ -127,10 +144,16 @@ export default function VerifiedHow({ verified }: Props) {
               backgroundRepeat: "no-repeat",
             }}
           >
-            <h2 className="font-bold text-lg" style={{ letterSpacing: "0.18px" }}>
+            <h2
+              className="font-bold text-lg"
+              style={{ letterSpacing: "0.18px" }}
+            >
               {step.id}. {step.title}
             </h2>
-            <p className="font-semibold text-xs" style={{ letterSpacing: "0.18px" }}>
+            <p
+              className="font-semibold text-xs"
+              style={{ letterSpacing: "0.18px" }}
+            >
               {step.linkText}
             </p>
           </div>

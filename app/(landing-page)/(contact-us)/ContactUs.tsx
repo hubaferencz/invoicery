@@ -43,7 +43,7 @@ export default function ContactUs({ contactInfo }: ContactUsProps) {
       <div
         className="absolute inset-0 bg-center bg-cover "
         style={{
-          backgroundImage: "url('/contact.png')",
+          backgroundImage: "url('/contact-us.png')",
         }}
       ></div>
 

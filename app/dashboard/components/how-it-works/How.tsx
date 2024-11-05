@@ -51,10 +51,11 @@ export default function How({ verified }: Props) {
 
   return (
     <div
-      className={`bg-white max-w-[778px] p-6 w-full mx-auto lg:mx-0 ${
-        !verified ? "flex" : "hidden"
-      } flex-col gap-6 rounded-sm`}
-    >
+  className={`bg-white max-w-[778px] p-6 w-full mx-auto lg:mx-0 ${
+    verified ? "flex xl:hidden" : "flex"
+  } flex-col gap-6 rounded-sm`}
+>
+
       <h2
         className="leading-normal text-xl font-medium py-0.5"
         style={{ letterSpacing: "0.20px" }}

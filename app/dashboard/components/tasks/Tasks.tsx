@@ -7,7 +7,7 @@ type Props = { verified: any; setVerified: any };
 export default function Tasks({ verified, setVerified }: Props) {
   return (
     <div
-      className={`bg-white max-w-[778px] p-4 lg:p-6 w-full mx-auto lg:mx-0 grid grid-cols-1 ${
+      className={`bg-white max-w-[778px] p-4 lg:p-6 w-full mx-auto lg:mx-0 hidden lg:grid grid-cols-1 ${
         !verified && "md:grid-cols-2"
       } gap-6 rounded-sm`}
     >
