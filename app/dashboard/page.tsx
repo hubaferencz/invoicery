@@ -21,7 +21,7 @@ export default () => {
             <Errands verified={verified} />
             <How verified={verified} />
           </div>
-          <div className="flex flex-col xl:max-w-min w-full gap-6">
+          <div className="flex flex-col xl:max-w-min w-full gap-6 mx-auto">
             {verified && <VerifiedHow verified={verified} />}
             {verified && <Tools />}
           </div>

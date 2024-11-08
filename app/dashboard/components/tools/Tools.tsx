@@ -38,7 +38,7 @@ export default function Tools() {
   };
 
   return (
-    <div className="bg-white h-min p-6 max-w-[778px] w-full flex flex-col gap-6 rounded-sm relative">
+    <div className="bg-white h-min p-6 max-w-[778px] w-full flex flex-col gap-6 rounded-sm relative mx-auto">
       <div className="gap-2 flex flex-col">
         <h2
           className="leading-normal text-xl font-medium py-0.5"

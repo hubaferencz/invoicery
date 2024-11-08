@@ -35,7 +35,7 @@ export default function ToolPopup({
     >
       <motion.div
         onClick={(e) => e.stopPropagation()}
-        className="bg-white md:rounded-md overflow-clip w-full md:w-auto md:max-w-[400px] flex flex-col"
+        className="bg-white rounded-t-md rounded-md overflow-clip w-full md:w-auto md:max-w-[400px] flex flex-col"
         initial={{ y: 50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         exit={{ y: 50, opacity: 0 }}
