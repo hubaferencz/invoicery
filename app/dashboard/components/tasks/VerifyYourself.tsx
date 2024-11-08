@@ -218,7 +218,7 @@ export default function VerifyYourself({ verified, setVerified }: Props) {
               </div>
 
               {/* Popup content */}
-              <div className="flex flex-col items-start px-6 py-8 md:py-6 gap-6">
+              <div className="flex flex-col items-start px-4 py-8 md:py-6 gap-6">
                 <h2
                   className="font-bold text-xl"
                   style={{ letterSpacing: "0.2px" }}

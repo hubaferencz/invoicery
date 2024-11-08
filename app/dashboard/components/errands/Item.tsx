@@ -23,7 +23,7 @@ export default function Item({
   return (
     <div className="col-span-1 w-full flex flex-col gap-2">
       <div className="flex items-center justify-between gap-4">
-        <h2 className="text-sm whitespace-nowrap text-[#878484]">{title}</h2>
+        <h2 className="text-sm whitespace-nowrap font-medium text-[#878484]">{title}</h2>
         {count > 2 && (
           <button
             onClick={onSeeAllClick}
