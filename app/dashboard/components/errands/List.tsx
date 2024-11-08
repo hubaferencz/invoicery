@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import Item from "./Item";
+import Modal from "./Modal";
+import PopupTable from "./PopupTable"; // Adjust the path if necessary
 
 type Assignment = {
   name: string;
@@ -8,7 +10,6 @@ type Assignment = {
 type ItemData = {
   title: string;
   linkText: string;
-  count: number;
   assignments: Assignment[];
 };
 
@@ -17,44 +18,50 @@ const data: ItemData[] = [
   {
     title: "Registered assignments",
     linkText: "See all",
-    count: 4,
     assignments: [
+      { name: "Sven Svensson" },
+      { name: "The company AB" },
+      { name: "Sven Svensson" },
+      { name: "The company AB" },
       { name: "Sven Svensson" },
       { name: "The company AB" },
     ],
   },
   {
     title: "Employment agreement",
-    linkText: "View pending",
-    count: 2,
-    assignments: [
-      { name: "Erik Eriksson" },
-      { name: "The company AB" },
-    ],
+    linkText: "See all",
+    assignments: [{ name: "Erik Eriksson" }, { name: "The company AB" }],
   },
   {
     title: "Invoices",
-    linkText: "See history",
-    count: 5,
+    linkText: "See all",
     assignments: [
+      { name: "Olof Olsson" },
+      { name: "The company AB" },
+      { name: "Olof Olsson" },
+      { name: "The company AB" },
       { name: "Olof Olsson" },
       { name: "The company AB" },
     ],
   },
   {
     title: "Salary specifications",
-    linkText: "See history",
-    count: 5,
-    assignments: [
-      { name: "Olof Olsson" },
-      { name: "The company AB" },
-    ],
+    linkText: "See all",
+    assignments: [{ name: "Olof Olsson" }, { name: "The company AB" }],
   },
 ];
 
-type Props = {};
+export default function List() {
+  const [modalData, setModalData] = useState<ItemData | null>(null);
 
-export default function List({}: Props) {
+  const handleSeeAllClick = (item: ItemData) => {
+    setModalData(item);
+  };
+
+  const handleCloseModal = () => {
+    setModalData(null);
+  };
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
       {data.map((item, index) => (
@@ -62,10 +69,25 @@ export default function List({}: Props) {
           key={index}
           title={item.title}
           linkText={item.linkText}
-          count={item.count}
+          count={item.assignments.length} // Pass the dynamic count
           assignments={item.assignments}
+          onSeeAllClick={() => handleSeeAllClick(item)}
         />
       ))}
+
+      {/* Modal displaying all assignments */}
+      <Modal
+        isOpen={modalData !== null}
+        onClose={handleCloseModal}
+        title={modalData?.title}
+      >
+        {modalData && (
+          <PopupTable
+            title={modalData.title}
+            assignments={modalData.assignments}
+          />
+        )}
+      </Modal>
     </div>
   );
 }
