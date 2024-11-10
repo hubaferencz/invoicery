@@ -98,25 +98,25 @@ export default function VerifyYourself({ verified, setVerified }: Props) {
   };
 
   const renderFields = ({ title, fields }: FieldSection) => (
-    <div className="flex flex-col gap-2 w-full">
+    <div className="flex flex-col w-full gap-2">
       {title && <h3 className="text-sm font-medium">{title}</h3>}
-      <div className="w-full bg-[#F4F4F4] rounded p-4 space-y-4">
+      <div className="w-full bg-[#F4F4F4] rounded p-4 pb-5 space-y-4">
         {fields.map(({ label, required }, index) => (
           <div key={index} className="relative border-b border-[#EBEBEB]">
             <input
               type="text"
               placeholder=" "
-              className="w-full pb-1 pt-4 text-sm focus:outline-none bg-transparent"
+              className="w-full py-1 pt-4 pb-1 text-sm bg-transparent focus:outline-none"
               onFocus={() => handleFocus(label)}
               onBlur={() => handleBlur(label)}
               value={inputValues[label] || ""}
               onChange={(e) => handleChange(label, e.target.value)}
             />
             <label
-              className={`absolute left-0 flex items-center gap-0.5 bottom-1.5 transition-all py-1 duration-200 ease-in-out text-[#878484] pointer-events-none text-sm ${
+              className={`absolute left-0 flex items-center gap-0.5 bottom-1.5 transition-all duration-200 ease-in-out text-[#878484] pointer-events-none ${
                 inputFocus[label] || inputValues[label]
-                  ? "-translate-y-4 text-[10px]"
-                  : ""
+                  ? "-translate-y-5 text-[10px]" // Shrinks to 10px on focus or input
+                  : "text-sm"
               }`}
             >
               <span>{label}</span>
@@ -138,7 +138,7 @@ export default function VerifyYourself({ verified, setVerified }: Props) {
         className="w-full px-3 py-4 border border-[#F2F2F2] hover:border-[#d4d4d4] transition-all select-none cursor-pointer h-24 flex rounded-[9px] items-center justify-between bg-[#F2F2F2]"
         onClick={() => setShowPopup(true)}
       >
-        <div className="items-center justify-start gap-4 flex">
+        <div className="flex items-center justify-start gap-4">
           <div className="w-10 h-10 rounded-full bg-[#4E8A77] flex items-center justify-center">
             <Image
               src={"/icons/check.svg"}
@@ -149,7 +149,7 @@ export default function VerifyYourself({ verified, setVerified }: Props) {
           </div>
           <div className="flex flex-col items-start justify-center gap-1">
             <h2
-              className="leading-normal font-semibold"
+              className="font-semibold leading-normal"
               style={{ letterSpacing: "0.16px" }}
             >
               Verify yourself
@@ -162,7 +162,7 @@ export default function VerifyYourself({ verified, setVerified }: Props) {
             </p>
           </div>
         </div>
-        <div className="w-10 h-10 flex items-center justify-center">
+        <div className="flex items-center justify-center w-10 h-10">
           <Image
             src={"/icons/right.svg"}
             width={20}
@@ -176,7 +176,7 @@ export default function VerifyYourself({ verified, setVerified }: Props) {
       <AnimatePresence>
         {showPopup && (
           <motion.div
-            className="fixed inset-0 z-50 flex items-start md:p-10 justify-center bg-black bg-opacity-50 md:overflow-y-scroll"
+            className="fixed inset-0 z-50 flex items-start justify-center bg-black bg-opacity-50 md:p-10 md:overflow-y-scroll"
             onClick={() => setShowPopup(false)}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -192,7 +192,7 @@ export default function VerifyYourself({ verified, setVerified }: Props) {
             >
               {/* Close button and header styling */}
               <div className="grid grid-cols-3 w-full p-4 md:p-6 items-center z-20 justify-between sm:border-b border-[#EFEFEF] md:rounded-t-md md:bg-white md:text-black bg-[#04567D] text-white pt-10 md:pt-6">
-                <div className="col-span-1 flex items-center justify-start">
+                <div className="flex items-center justify-start col-span-1">
                   <button
                     onClick={() => setShowPopup(false)}
                     className="text-sm text-white md:text-[#5E5C5C] font-normal"
@@ -200,12 +200,12 @@ export default function VerifyYourself({ verified, setVerified }: Props) {
                     Cancel
                   </button>
                 </div>
-                <div className="col-span-1 items-center justify-center text-center flex">
-                  <h2 className="font-medium text-base hidden md:block">
+                <div className="flex items-center justify-center col-span-1 text-center">
+                  <h2 className="hidden text-base font-medium md:block">
                     Verify yourself
                   </h2>
                 </div>
-                <div className="col-span-1 w-full flex items-end justify-end">
+                <div className="flex items-end justify-end w-full col-span-1">
                   <div className="cursor-pointer bg-white bg-opacity-20 w-10 h-10 rounded-full p-[5px] flex md:block items-center justify-center">
                     <Image
                       src={"/icons/chat.svg"}
@@ -218,9 +218,9 @@ export default function VerifyYourself({ verified, setVerified }: Props) {
               </div>
 
               {/* Popup content */}
-              <div className="flex flex-col items-start px-4 py-8 md:py-6 gap-6">
+              <div className="flex flex-col items-start gap-6 px-4 py-8 md:py-6">
                 <h2
-                  className="font-bold text-xl"
+                  className="text-xl font-bold"
                   style={{ letterSpacing: "0.2px" }}
                 >
                   Verify Yourself

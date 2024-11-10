@@ -8,12 +8,12 @@ export default function Tasks({ verified, setVerified }: Props) {
   return (
     <div
       className={`bg-white max-w-[778px] p-4 lg:p-6 w-full mx-auto lg:mx-0 grid grid-cols-1 ${
-        !verified ? "md:grid-cols-2":"hidden lg:grid"
+        !verified ? "lg:grid-cols-2":"hidden lg:grid"
       } gap-6 rounded-sm`}
     >
 
       <h2
-        className="leading-normal text-xl font-medium py-0.5 block md:hidden"
+        className="leading-normal text-xl font-medium py-0.5 block lg:hidden"
         style={{ letterSpacing: "0.20px" }}
       >
         To do
