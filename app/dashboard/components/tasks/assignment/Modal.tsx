@@ -64,24 +64,24 @@ export default function Modal({
             )}
 
             {/* Mobile Header */}
-            <div className="lg:hidden grid grid-cols-3 w-full p-4 lg:p-6 items-center z-20 justify-between sm:border-b border-[#EFEFEF] lg:rounded-t-md lg:bg-white lg:text-black bg-[#04567D] text-white pt-10 lg:pt-6">
+            <div className="lg:hidden grid grid-cols-3 w-full p-4 lg:p-6 items-center z-20 justify-between border-b border-[#EFEFEF] lg:rounded-t-md lg:bg-white lg:text-black bg-white pt-10 lg:pt-6">
               <div className="flex items-center justify-start col-span-1">
                 <button
                   onClick={onClose}
-                  className="text-sm text-white lg:text-[#5E5C5C] font-normal"
+                  className="text-sm text-[#5E5C5C] font-normal"
                 >
                   Cancel
                 </button>
               </div>
               <div className="flex items-center justify-center col-span-1 text-center">
-                <h2 className="hidden text-base font-medium lg:block">
-                  {title}
+                <h2 className="text-base whitespace-nowrap font-medium text-[#04567D]">
+                Register assignment
                 </h2>
               </div>
               <div className="flex items-end justify-end w-full col-span-1">
-                <div className="cursor-pointer bg-white bg-opacity-20 w-10 h-10 rounded-full p-[5px] flex lg:block items-center justify-center">
+                <div className="cursor-pointer bg-[#F4F4F4] w-10 h-10 rounded-full p-[5px] flex items-center justify-center">
                   <Image
-                    src={"/icons/chat.svg"}
+                    src={"/icons/chat-blue.svg"}
                     width={20}
                     height={21}
                     alt="support"
@@ -93,7 +93,7 @@ export default function Modal({
             {/* Modal Content */}
             <div
               ref={contentRef}
-              className="relative flex w-full max-h-screen gap-8 pt-32 overflow-y-scroll"
+              className="relative flex w-full max-h-screen gap-8 overflow-y-scroll lg:pt-32 lg:pr-6" 
             >
               {/* Horizontal Line for testing */}
               <div

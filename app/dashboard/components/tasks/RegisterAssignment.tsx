@@ -1,132 +1,56 @@
-// import Image from "next/image";
-// import React, { useState } from "react";
-// import Modal from "./assignment/Modal";
-// import Sidebar from "./assignment/Sidebar";
-// import Forms from "./assignment/forms/Forms";
-
-// type SidebarItem = {
-//   id?: number;
-//   label: string;
-//   iconPath: string;
-//   altText: string;
-// };
-
-// const sidebarItems: SidebarItem[] = [
-//   {
-//     id: 1,
-//     label: "Customer",
-//     iconPath: "/assignment/customer.svg",
-//     altText: "customer",
-//   },
-//   {
-//     id: 2,
-//     label: "Assignment time",
-//     iconPath: "/assignment/calendar.svg",
-//     altText: "calendar",
-//   },
-//   {
-//     id: 3,
-//     label: "Compensation",
-//     iconPath: "/assignment/wallet.svg",
-//     altText: "wallet",
-//   },
-//   {
-//     id: 4,
-//     label: "Description of assignment",
-//     iconPath: "/assignment/pencil.svg",
-//     altText: "pencil",
-//   },
-// ];
-
-// type Props = {};
-
-// export default function RegisterAssignment({}: Props) {
-//   const [isModalOpen, setIsModalOpen] = useState(false);
-//   const [activeItemId, setActiveItemId] = useState(1); // State to track the active item
-
-//   // Toggle modal open/close
-//   const toggleModal = () => setIsModalOpen((prev) => !prev);
-
-//   return (
-//     <>
-//       {/* Button to open the modal */}
-//       <div
-//         onClick={toggleModal}
-//         className="w-full select-none cursor-pointer border border-[#FFEBD5] hover:border-[#FF8800] hover:border-opacity-30 transition-all p-5 h-24 hidden lg:flex rounded-[9px] items-center justify-start bg-[#FFEBD5]"
-//       >
-//         <div className="flex items-center justify-start gap-4">
-//           <div className="w-10 h-10 rounded-full bg-[#FF8800] flex items-center justify-center">
-//             <Image
-//               src={"/icons/write.svg"}
-//               width={20}
-//               height={20}
-//               alt="check"
-//             />
-//           </div>
-//           <div className="flex flex-col items-start justify-center gap-1">
-//             <h2
-//               className="text-xl font-medium leading-normal"
-//               style={{ letterSpacing: "0.20px" }}
-//             >
-//               Register assignment
-//             </h2>
-//           </div>
-//         </div>
-//       </div>
-
-//       {/* Modal Component */}
-//       <Modal
-//         isOpen={isModalOpen}
-//         title="Register Assignment"
-//         onClose={toggleModal}
-//       >
-//         <div className="relative max-w-[330px] w-full pt-6 pl-6 h-min mr-6">
-//           <Sidebar items={sidebarItems} activeItemId={activeItemId} />
-//         </div>
-//         <Forms />
-//       </Modal>
-//     </>
-//   );
-// }
 import Image from "next/image";
 import React, { useState, useRef } from "react";
 import Modal from "./assignment/Modal";
 import Sidebar from "./assignment/Sidebar";
 import Forms from "./assignment/forms/Forms";
+import Customer from "./assignment/forms/customer/Customer";
+import AssignmentTime from "./assignment/forms/assignment-time/AssignmentTime";
+import Compensation from "./assignment/forms/compensation/Compensation";
+import Description from "./assignment/forms/description/Description";
+// import Review from "./assignment/forms/review/Review";
 
-type SidebarItem = {
-  id?: number;
-  label: string;
-  iconPath: string;
-  altText: string;
-};
+
 
 const sidebarItems: SidebarItem[] = [
   {
     id: 1,
     label: "Customer",
+    subtitle: "Enter the customer who ordered the assignment",
     iconPath: "/assignment/customer.svg",
+    activeIconPath: "/assignment/customer-active.svg",
     altText: "customer",
+    component: <Customer />,
   },
   {
     id: 2,
     label: "Assignment time",
+    subtitle: "Fill in the start and end dates for the assignment",
     iconPath: "/assignment/calendar.svg",
+    activeIconPath: "/assignment/calendar-active.svg",
     altText: "calendar",
+    component: <AssignmentTime />,
   },
   {
     id: 3,
     label: "Compensation",
+    subtitle: "Enter the amount the customer must pay",
     iconPath: "/assignment/wallet.svg",
+    activeIconPath: "/assignment/wallet-active.svg",
     altText: "wallet",
+    component: <Compensation />,
   },
   {
     id: 4,
     label: "Description of assignment",
+    subtitle: "Describe the assignment",
     iconPath: "/assignment/pencil.svg",
+    activeIconPath: "/assignment/pencil-active.svg",
     altText: "pencil",
+    component: <Description />,
   },
 ];
+
+// 'Review and create' is not a sidebar item but will be included in the forms
 
 export default function RegisterAssignment() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -190,7 +114,7 @@ export default function RegisterAssignment() {
       >
         <div
           ref={sidebarRef}
-          className="relative max-w-[330px] w-full pl-6 h-min mr-6"
+          className="hidden lg:block relative max-w-[330px] w-full pl-6 h-min mr-6"
         >
           <Sidebar
             items={sidebarItems}
@@ -202,6 +126,7 @@ export default function RegisterAssignment() {
           setActiveItemId={setActiveItemId}
           modalContentRef={modalContentRef}
           containerRefs={containerRefs}
+          items={sidebarItems}
         />
       </Modal>
     </>

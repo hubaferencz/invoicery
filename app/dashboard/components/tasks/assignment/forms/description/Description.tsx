@@ -4,9 +4,9 @@ type Props = {};
 
 export default function Description({}: Props) {
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-4 lg:gap-6">
       <p
-        className="text-sm font-normal text-black"
+        className="text-sm font-normal leading-normal text-black"
         style={{ letterSpacing: "0.16px" }}
       >
         Enter how much you will charge for the entire assignment. The billing is

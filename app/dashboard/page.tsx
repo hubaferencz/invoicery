@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import Sidebar from "./components/Sidebar";
-import Welcome from "./components/Welcome";
+import Welcome from "./components/welcome/Welcome";
 import Tasks from "./components/tasks/Tasks";
 import Errands from "./components/errands/Errands";
 import How from "./components/how-it-works/How";
@@ -9,7 +9,7 @@ import VerifiedHow from "./components/how-it-works/VerifiedHow";
 import Tools from "./components/tools/Tools";
 
 export default () => {
-  const [verified, setVerified] = useState(true);
+  const [verified, setVerified] = useState(false);
   return (
     <main className="flex overflow-x-clip  w-full bg-[#F4F4F4]">
       <Sidebar />
