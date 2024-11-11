@@ -1,82 +1,35 @@
 import Image from "next/image";
 import React, { useState, useRef } from "react";
-import Modal from "./assignment/Modal";
-import Sidebar from "./assignment/Sidebar";
-import Forms from "./assignment/forms/Forms";
-import Customer from "./assignment/forms/customer/Customer";
-import AssignmentTime from "./assignment/forms/assignment-time/AssignmentTime";
-import Compensation from "./assignment/forms/compensation/Compensation";
-import Description from "./assignment/forms/description/Description";
+import AssignmentForm from "./assignment/forms/AssignmentForm";
+
 // import Review from "./assignment/forms/review/Review";
-
-
-
-const sidebarItems: SidebarItem[] = [
-  {
-    id: 1,
-    label: "Customer",
-    subtitle: "Enter the customer who ordered the assignment",
-    iconPath: "/assignment/customer.svg",
-    activeIconPath: "/assignment/customer-active.svg",
-    altText: "customer",
-    component: <Customer />,
-  },
-  {
-    id: 2,
-    label: "Assignment time",
-    subtitle: "Fill in the start and end dates for the assignment",
-    iconPath: "/assignment/calendar.svg",
-    activeIconPath: "/assignment/calendar-active.svg",
-    altText: "calendar",
-    component: <AssignmentTime />,
-  },
-  {
-    id: 3,
-    label: "Compensation",
-    subtitle: "Enter the amount the customer must pay",
-    iconPath: "/assignment/wallet.svg",
-    activeIconPath: "/assignment/wallet-active.svg",
-    altText: "wallet",
-    component: <Compensation />,
-  },
-  {
-    id: 4,
-    label: "Description of assignment",
-    subtitle: "Describe the assignment",
-    iconPath: "/assignment/pencil.svg",
-    activeIconPath: "/assignment/pencil-active.svg",
-    altText: "pencil",
-    component: <Description />,
-  },
-];
 
 // 'Review and create' is not a sidebar item but will be included in the forms
 
 export default function RegisterAssignment() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [activeItemId, setActiveItemId] = useState(1);
-  const sidebarRef = useRef<HTMLDivElement | null>(null);
-  const modalContentRef = useRef<HTMLDivElement | null>(null);
-  const containerRefs = useRef<(HTMLDivElement | null)[]>([]);
-
   const toggleModal = () => setIsModalOpen((prev) => !prev);
+  // const [activeItemId, setActiveItemId] = useState(1);
+  // const sidebarRef = useRef<HTMLDivElement | null>(null);
+  // const modalContentRef = useRef<HTMLDivElement | null>(null);
+  // const containerRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-  const scrollToForm = (index: number) => {
-    const scrollContainer = modalContentRef.current;
-    const formRef = containerRefs.current[index];
+  // const scrollToForm = (index: number) => {
+  //   const scrollContainer = modalContentRef.current;
+  //   const formRef = containerRefs.current[index];
 
-    if (!scrollContainer || !formRef) return;
+  //   if (!scrollContainer || !formRef) return;
 
-    const linePosition = 100; // The line is at 100px from the top
+  //   const linePosition = 100; // The line is at 100px from the top
 
-    const formOffsetTop = formRef.offsetTop;
-    const targetScrollTop = formOffsetTop - linePosition;
+  //   const formOffsetTop = formRef.offsetTop;
+  //   const targetScrollTop = formOffsetTop - linePosition;
 
-    scrollContainer.scrollTo({
-      top: targetScrollTop,
-      behavior: "smooth",
-    });
-  };
+  //   scrollContainer.scrollTo({
+  //     top: targetScrollTop,
+  //     behavior: "smooth",
+  //   });
+  // };
 
   return (
     <>
@@ -104,9 +57,10 @@ export default function RegisterAssignment() {
           </div>
         </div>
       </div>
+      <AssignmentForm toggleModal={toggleModal} isModalOpen={isModalOpen} />
 
       {/* Modal Component */}
-      <Modal
+      {/* <Modal
         isOpen={isModalOpen}
         title="Register Assignment"
         onClose={toggleModal}
@@ -128,7 +82,7 @@ export default function RegisterAssignment() {
           containerRefs={containerRefs}
           items={sidebarItems}
         />
-      </Modal>
+      </Modal> */}
     </>
   );
 }

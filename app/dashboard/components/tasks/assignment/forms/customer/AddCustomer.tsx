@@ -18,7 +18,7 @@ export default function AddCustomer({}: Props) {
       <span className=" text-sm lg:text-base lg:font-semibold lg:text-[#04567D]">
         Add customer
       </span>
-      <ChevronIcon className="block -rotate-90 lg:hidden"/>
+      <ChevronIcon className="block w-4 h-4 -rotate-90 lg:hidden"/>
     </div>
   );
 }

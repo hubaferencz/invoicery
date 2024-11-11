@@ -9,7 +9,7 @@ import VerifiedHow from "./components/how-it-works/VerifiedHow";
 import Tools from "./components/tools/Tools";
 
 export default () => {
-  const [verified, setVerified] = useState(false);
+  const [verified, setVerified] = useState(true);
   return (
     <main className="flex overflow-x-clip  w-full bg-[#F4F4F4]">
       <Sidebar />

@@ -198,7 +198,7 @@ export default function Forms({
       ))}
 
       {/* Include the 'Review and create' section only if showReviewSection is true */}
-      {showReviewSection && (
+      {!isMobile && (
         // @ts-ignore
         <FormContainer
           ref={(el) => {
@@ -217,7 +217,7 @@ export default function Forms({
           isOpen={true}
           onClick={() => {}}
         >
-          {/* Empty, since we're hiding it for now */}
+          <Review />
         </FormContainer>
       )}
 
