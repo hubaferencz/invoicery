@@ -106,7 +106,6 @@
 .react-datepicker__day:hover {
   background-color: #ebebeb !important;
 }
-
 /* Disabled dates */
 .react-datepicker__day--disabled {
   color: rgba(0, 0, 0, 0.4);
@@ -120,7 +119,7 @@
 
 .react-datepicker__day--in-range {
   color: black !important;
-  background-color: #ebebeb !important;
+  background-color: transparent !important;
 }
 
 .react-datepicker__day--in-selecting-range {
@@ -168,3 +167,4 @@ color: #000000 !important;
   background-color: transparent !important;
   color: black !important;
 }
+

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DatePicker, { registerLocale, setDefaultLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./custom-styles.css";
@@ -44,6 +44,14 @@ const CalendarInput: React.FC<CalendarInputProps> = ({
   const minDate = isStartDate ? new Date() : pairedDate || new Date();
   const maxDate = isStartDate && pairedDate ? pairedDate : undefined;
 
+  useEffect(() => {
+    const handleEsc = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setShowPopup(false);
+    };
+    window.addEventListener("keydown", handleEsc);
+    return () => window.removeEventListener("keydown", handleEsc);
+  }, []);
+
   return (
     <>
       <input
@@ -68,14 +76,14 @@ const CalendarInput: React.FC<CalendarInputProps> = ({
           >
             <motion.div
               onClick={(e) => e.stopPropagation()}
-              className="bg-white md:max-w-[556px] rounded-md z-10 w-full"
+              className="bg-white lg:max-w-[556px] rounded-md z-10 w-full"
               initial={{ y: 50, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: 50, opacity: 0 }}
               transition={{ duration: 0.2 }}
             >
               {/* Close button and header styling */}
-              <div className="grid grid-cols-3 w-full p-4 items-center border-b border-[#EFEFEF] rounded-t-md bg-white text-black">
+              <div className="grid grid-cols-3 w-full p-4 md:p-6 items-center border-b border-[#EFEFEF] rounded-t-md bg-white text-black">
                 <div className="flex items-center justify-start col-span-1">
                   <button
                     onClick={() => setShowPopup(false)}
@@ -86,14 +94,14 @@ const CalendarInput: React.FC<CalendarInputProps> = ({
                 </div>
                 <div className="flex items-center justify-center col-span-1 text-center">
                   <h2 className="text-base font-medium">
-                    Select {isStartDate ? "Start" : "End"} Date
+                    {isStartDate ? "Start" : "End"} Date
                   </h2>
                 </div>
-                <div className="flex lg:hidden items-end justify-end w-full col-span-1"></div>
+                <div className="flex md:hidden items-end justify-end w-full col-span-1"></div>
               </div>
 
               {/* Popup content */}
-              <div className="flex flex-col items-center px-4 py-8 md:py-6">
+              <div className="flex flex-col items-center p-6 px-4 md:px-6">
                 <DatePicker
                   selected={selectedDate}
                   onChange={handleDateChange}

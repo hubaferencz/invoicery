@@ -1,6 +1,5 @@
-import ChevronIcon from "@/app/components/ChevronIcon";
-import Image from "next/image";
 import React from "react";
+import Currency from "./Currency";
 
 type InvoiceProps = {
   value: string;
@@ -38,13 +37,7 @@ export default function Invoice({ value, setValue }: InvoiceProps) {
           style={{ letterSpacing: "0.64px" }}
         />
       </div>
-      <div className="flex items-center justify-end">
-        <div className="flex items-center gap-2 p-2 bg-white rounded-full">
-          <Image width={20} height={20} alt="" className="rounded-full" src={"/flags/eur.svg"} />
-          <span className="text-sm text-black uppercase">Euro</span>
-          <ChevronIcon />
-        </div>
-      </div>
+      <Currency />
     </div>
   );
 }
