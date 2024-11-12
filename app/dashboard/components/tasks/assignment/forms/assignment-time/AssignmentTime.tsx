@@ -1,68 +1,42 @@
-import React from "react";
+"use client";
 
-type InputFieldProps = {
-  type: string;
-  placeholder: string;
-  focusPlaceholder: string;
-  onInput?: (e: React.FormEvent<HTMLInputElement>) => void;
-};
+import React, { useState } from "react";
+import CalendarInput from "./CalendarInput";
 
-const InputField: React.FC<InputFieldProps> = ({
-  type,
-  placeholder,
-  focusPlaceholder,
-  onInput,
-}) => {
-  return (
-    <input
-      type={type}
-      className="p-4 text-sm font-normal w-full lg:w-min outline outline-1 focus:outline-[#227297] transition-all text-black outline-[#EBEBEB] placeholder:text-[#878484] rounded appearance-none"
-      placeholder={placeholder}
-      onFocus={(e: React.FocusEvent<HTMLInputElement>) =>
-        (e.target.placeholder = focusPlaceholder)
-      }
-      onBlur={(e: React.FocusEvent<HTMLInputElement>) =>
-        (e.target.placeholder = placeholder)
-      }
-      onInput={onInput}
-    />
-  );
-};
-
-type AssignmentTimeProps = {};
-
-export default function AssignmentTime({}: AssignmentTimeProps) {
-  // Function to allow only positive integers for the hours input
-  const handleHoursInput = (e: React.FormEvent<HTMLInputElement>) => {
-    const value = e.currentTarget.value;
-    e.currentTarget.value = value.replace(/[^0-9]/g, ""); // Removes any non-numeric characters
-  };
+export default function AssignmentTime() {
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
 
   return (
     <div className="flex flex-col gap-4 lg:gap-6">
       <div className="flex flex-col items-start gap-2 justify-normal">
-        <h2 className="">Select start and end date</h2>
+        <h2>Select start and end date</h2>
         <div className="flex gap-4">
-          <InputField
-            type="text"
+          <CalendarInput
             placeholder="Start date"
-            focusPlaceholder="mm/dd/yyyy"
+            isStartDate
+            pairedDate={endDate}
+            onDateChange={(date) => setStartDate(date)}
           />
-          <InputField
-            type="text"
+          <CalendarInput
             placeholder="End date"
-            focusPlaceholder="mm/dd/yyyy"
+            isStartDate={false}
+            pairedDate={startDate}
+            onDateChange={(date) => setEndDate(date)}
           />
         </div>
       </div>
       <div className="flex flex-col items-start gap-2 justify-normal">
-        <h2 className="">Enter how many hours you plan to work per week</h2>
+        <h2>Enter how many hours you plan to work per week</h2>
         <div className="flex gap-4">
-          <InputField
+          <input
             type="number"
-            placeholder="Hours"
-            focusPlaceholder="Example: 8"
-            onInput={handleHoursInput}
+            className="p-4 text-sm font-normal w-full lg:w-min outline outline-1 focus:outline-[#227297] transition-all text-black outline-[#EBEBEB] placeholder:text-[#878484] rounded appearance-none"
+            placeholder="Example: 8"
+            onInput={(e) => {
+              const value = e.currentTarget.value.replace(/[^0-9]/g, "");
+              e.currentTarget.value = value;
+            }}
           />
         </div>
       </div>
