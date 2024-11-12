@@ -18,14 +18,6 @@ export default function Modal({
   children,
   contentRef,
 }: ModalProps) {
-  useEffect(() => {
-    const handleEsc = (event: KeyboardEvent) => {
-      if (event.key === "Escape") onClose();
-    };
-    window.addEventListener("keydown", handleEsc);
-    return () => window.removeEventListener("keydown", handleEsc);
-  }, [onClose]);
-
   return (
     <AnimatePresence>
       {isOpen && (
@@ -75,7 +67,7 @@ export default function Modal({
               </div>
               <div className="flex items-center justify-center col-span-1 text-center">
                 <h2 className="text-base whitespace-nowrap font-medium text-[#04567D]">
-                Register assignment
+                  Register assignment
                 </h2>
               </div>
               <div className="flex items-end justify-end w-full col-span-1">
@@ -93,7 +85,7 @@ export default function Modal({
             {/* Modal Content */}
             <div
               ref={contentRef}
-              className="relative flex w-full max-h-screen gap-8 overflow-y-scroll lg:pt-32 lg:pr-6" 
+              className="relative flex w-full max-h-screen gap-8 overflow-y-scroll lg:pt-32 lg:pr-6"
             >
               {/* Horizontal Line for testing */}
               <div

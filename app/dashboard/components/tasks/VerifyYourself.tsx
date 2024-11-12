@@ -8,12 +8,17 @@ import Passport from "./Passport";
 type Field = {
   label: string;
   required: boolean;
+  minLength?: number;
+  maxLength?: number;
+  type?: string; // "text", "number", "email", etc.
+  errorMessage?: string;
 };
 
 type FieldSection = {
   title?: string;
   fields: Field[];
 };
+
 type Props = {
   verified: boolean;
   setVerified: React.Dispatch<React.SetStateAction<boolean>>;
@@ -34,24 +39,125 @@ export default function VerifyYourself({ verified, setVerified }: Props) {
     return () => window.removeEventListener("keydown", handleEsc);
   }, []);
 
-  const handleFocus = (field: string) =>
-    setInputFocus({ ...inputFocus, [field]: true });
-
-  const handleBlur = (field: string) => {
-    setInputFocus({ ...inputFocus, [field]: false });
-    validateField(field, inputValues[field] || "");
+  // Field definitions with validation criteria and error messages
+  const personalFields: FieldSection = {
+    fields: [
+      {
+        label: "First name",
+        required: true,
+        minLength: 2,
+        maxLength: 30,
+        errorMessage: "Must be 2-30 characters.",
+      },
+      {
+        label: "Last name",
+        required: true,
+        minLength: 2,
+        maxLength: 30,
+        errorMessage: "Must be 2-30 characters.",
+      },
+      {
+        label: "Personal identification number",
+        required: true,
+        minLength: 3,
+        maxLength: 30,
+        errorMessage: "Must be 3-30 characters.",
+      },
+    ],
   };
 
-  const handleChange = (field: string, value: string) => {
-    setInputValues({ ...inputValues, [field]: value });
-    if (inputFocus[field]) validateField(field, value);
+  const locationFields: FieldSection = {
+    fields: [
+      {
+        label: "Address line 1",
+        required: true,
+        minLength: 3,
+        maxLength: 30,
+        errorMessage: "Must be 3-30 characters.",
+      },
+      {
+        label: "c/o",
+        required: false,
+        minLength: 3,
+        maxLength: 30,
+        errorMessage: "Must be 3-30 characters.",
+      },
+      {
+        label: "ZIP code",
+        required: true,
+        minLength: 3,
+        maxLength: 10,
+        errorMessage: "Must be 3-10 characters.",
+        type: "text",
+      },
+      {
+        label: "City",
+        required: true,
+        minLength: 2,
+        maxLength: 10,
+        errorMessage: "Must be 2-10 characters.",
+      },
+      {
+        label: "Country",
+        required: true,
+        minLength: 3,
+        maxLength: 30,
+        errorMessage: "Must be 3-30 characters.",
+      },
+    ],
   };
 
-  const validateField = (field: string, value: string) => {
-    if (value.length < 2 || value.length > 30) {
-      setErrors({ ...errors, [field]: "" });
+  const paymentFields: FieldSection = {
+    title: "Salary Account",
+    fields: [
+      {
+        label: "IBAN",
+        required: true,
+        minLength: 15,
+        maxLength: 34,
+        errorMessage: "Must be 15-34 characters.",
+      },
+      {
+        label: "BIC",
+        required: true,
+        minLength: 8,
+        maxLength: 11,
+        errorMessage: "Must be 8-11 characters.",
+      },
+    ],
+  };
+
+  const handleFocus = (fieldLabel: string) =>
+    setInputFocus((prevFocus) => ({ ...prevFocus, [fieldLabel]: true }));
+
+  const handleBlur = (field: Field) => {
+    setInputFocus((prevFocus) => ({ ...prevFocus, [field.label]: false }));
+    validateField(field, inputValues[field.label] || "");
+  };
+
+  const handleChange = (field: Field, value: string) => {
+    setInputValues((prevValues) => ({ ...prevValues, [field.label]: value }));
+    validateField(field, value);
+  };
+
+  const validateField = (field: Field, value: string) => {
+    if (!value) {
+      setErrors((prevErrors) => ({ ...prevErrors, [field.label]: null }));
+      return;
+    }
+
+    if (field.minLength && value.length < field.minLength) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [field.label]: field.errorMessage || "Invalid input.",
+      }));
+    } else if (field.maxLength && value.length > field.maxLength) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [field.label]: field.errorMessage || "Invalid input.",
+      }));
     } else {
-      setErrors({ ...errors, [field]: null });
+      setErrors((prevErrors) => ({ ...prevErrors, [field.label]: null }));
     }
   };
 
@@ -59,33 +165,7 @@ export default function VerifyYourself({ verified, setVerified }: Props) {
     return personalFields.fields
       .concat(locationFields.fields, paymentFields.fields)
       .filter(({ required }) => required)
-      .every(({ label }) => inputValues[label] && !errors[label]);
-  };
-
-  const personalFields: FieldSection = {
-    fields: [
-      { label: "First name", required: true },
-      { label: "Last name", required: true },
-      { label: "Personal identification number", required: true },
-    ],
-  };
-
-  const locationFields: FieldSection = {
-    fields: [
-      { label: "Address line 1", required: true },
-      { label: "c/o", required: false },
-      { label: "ZIP code", required: true },
-      { label: "City", required: true },
-      { label: "Country", required: true },
-    ],
-  };
-
-  const paymentFields: FieldSection = {
-    title: "Salary Account",
-    fields: [
-      { label: "IBAN", required: true },
-      { label: "BIC", required: true },
-    ],
+      .every((field) => inputValues[field.label] && !errors[field.label]);
   };
 
   const handleSave = () => {
@@ -101,28 +181,31 @@ export default function VerifyYourself({ verified, setVerified }: Props) {
     <div className="flex flex-col w-full gap-2">
       {title && <h3 className="text-sm font-medium">{title}</h3>}
       <div className="w-full bg-[#F4F4F4] rounded p-4 pb-5 space-y-4">
-        {fields.map(({ label, required }, index) => (
+        {fields.map((field, index) => (
           <div key={index} className="relative border-b border-[#EBEBEB]">
             <input
-              type="text"
+              type={field.type || "text"}
               placeholder=" "
               className="w-full py-1 pt-4 pb-1 text-sm bg-transparent focus:outline-none"
-              onFocus={() => handleFocus(label)}
-              onBlur={() => handleBlur(label)}
-              value={inputValues[label] || ""}
-              onChange={(e) => handleChange(label, e.target.value)}
+              onFocus={() => handleFocus(field.label)}
+              onBlur={() => handleBlur(field)}
+              value={inputValues[field.label] || ""}
+              onChange={(e) => handleChange(field, e.target.value)}
             />
             <label
               className={`absolute left-0 flex items-center gap-0.5 bottom-1.5 transition-all duration-200 ease-in-out text-[#878484] pointer-events-none ${
-                inputFocus[label] || inputValues[label]
+                inputFocus[field.label] || inputValues[field.label]
                   ? "-translate-y-5 text-[10px]" // Shrinks to 10px on focus or input
                   : "text-sm"
               }`}
             >
-              <span>{label}</span>
-              {required && <span className="text-[#EB6060]">*</span>}
-              {inputFocus[label] && errors[label] && (
-                <span className="text-[#EB6060] ml-2">{errors[label]}</span>
+              <span>{field.label}</span>
+              {field.required && <span className="text-[#EB6060]">*</span>}
+
+              {inputValues[field.label] && errors[field.label] && (
+                <span className="text-[#EB6060] ml-2">
+                  {errors[field.label]}
+                </span>
               )}
             </label>
           </div>
@@ -205,7 +288,7 @@ export default function VerifyYourself({ verified, setVerified }: Props) {
                     Verify yourself
                   </h2>
                 </div>
-                <div className="flex items-end justify-end w-full col-span-1">
+                <div className="flex lg:hidden items-end justify-end w-full col-span-1">
                   <div className="cursor-pointer bg-white bg-opacity-20 w-10 h-10 rounded-full p-[5px] flex md:block items-center justify-center">
                     <Image
                       src={"/icons/chat.svg"}
@@ -218,9 +301,9 @@ export default function VerifyYourself({ verified, setVerified }: Props) {
               </div>
 
               {/* Popup content */}
-              <div className="flex flex-col items-start gap-6 px-4 py-8 md:py-6">
+              <div className="flex flex-col items-start gap-6 px-4 md:px-6 py-8 md:py-6">
                 <h2
-                  className="text-xl font-bold"
+                  className="text-xl font-medium"
                   style={{ letterSpacing: "0.2px" }}
                 >
                   Verify Yourself
