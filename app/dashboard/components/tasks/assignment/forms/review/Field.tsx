@@ -1,4 +1,3 @@
-// Field.tsx
 "use client";
 
 import React from "react";
@@ -24,7 +23,6 @@ const Field: React.FC<FieldProps> = ({
   error,
   inputFocus,
 }) => {
-  // Determine whether to show the error message
   const shouldShowError = value && error;
 
   return (

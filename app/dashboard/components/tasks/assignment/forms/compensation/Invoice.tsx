@@ -4,9 +4,16 @@ import Currency from "./Currency";
 type InvoiceProps = {
   value: string;
   setValue: (value: string) => void;
+  selectedCurrency: string; // Added prop
+  setSelectedCurrency: (currency: string) => void; // Added prop
 };
 
-export default function Invoice({ value, setValue }: InvoiceProps) {
+export default function Invoice({
+  value,
+  setValue,
+  selectedCurrency,
+  setSelectedCurrency,
+}: InvoiceProps) {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let input = e.target.value.replace(/\D/g, ""); // Remove non-digit characters
 
@@ -25,9 +32,11 @@ export default function Invoice({ value, setValue }: InvoiceProps) {
   };
 
   return (
-    <div className="bg-[#04567D] p-6 rounded text-white w-full grid grid-cols-2 items-center justify-center">
+    <div className="bg-[#04567D] p-4 md:p-6 rounded text-white w-full grid grid-cols-2 items-center justify-center">
       <div className="flex flex-col gap-1">
-        <label htmlFor="">Invoice amount excl. VAT</label>
+        <label htmlFor="" className=" text-sm md:text-base">
+          Amount excl. VAT
+        </label>
         <input
           type="text"
           value={value}
@@ -37,7 +46,10 @@ export default function Invoice({ value, setValue }: InvoiceProps) {
           style={{ letterSpacing: "0.64px" }}
         />
       </div>
-      <Currency />
+      <Currency
+        selectedCurrency={selectedCurrency}
+        setSelectedCurrency={setSelectedCurrency}
+      />
     </div>
   );
 }

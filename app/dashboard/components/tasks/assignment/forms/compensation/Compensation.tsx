@@ -6,6 +6,7 @@ type Props = {};
 
 export default function Compensation({}: Props) {
   const [value, setValue] = useState("");
+  const [selectedCurrency, setSelectedCurrency] = useState("eur"); // Added state
 
   // Calculate half of the value, defaulting to "0.00" if value is empty
   const halfValue = value
@@ -25,8 +26,13 @@ export default function Compensation({}: Props) {
         divided and invoiced monthly during the assignment period. Local VAT may
         be added to the invoice amount.
       </p>
-      <Invoice value={value} setValue={setValue} />
-      <Banner value={halfValue} /> {/* Pass halfValue to Banner */}
+      <Invoice
+        value={value}
+        setValue={setValue}
+        selectedCurrency={selectedCurrency}
+        setSelectedCurrency={setSelectedCurrency}
+      />
+      <Banner value={halfValue} selectedCurrency={selectedCurrency} /> {/* Pass selectedCurrency */}
     </div>
   );
 }

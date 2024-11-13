@@ -85,7 +85,7 @@ export default function Modal({
             {/* Modal Content */}
             <div
               ref={contentRef}
-              className="relative flex w-full max-h-screen gap-8 overflow-y-scroll lg:pt-32 lg:pr-6"
+              className="relative flex w-full h-full max-h-screen gap-8 overflow-y-scroll lg:pt-32 lg:pr-6"
             >
               {/* Horizontal Line for testing */}
               <div

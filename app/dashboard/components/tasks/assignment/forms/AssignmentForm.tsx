@@ -1,18 +1,20 @@
-import React, { useState, useRef } from "react";
+"use client";
 
+import React, { useState, useRef, useEffect } from "react";
 import Sidebar from "../Sidebar";
 import Forms from "../forms/Forms";
 import Modal from "../Modal";
-
-
+import Review from "../forms/review/Review";
 import Customer from "../forms/customer/Customer";
 import AssignmentTime from "../forms/assignment-time/AssignmentTime";
 import Compensation from "../forms/compensation/Compensation";
 import Description from "../forms/description/Description";
+import { motion, AnimatePresence } from "framer-motion";
+import ReviewPopup from "./ReviewPopup";
 
 type Props = { isModalOpen: boolean; toggleModal: any };
 
-const sidebarItems: SidebarItem[] = [
+const sidebarItems = [
   {
     id: 1,
     label: "Customer",
@@ -52,49 +54,90 @@ const sidebarItems: SidebarItem[] = [
 ];
 
 export default function AssignmentForm({ isModalOpen, toggleModal }: Props) {
+  const [showReviewPopup, setShowReviewPopup] = useState(false);
   const [activeItemId, setActiveItemId] = useState(1);
   const sidebarRef = useRef<HTMLDivElement | null>(null);
   const modalContentRef = useRef<HTMLDivElement | null>(null);
   const containerRefs = useRef<(HTMLDivElement | null)[]>([]);
+
   const scrollToForm = (index: number) => {
     const scrollContainer = modalContentRef.current;
     const formRef = containerRefs.current[index];
-
     if (!scrollContainer || !formRef) return;
-
-    const linePosition = 100; // The line is at 100px from the top
-
+    const linePosition = 100;
     const formOffsetTop = formRef.offsetTop;
     const targetScrollTop = formOffsetTop - linePosition;
-
     scrollContainer.scrollTo({
       top: targetScrollTop,
       behavior: "smooth",
     });
   };
+
+  const [isToggled, setIsToggled] = useState(false);
+
   return (
-    <Modal
-      isOpen={isModalOpen}
-      title="Register Assignment"
-      onClose={toggleModal}
-      contentRef={modalContentRef}
-    >
-      <div
-        ref={sidebarRef}
-        className="hidden lg:block relative max-w-[330px] w-full pl-6 h-min mr-6"
+    <>
+      <Modal
+        isOpen={isModalOpen}
+        title="Register Assignment"
+        onClose={toggleModal}
+        contentRef={modalContentRef}
       >
-        <Sidebar
+        <div
+          ref={sidebarRef}
+          className="hidden lg:block relative max-w-[330px] w-full pl-6 h-min mr-6"
+        >
+          <Sidebar
+            items={sidebarItems}
+            activeItemId={activeItemId}
+            scrollToForm={scrollToForm}
+          />
+        </div>
+        <Forms
+          setActiveItemId={setActiveItemId}
+          modalContentRef={modalContentRef}
+          containerRefs={containerRefs}
           items={sidebarItems}
-          activeItemId={activeItemId}
-          scrollToForm={scrollToForm}
         />
-      </div>
-      <Forms
-        setActiveItemId={setActiveItemId}
-        modalContentRef={modalContentRef}
-        containerRefs={containerRefs}
-        items={sidebarItems}
-      />
-    </Modal>
+        <div className="absolute lg:hidden bottom-24 w-full p-4 border-t bg-white border-[#EBEBEB]">
+          <button
+            onClick={() => setShowReviewPopup(true)}
+            className="w-full py-[14px] text-base rounded-xl bg-[#04567D] text-white"
+          >
+            Go ahead
+          </button>
+        </div>
+      </Modal>
+
+      <AnimatePresence>
+        {showReviewPopup && (
+          <motion.div
+            className="fixed inset-0 z-50 flex items-end lg:items-center justify-center bg-black bg-opacity-50"
+            onClick={() => setShowReviewPopup(false)}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              onClick={(e) => e.stopPropagation()}
+              className="bg-white w-full lg:max-w-[556px] rounded-t-md lg:rounded-md z-10 p-4 lg:p-6"
+              initial={{ y: 50, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: 50, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              <div className="text-center border-b border-[#EFEFEF] pb-4 mb-4">
+                <h2 className="text-base font-medium">Review Assignment</h2>
+              </div>
+              <ReviewPopup
+                onClose={() => setShowReviewPopup(false)}
+                setIsToggled={setIsToggled}
+                isToggled={isToggled}
+              />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 }

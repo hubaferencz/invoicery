@@ -13,10 +13,12 @@ const currencies = [
   { code: "nok", name: "NOK" },
 ];
 
-type Props = {};
+type Props = {
+  selectedCurrency: string; // Added prop
+  setSelectedCurrency: (currency: string) => void; // Added prop
+};
 
-export default function Currency({}: Props) {
-  const [selectedCurrency, setSelectedCurrency] = useState("eur");
+export default function Currency({ selectedCurrency, setSelectedCurrency }: Props) {
   const [showPopup, setShowPopup] = useState(false);
   const popupRef = useRef<HTMLDivElement>(null);
 
@@ -61,7 +63,7 @@ export default function Currency({}: Props) {
         {showPopup && (
           <motion.div
             className={`fixed inset-0 z-50 flex ${
-              window.innerWidth >= 1024
+              window.innerWidth >= 768
                 ? "items-center justify-center"
                 : "items-end justify-center"
             } bg-black bg-opacity-50`}
