@@ -1,4 +1,4 @@
-import HeroCta from "./(landing-page)/(hero)/HeroCta";
+import HeroCta from "./[locale]/(landing-page)/(hero)/HeroCta";
 
 
 export default function NotFound() {
