@@ -2,34 +2,9 @@ import Image from "next/image";
 import React, { useState, useRef } from "react";
 import AssignmentForm from "./assignment/forms/AssignmentForm";
 
-// import Review from "./assignment/forms/review/Review";
-
-// 'Review and create' is not a sidebar item but will be included in the forms
-
 export default function RegisterAssignment() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const toggleModal = () => setIsModalOpen((prev) => !prev);
-  // const [activeItemId, setActiveItemId] = useState(1);
-  // const sidebarRef = useRef<HTMLDivElement | null>(null);
-  // const modalContentRef = useRef<HTMLDivElement | null>(null);
-  // const containerRefs = useRef<(HTMLDivElement | null)[]>([]);
-
-  // const scrollToForm = (index: number) => {
-  //   const scrollContainer = modalContentRef.current;
-  //   const formRef = containerRefs.current[index];
-
-  //   if (!scrollContainer || !formRef) return;
-
-  //   const linePosition = 100; // The line is at 100px from the top
-
-  //   const formOffsetTop = formRef.offsetTop;
-  //   const targetScrollTop = formOffsetTop - linePosition;
-
-  //   scrollContainer.scrollTo({
-  //     top: targetScrollTop,
-  //     behavior: "smooth",
-  //   });
-  // };
 
   return (
     <>
@@ -58,31 +33,6 @@ export default function RegisterAssignment() {
         </div>
       </div>
       <AssignmentForm toggleModal={toggleModal} isModalOpen={isModalOpen} />
-
-      {/* Modal Component */}
-      {/* <Modal
-        isOpen={isModalOpen}
-        title="Register Assignment"
-        onClose={toggleModal}
-        contentRef={modalContentRef}
-      >
-        <div
-          ref={sidebarRef}
-          className="hidden lg:block relative max-w-[330px] w-full pl-6 h-min mr-6"
-        >
-          <Sidebar
-            items={sidebarItems}
-            activeItemId={activeItemId}
-            scrollToForm={scrollToForm}
-          />
-        </div>
-        <Forms
-          setActiveItemId={setActiveItemId}
-          modalContentRef={modalContentRef}
-          containerRefs={containerRefs}
-          items={sidebarItems}
-        />
-      </Modal> */}
     </>
   );
 }

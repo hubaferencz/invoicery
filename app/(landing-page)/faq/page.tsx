@@ -4,6 +4,7 @@ import Search from "./Search";
 import Image from "next/image";
 
 import { Collapse } from "react-collapse";
+import Cta from "./Cta";
 const faqData = [
   {
     category: "10 most frequently asked questions",
@@ -421,6 +422,28 @@ export default function Faq() {
           )}
         </div>
       </div>
+      <section
+      aria-labelledby="faq-heading"
+      className="w-full px-4 py-20 bg-primary-500 text-white lg:px-10"
+    >
+      <div className="flex flex-col items-start justify-start w-full gap-10">
+        <div className="flex flex-col items-center justify-center gap-6 text-center max-w-screen-lg mx-auto">
+          <h2
+            id="faq-heading"
+            className="text-[28px] leading-tight lg:text-[40px] gap-1.5 md:gap-0 flex flex-col md:flex-row font-extrabold"
+          >
+            Need more help?
+          </h2>
+          <p className="text-base font-normal leading-normal">
+            {/* Don't hesitate */}
+          </p>
+        </div>
+
+  
+        <Cta text="Contact us" link="/faq" />
+
+      </div>
+    </section>
     </>
   );
 }
