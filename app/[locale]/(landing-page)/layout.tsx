@@ -21,7 +21,7 @@ export default async function RootLayout({
   params,
 }: RootLayoutProps) {
   const { locale } = await params;
-  const mediaBaseUrl = process.env.API_URL;
+  const mediaBaseUrl = process.env.NEXT_PUBLIC_API_URL;
 
   // Fetch navbar data
   const navbarRes = await fetch(

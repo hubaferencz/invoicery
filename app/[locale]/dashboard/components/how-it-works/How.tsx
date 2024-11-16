@@ -3,43 +3,40 @@ import Image from "next/image";
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-type Step = {
-  id: number;
+interface Step {
+  id: string;
   title: string;
   linkText: string;
   bgImage: string;
   description: string;
-};
+}
 
-const steps: Step[] = [
-  {
-    id: 1,
-    title: "Register assignment",
-    linkText: "Read more",
-    bgImage: "/how/register.jpg",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-  },
-  {
-    id: 2,
-    title: "Verify yourself",
-    linkText: "Read more",
-    bgImage: "/how/verify.jpg",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-  },
-  {
-    id: 3,
-    title: "Get salary",
-    linkText: "Read more",
-    bgImage: "/how/payed.png",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-  },
-];
-type Props = { verified: any };
-export default function How({ verified }: Props) {
+interface HowProps {
+  verified: boolean;
+  closeText: string;
+  title: string;
+  items: {
+    id: string;
+    title: string;
+    description: string;
+    image: {
+      src: string;
+      alt: string;
+    };
+    ctaText: string;
+  }[];
+}
+
+export default function How({ verified, title, items, closeText }: HowProps) {
   const [selectedStep, setSelectedStep] = useState<Step | null>(null);
+
+  const steps: Step[] = items.map((item) => ({
+    id: item.id,
+    title: item.title,
+    linkText: item.ctaText,
+    bgImage: item.image.src,
+    description: item.description,
+  }));
 
   useEffect(() => {
     const handleEsc = (event: KeyboardEvent) => {
@@ -51,21 +48,20 @@ export default function How({ verified }: Props) {
 
   return (
     <div
-  className={`bg-white max-w-[778px] p-6 w-full mx-auto lg:mx-0 ${
-    verified ? "flex xl:hidden" : "flex"
-  } flex-col gap-6 rounded-sm`}
->
-
+      className={`bg-white max-w-[778px] p-6 w-full mx-auto lg:mx-0 ${
+        verified ? "flex xl:hidden" : "flex"
+      } flex-col gap-6 rounded-sm`}
+    >
       <h2
         className="leading-normal text-xl font-medium py-0.5"
         style={{ letterSpacing: "0.20px" }}
       >
-        This is how it works
+        {title}
       </h2>
 
       {/* Wrapper with horizontal scroll on smaller screens */}
       <div className="flex gap-3 overflow-x-auto grid-cols-3">
-        {steps.map((step) => (
+        {steps.map((step, index) => (
           <div
             key={step.id}
             onClick={() => setSelectedStep(step)}
@@ -81,7 +77,7 @@ export default function How({ verified }: Props) {
               className="font-bold text-lg"
               style={{ letterSpacing: "0.18px" }}
             >
-              {step.id}. {step.title}
+              {index + 1}. {step.title}
             </h2>
             <p
               className="font-semibold text-xs"
@@ -132,7 +128,7 @@ export default function How({ verified }: Props) {
                   onClick={() => setSelectedStep(null)}
                   className="text-sm text-[#5E5C5C] font-normal hidden sm:block"
                 >
-                  Close
+                  {closeText}
                 </button>
 
                 {/* Mobile Drag Handle */}
@@ -160,7 +156,7 @@ export default function How({ verified }: Props) {
                       className="font-bold text-xl"
                       style={{ letterSpacing: "0.2px" }}
                     >
-                      {selectedStep.id}. {selectedStep.title}
+                      {selectedStep.title}
                     </h2>
                   </div>
                 </div>

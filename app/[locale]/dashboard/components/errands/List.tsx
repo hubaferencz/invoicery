@@ -1,57 +1,29 @@
 import React, { useState } from "react";
 import Item from "./Item";
 import Modal from "./Modal";
-import PopupTable from "./PopupTable"; // Adjust the path if necessary
+import PopupTable from "./PopupTable";
 
-type Assignment = {
+interface Assignment {
   name: string;
-};
+}
 
-type ItemData = {
+interface ItemData {
   title: string;
   linkText: string;
   assignments: Assignment[];
-};
+}
 
-// Sample data
-const data: ItemData[] = [
-  {
-    title: "Registered assignments",
-    linkText: "See all",
-    assignments: [
-      { name: "Sven Svensson" },
-      { name: "The company AB" },
-      { name: "Sven Svensson" },
-      { name: "The company AB" },
-      { name: "Sven Svensson" },
-      { name: "The company AB" },
-    ],
-  },
-  {
-    title: "Employment agreement",
-    linkText: "See all",
-    assignments: [{ name: "Erik Eriksson" }, { name: "The company AB" }],
-  },
-  {
-    title: "Invoices",
-    linkText: "See all",
-    assignments: [
-      { name: "Olof Olsson" },
-      { name: "The company AB" },
-      { name: "Olof Olsson" },
-      { name: "The company AB" },
-      { name: "Olof Olsson" },
-      { name: "The company AB" },
-    ],
-  },
-  {
-    title: "Salary specifications",
-    linkText: "See all",
-    assignments: [{ name: "Olof Olsson" }, { name: "The company AB" }],
-  },
-];
+interface ListProps {
+  seeAllText: string;
+  titles: {
+    assignment: string;
+    invoices: string;
+    salarySpecifications: string;
+    employmentContract: string;
+  };
+}
 
-export default function List() {
+export default function List({ seeAllText, titles }: ListProps) {
   const [modalData, setModalData] = useState<ItemData | null>(null);
 
   const handleSeeAllClick = (item: ItemData) => {
@@ -62,6 +34,40 @@ export default function List() {
     setModalData(null);
   };
 
+  const data: ItemData[] = [
+    {
+      title: titles.assignment,
+      linkText: seeAllText,
+      assignments: [
+        { name: "Sven Svensson" },
+        { name: "The company AB" },
+        { name: "Sven Svensson" },
+        { name: "The company AB" },
+        { name: "Sven Svensson" },
+        { name: "The company AB" },
+      ],
+    },
+    {
+      title: titles.invoices,
+      linkText: seeAllText,
+      assignments: [
+        { name: "Sven Svensson" },
+        { name: "The company AB" },
+        { name: "Sven Svensson" },
+      ],
+    },
+    {
+      title: titles.salarySpecifications,
+      linkText: seeAllText,
+      assignments: [{ name: "Erik Eriksson" }, { name: "The company AB" }],
+    },
+    {
+      title: titles.employmentContract,
+      linkText: seeAllText,
+      assignments: [{ name: "Olof Olsson" }, { name: "The company AB" }],
+    },
+  ];
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
       {data.map((item, index) => (
@@ -69,7 +75,7 @@ export default function List() {
           key={index}
           title={item.title}
           linkText={item.linkText}
-          count={item.assignments.length} // Pass the dynamic count
+          count={item.assignments.length}
           assignments={item.assignments}
           onSeeAllClick={() => handleSeeAllClick(item)}
         />

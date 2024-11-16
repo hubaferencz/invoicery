@@ -2,39 +2,45 @@ import React, { useState } from "react";
 import Image from "next/image";
 import ChevronIcon from "@/app/[locale]/components/ChevronIcon";
 import ToolPopup from "./ToolPopup";
-import { AnimatePresence } from "framer-motion"; // Import AnimatePresence
+import { AnimatePresence } from "framer-motion";
 
-type Tool = {
-  icon: string;
+interface ToolsProps {
   title: string;
-  description: string;
-};
+  closeText: string;
+  subtitle: string;
+  items: {
+    id: string;
+    emailToSendTo: string;
+    title: string;
+    description: string;
+    icon: {
+      src: string;
+      alt: string;
+    };
+    inputPlaceholder: string;
+    ctaText: string;
+  }[];
+}
 
-const toolsData: Tool[] = [
-  {
-    icon: "/icons/car.svg",
-    title: "Apply for mileage compensation",
-    description:
-      "Enter how much mileage compensation you are seeking and for which assignment. We handle the application and contact you by email if possible. questions and notices.",
-  },
-  {
-    icon: "/icons/wallet-circle.svg",
-    title: "Apply for a deduction",
-    description:
-      "State what you wish to deduct for and within which assignment. We handle the application and contact you by email if possible. questions and notices.",
-  },
-];
+export default function Tools({ title, closeText, subtitle, items }: ToolsProps) {
+  const [activeTool, setActiveTool] = useState<null | {
+    title: string;
+    description: string;
+    inputPlaceholder: string;
+    ctaText: string;
+  }>(null);
 
-export default function Tools() {
-  const [activeTool, setActiveTool] = useState<Tool | null>(null);
-
-  const handleOpenPopup = (tool: Tool) => setActiveTool(tool);
+  const handleOpenPopup = (tool: {
+    title: string;
+    description: string;
+    inputPlaceholder: string;
+    ctaText: string;
+  }) => setActiveTool(tool);
 
   const handleClosePopup = () => {
-    // Delay unmounting to allow exit animation to play
     setTimeout(() => {
       setActiveTool(null);
-    }, 200); // Match this duration with the exit animation duration
+    }, 200);
   };
 
   return (
@@ -44,28 +50,28 @@ export default function Tools() {
           className="leading-normal text-xl font-medium py-0.5"
           style={{ letterSpacing: "0.20px" }}
         >
-          Expenses
+          {title}
         </h2>
-        <p className="leading-snug text-sm">
-          Apply for expenses done every month etc. Landspecifika regler gäller.
-        </p>
+        <p className="leading-snug text-sm">{subtitle}</p>
       </div>
 
       <div className="flex flex-col gap-4">
-        {toolsData.map((tool) => (
-          <div
-            key={tool.title}
-            className="bg-[#F4F4F4] rounded-sm overflow-clip"
-          >
+        {items.map((tool) => (
+          <div key={tool.id} className="bg-[#F4F4F4] rounded-sm overflow-clip">
             <div
               className="px-4 py-3 flex items-center gap-4 justify-between cursor-pointer rounded-sm hover:bg-black hover:bg-opacity-5 transition-all"
-              onClick={() => handleOpenPopup(tool)}
+              onClick={() =>
+                handleOpenPopup({
+                  title: tool.title,
+                  description: tool.description,
+                  inputPlaceholder: tool.inputPlaceholder,
+                  ctaText: tool.ctaText,
+                })
+              }
             >
-              <Image width={40} height={40} alt="icon" src={tool.icon} />
+              <Image width={40} height={40} alt={tool.icon.alt} src={tool.icon.src} />
               <div className="flex w-full justify-between items-center">
-                <span className="text-black text-sm text-start">
-                  {tool.title}
-                </span>
+                <span className="text-black text-sm text-start">{tool.title}</span>
                 <button className="w-4 h-4 aspect-square rounded-full flex items-center justify-center">
                   <ChevronIcon width="16" height="16" className="-rotate-90" />
                 </button>
@@ -79,9 +85,12 @@ export default function Tools() {
       <AnimatePresence>
         {activeTool && (
           <ToolPopup
-            key="tool-popup" // Add a key for AnimatePresence to track
+            key="tool-popup"
             title={activeTool.title}
             description={activeTool.description}
+            placeholder={activeTool.inputPlaceholder}
+            ctaText={activeTool.ctaText}
+            closeText={closeText}
             onClose={handleClosePopup}
           />
         )}

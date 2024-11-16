@@ -21,15 +21,21 @@ type FieldSection = {
 
 type Props = {
   verified: boolean;
+  verifyYourself: any;
   setVerified: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export default function VerifyYourself({ verified, setVerified }: Props) {
+export default function VerifyYourself({
+  verified,
+  setVerified,
+  verifyYourself,
+}: Props) {
   const [showPopup, setShowPopup] = useState(false);
   const [saving, setSaving] = useState(false);
   const [inputFocus, setInputFocus] = useState<{ [key: string]: boolean }>({});
   const [inputValues, setInputValues] = useState<{ [key: string]: string }>({});
   const [errors, setErrors] = useState<{ [key: string]: string | null }>({});
+  const [passportFile, setPassportFile] = useState<File | null>(null);
 
   useEffect(() => {
     const handleEsc = (event: KeyboardEvent) => {
@@ -39,25 +45,25 @@ export default function VerifyYourself({ verified, setVerified }: Props) {
     return () => window.removeEventListener("keydown", handleEsc);
   }, []);
 
-  // Field definitions with validation criteria and error messages
   const personalFields: FieldSection = {
+    title: "Personal Information",
     fields: [
       {
-        label: "First name",
+        label: verifyYourself.personalFields.firstNameLabel,
         required: true,
         minLength: 2,
         maxLength: 30,
         errorMessage: "Must be 2-30 characters.",
       },
       {
-        label: "Last name",
+        label: verifyYourself.personalFields.lastNameLabel,
         required: true,
         minLength: 2,
         maxLength: 30,
         errorMessage: "Must be 2-30 characters.",
       },
       {
-        label: "Personal identification number",
+        label: verifyYourself.personalFields.personalIdLabel,
         required: true,
         minLength: 3,
         maxLength: 30,
@@ -67,23 +73,24 @@ export default function VerifyYourself({ verified, setVerified }: Props) {
   };
 
   const locationFields: FieldSection = {
+    title: "Location",
     fields: [
       {
-        label: "Address line 1",
+        label: verifyYourself.locationFields.addressLine1Label,
         required: true,
         minLength: 3,
         maxLength: 30,
         errorMessage: "Must be 3-30 characters.",
       },
       {
-        label: "c/o",
+        label: verifyYourself.locationFields.coLabel,
         required: false,
         minLength: 3,
         maxLength: 30,
         errorMessage: "Must be 3-30 characters.",
       },
       {
-        label: "ZIP code",
+        label: verifyYourself.locationFields.zipCodeLabel,
         required: true,
         minLength: 3,
         maxLength: 10,
@@ -91,14 +98,14 @@ export default function VerifyYourself({ verified, setVerified }: Props) {
         type: "text",
       },
       {
-        label: "City",
+        label: verifyYourself.locationFields.cityLabel,
         required: true,
         minLength: 2,
         maxLength: 10,
         errorMessage: "Must be 2-10 characters.",
       },
       {
-        label: "Country",
+        label: verifyYourself.locationFields.countryLabel,
         required: true,
         minLength: 3,
         maxLength: 30,
@@ -111,14 +118,14 @@ export default function VerifyYourself({ verified, setVerified }: Props) {
     title: "Salary Account",
     fields: [
       {
-        label: "IBAN",
+        label: verifyYourself.paymentFields.ibanLabel,
         required: true,
         minLength: 15,
         maxLength: 34,
         errorMessage: "Must be 15-34 characters.",
       },
       {
-        label: "BIC",
+        label: verifyYourself.paymentFields.bicLabel,
         required: true,
         minLength: 8,
         maxLength: 11,
@@ -141,8 +148,11 @@ export default function VerifyYourself({ verified, setVerified }: Props) {
   };
 
   const validateField = (field: Field, value: string) => {
-    if (!value) {
-      setErrors((prevErrors) => ({ ...prevErrors, [field.label]: null }));
+    if (!value && field.required) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [field.label]: "This field is required.",
+      }));
       return;
     }
 
@@ -162,10 +172,13 @@ export default function VerifyYourself({ verified, setVerified }: Props) {
   };
 
   const allFieldsValid = () => {
-    return personalFields.fields
-      .concat(locationFields.fields, paymentFields.fields)
-      .filter(({ required }) => required)
-      .every((field) => inputValues[field.label] && !errors[field.label]);
+    return (
+      personalFields.fields
+        .concat(locationFields.fields, paymentFields.fields)
+        .filter(({ required }) => required)
+        .every((field) => inputValues[field.label] && !errors[field.label]) &&
+      passportFile !== null
+    );
   };
 
   const handleSave = () => {
@@ -235,13 +248,13 @@ export default function VerifyYourself({ verified, setVerified }: Props) {
               className="font-semibold leading-normal"
               style={{ letterSpacing: "0.16px" }}
             >
-              Verify yourself
+              {verifyYourself.verifyCardTitle}
             </h2>
             <p
               className="font-normal leading-normal text-xs text-[#5E5C5C]"
               style={{ letterSpacing: "0.12px" }}
             >
-              We need more information about you.
+              {verifyYourself.verifyCardSubtitle}
             </p>
           </div>
         </div>
@@ -285,7 +298,7 @@ export default function VerifyYourself({ verified, setVerified }: Props) {
                 </div>
                 <div className="flex items-center justify-center col-span-1 text-center">
                   <h2 className="hidden text-base font-medium md:block">
-                    Verify yourself
+                    {verifyYourself.title}
                   </h2>
                 </div>
                 <div className="flex lg:hidden items-end justify-end w-full col-span-1">
@@ -306,13 +319,23 @@ export default function VerifyYourself({ verified, setVerified }: Props) {
                   className="text-xl font-medium"
                   style={{ letterSpacing: "0.2px" }}
                 >
-                  Verify Yourself
+                  {verifyYourself.title}
                 </h2>
 
                 {/* Personal Info Fields */}
                 {renderFields(personalFields)}
 
-                <Passport />
+                <Passport
+                  attachPassportText={
+                    verifyYourself.passportSection.attachPassportText
+                  }
+                  selectText={verifyYourself.passportSection.selectText}
+                  passportInfoBanner={
+                    verifyYourself.passportSection.passportInfoBanner
+                  }
+                  setPassportFile={setPassportFile}
+                  passportFile={passportFile}
+                />
 
                 {/* Location Fields */}
                 {renderFields(locationFields)}
@@ -330,7 +353,9 @@ export default function VerifyYourself({ verified, setVerified }: Props) {
                       : "bg-[#04567D6B] text-white text-opacity-40"
                   }`}
                 >
-                  {saving ? "Saving..." : "Save"}
+                  {saving
+                    ? verifyYourself.savingText
+                    : verifyYourself.saveButtonText}
                 </button>
               </div>
             </motion.div>

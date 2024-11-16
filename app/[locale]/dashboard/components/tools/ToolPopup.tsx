@@ -1,16 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import Image from "next/image";
 
 type ToolPopupProps = {
   title: string;
+  ctaText: string;
+  closeText: string;
   description: string;
+  placeholder: string;
   onClose: () => void;
 };
 
 export default function ToolPopup({
   title,
+  ctaText,
+  closeText,
   description,
+  placeholder,
   onClose,
 }: ToolPopupProps) {
   const [textareaValue, setTextareaValue] = useState("");
@@ -47,7 +52,7 @@ export default function ToolPopup({
             onClick={onClose}
             className="text-sm text-[#5E5C5C] font-normal"
           >
-            Cancel
+            {closeText}
           </button>
         </div>
 
@@ -62,7 +67,7 @@ export default function ToolPopup({
             {/* Textarea */}
             <textarea
               className="w-full h-20 p-3 border border-[#EFEFEF] rounded resize-none focus:outline-none text-xs placeholder:text-xs"
-              placeholder="Write here..."
+              placeholder={placeholder}
               value={textareaValue}
               onChange={(e) => setTextareaValue(e.target.value)}
             />
@@ -77,7 +82,7 @@ export default function ToolPopup({
             }`}
             disabled={!textareaValue}
           >
-            Submit
+            {ctaText}
           </button>
         </div>
       </motion.div>

@@ -2,44 +2,48 @@
 import Image from "next/image";
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-// import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
-type Step = {
-  id: number;
+interface Step {
+  id: string;
   title: string;
   linkText: string;
   bgImage: string;
   description: string;
-};
+}
 
-const steps: Step[] = [
-  {
-    id: 1,
-    title: "Register assignment",
-    linkText: "Read more",
-    bgImage: "/how/register.jpg",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit...",
-  },
-  {
-    id: 2,
-    title: "Verify yourself",
-    linkText: "Read more",
-    bgImage: "/how/verify.jpg",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit...",
-  },
-  {
-    id: 3,
-    title: "Get salary",
-    linkText: "Read more",
-    bgImage: "/how/payed.png",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit...",
-  },
-];
-type Props = { verified: any };
-export default function VerifiedHow({ verified }: Props) {
+interface VerifiedHowProps {
+  verified: boolean;
+  closeText: string;
+  title: string;
+  items: {
+    id: string;
+    title: string;
+    description: string;
+    image: {
+      src: string;
+      alt: string;
+    };
+    ctaText: string;
+  }[];
+}
+
+export default function VerifiedHow({
+  verified,
+  title,
+  closeText,
+  items,
+}: VerifiedHowProps) {
   const [selectedStep, setSelectedStep] = useState<Step | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const [scrollPosition, setScrollPosition] = useState(0);
+
+  const steps: Step[] = items.map((item) => ({
+    id: item.id,
+    title: item.title,
+    linkText: item.ctaText,
+    bgImage: item.image.src,
+    description: item.description,
+  }));
 
   useEffect(() => {
     const handleEsc = (event: KeyboardEvent) => {
@@ -49,8 +53,8 @@ export default function VerifiedHow({ verified }: Props) {
     return () => window.removeEventListener("keydown", handleEsc);
   }, []);
 
-  // Handle left/right scroll
   const scrollByAmount = 200;
+
   const scrollLeft = () => {
     if (scrollRef.current) {
       scrollRef.current.scrollBy({ left: -scrollByAmount, behavior: "smooth" });
@@ -87,13 +91,11 @@ export default function VerifiedHow({ verified }: Props) {
         className="leading-normal text-xl font-medium py-0.5"
         style={{ letterSpacing: "0.20px" }}
       >
-        This is how it works
+        {title}
       </h2>
-
 
       {/* Chevron Controls */}
       <div className="absolute top-6 right-6 flex gap-2">
-        {/* Left Button */}
         <button
           onClick={scrollLeft}
           disabled={isAtStart}
@@ -106,10 +108,9 @@ export default function VerifiedHow({ verified }: Props) {
             width={24}
             height={24}
             alt="Back"
-            className=" rotate-90"
+            className="rotate-90"
           />
         </button>
-        {/* Right Button */}
         <button
           onClick={scrollRight}
           disabled={isAtEnd}
@@ -122,7 +123,7 @@ export default function VerifiedHow({ verified }: Props) {
             width={24}
             height={24}
             alt="Forward"
-            className=" -rotate-90"
+            className="-rotate-90"
           />
         </button>
       </div>
@@ -132,7 +133,7 @@ export default function VerifiedHow({ verified }: Props) {
         ref={scrollRef}
         className="flex gap-3 overflow-x-scroll max-w-sm grid-cols-3 scroll-smooth"
       >
-        {steps.map((step) => (
+        {steps.map((step, index) => (
           <div
             key={step.id}
             onClick={() => setSelectedStep(step)}
@@ -148,7 +149,7 @@ export default function VerifiedHow({ verified }: Props) {
               className="font-bold text-lg"
               style={{ letterSpacing: "0.18px" }}
             >
-              {step.id}. {step.title}
+              {index + 1}. {step.title}
             </h2>
             <p
               className="font-semibold text-xs"
@@ -165,7 +166,7 @@ export default function VerifiedHow({ verified }: Props) {
         {selectedStep && (
           <motion.div
             className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
-            onClick={() => setSelectedStep(null)}
+            onClick={() => setSelectedStep(null)} // Close on clicking outside
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -185,15 +186,14 @@ export default function VerifiedHow({ verified }: Props) {
               }}
             >
               {/* Close button and mobile drag handle */}
-              <div className="p-4 sm:p-6  flex items-center justify-between sm:border-b border-[#EFEFEF]">
+              <div className="p-4 sm:p-6 flex items-center justify-between sm:border-b border-[#EFEFEF]">
                 <button
                   onClick={() => setSelectedStep(null)}
                   className="text-sm text-[#5E5C5C] font-normal hidden sm:block"
                 >
-                  Close
+                  {closeText}
                 </button>
 
-                {/* Mobile Drag Handle */}
                 <div className="sm:hidden flex justify-center w-full">
                   <div className="w-8 h-1.5 bg-[#CECECE] rounded-full"></div>
                 </div>
@@ -218,7 +218,7 @@ export default function VerifiedHow({ verified }: Props) {
                       className="font-bold text-xl"
                       style={{ letterSpacing: "0.2px" }}
                     >
-                      {selectedStep.id}. {selectedStep.title}
+                      {selectedStep.title}
                     </h2>
                   </div>
                 </div>

@@ -13,7 +13,7 @@ interface HomeProps {
 }
 
 export const metadata = async ({ params }: any) => {
-  const mediaBaseUrl = process.env.API_URL;
+  const mediaBaseUrl = process.env.NEXT_PUBLIC_API_URL;
   const { locale } = (await params) || "en-US";
 
   const res = await fetch(
@@ -46,7 +46,7 @@ export const metadata = async ({ params }: any) => {
 
 export default async function Home({ params }: any) {
   const { locale } = await params;
-  const mediaBaseUrl = process.env.API_URL;
+  const mediaBaseUrl = process.env.NEXT_PUBLIC_API_URL;
 
   const res = await fetch(
     `${mediaBaseUrl}/api/home/1?locale=${locale}&draft=false&depth=1`
