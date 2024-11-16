@@ -22,12 +22,12 @@ type FieldSection = {
 type Props = {
   verified: boolean;
   verifyYourself: any;
-  setVerified: React.Dispatch<React.SetStateAction<boolean>>;
+  // setVerified: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export default function VerifyYourself({
   verified,
-  setVerified,
+  // setVerified,
   verifyYourself,
 }: Props) {
   const [showPopup, setShowPopup] = useState(false);
@@ -184,7 +184,7 @@ export default function VerifyYourself({
   const handleSave = () => {
     setSaving(true); // Start the saving animation
     setTimeout(() => {
-      setVerified(true);
+      // setVerified(true);
       setShowPopup(false);
       setSaving(false); // End the saving animation
     }, 3000);

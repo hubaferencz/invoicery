@@ -1,21 +1,27 @@
 import React from "react";
 import VerifyYourself from "./VerifyYourself";
 import RegisterAssignment from "./RegisterAssignment";
+// import RegisterAssignment from "./RegisterAssignment";
+
 
 type Props = {
   verified: any;
-  setVerified: any;
+  // setVerified: any;
   locale: string;
   title: string;
   verifyYourself: any;
+  registerAssignment: any;
+  addCustomerForm: any;
 };
 
 export default function Tasks({
   verified,
   locale,
-  setVerified,
+  // setVerified,
   title,
   verifyYourself,
+  registerAssignment,
+  addCustomerForm,
 }: Props) {
   return (
     <div
@@ -32,10 +38,10 @@ export default function Tasks({
 
       <VerifyYourself
         verifyYourself={verifyYourself}
-        setVerified={setVerified}
+        // setVerified={setVerified}
         verified={verified}
       />
-      <RegisterAssignment />
+      <RegisterAssignment registerAssignment={registerAssignment} addCustomerForm={addCustomerForm}/>
     </div>
   );
 }

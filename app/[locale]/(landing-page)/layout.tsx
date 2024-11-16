@@ -26,7 +26,9 @@ export default async function RootLayout({
   // Fetch navbar data
   const navbarRes = await fetch(
     `${mediaBaseUrl}/api/navbar/1?locale=${locale}&draft=false&depth=1`
-  );
+    , {
+      cache: 'force-cache',
+    });
   if (!navbarRes.ok) {
     throw new Error("Failed to fetch navbar data.");
   }
@@ -53,7 +55,9 @@ export default async function RootLayout({
   // Fetch footer data
   const footerRes = await fetch(
     `${mediaBaseUrl}/api/footer/1?locale=${locale}&draft=false&depth=1`
-  );
+    , {
+      cache: 'force-cache',
+    });
   if (!footerRes.ok) {
     throw new Error("Failed to fetch footer data.");
   }

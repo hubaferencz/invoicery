@@ -72,8 +72,10 @@ interface DashboardProps {
   helpersSection: {
     cancelText: string;
   };
-  locale:string;
-  verifyYourself: any
+  locale: string;
+  verifyYourself: any;
+  registerAssignment: any;
+  addCustomerForm: any;
 }
 
 export default function Dashboard({
@@ -85,23 +87,31 @@ export default function Dashboard({
   locale,
   toolsSection,
   helpersSection,
-  verifyYourself
-
+  verifyYourself,
+  registerAssignment,
+  addCustomerForm,
 }: DashboardProps) {
-  const [verified, setVerified] = useState(false);
+  const verified = false;
   const closeText = helpersSection.cancelText;
   return (
     <>
       <Sidebar {...sidebar} />
       <div className="flex flex-col w-full">
-        <Welcome name="Alex" {...welcomeSection} />
+        <Welcome
+          name="Alex"
+          {...welcomeSection}
+          registerAssignment={registerAssignment}
+          addCustomerForm={addCustomerForm}
+        />
         <div className="flex flex-col items-center justify-center w-full gap-2 xl:flex-row lg:items-start lg:justify-start lg:p-6 lg:gap-6">
           <div className="flex flex-col max-w-[778px] w-full items-start gap-2 lg:gap-6">
             <Tasks
-              setVerified={setVerified}
+              // setVerified={setVerified}
               locale={locale}
               verified={verified}
-              verifyYourself={verifyYourself} 
+              verifyYourself={verifyYourself}
+              registerAssignment={registerAssignment}
+              addCustomerForm={addCustomerForm}
               {...tasksSection}
             />
             <Errands verified={verified} {...errandsSection} />

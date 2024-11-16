@@ -1,23 +1,30 @@
 import React from "react";
 
-type Props = {};
+type Props = {
+  description: {
+    instructions: string; // Instructions text
+    placeholder: string; // Placeholder for textarea
+    minLength: number; // Minimum length for validation
+    maxLength: number; // Maximum length for validation
+  };
+};
 
-export default function Description({}: Props) {
+export default function Description({
+  description: { instructions, placeholder, minLength, maxLength },
+}: Props) {
   return (
     <div className="flex flex-col gap-4 lg:gap-6">
       <p
         className="text-sm font-normal leading-normal text-black"
         style={{ letterSpacing: "0.16px" }}
       >
-        Enter how much you will charge for the entire assignment. The billing is
-        divided and invoiced monthly during the assignment period. Local VAT may
-        be added to the invoice amount.
+        {instructions}
       </p>
       <textarea
         className="w-full min-h-32 p-3 border border-[#EFEFEF] rounded resize-none focus:outline-none text-xs placeholder:text-xs"
-        placeholder="Describe your work..."
-        minLength={5}
-        maxLength={500}
+        placeholder={placeholder}
+        minLength={minLength}
+        maxLength={maxLength}
         //   value={textareaValue}
         //   onChange={(e) => setTextareaValue(e.target.value)}
       />

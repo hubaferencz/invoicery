@@ -1,14 +1,20 @@
+"use state";
 import Image from "next/image";
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import AssignmentForm from "./assignment/forms/AssignmentForm";
 
-export default function RegisterAssignment() {
+export default function RegisterAssignment({
+  registerAssignment,
+  addCustomerForm,
+}: {
+  registerAssignment: any;
+  addCustomerForm: any;
+}) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const toggleModal = () => setIsModalOpen((prev) => !prev);
 
   return (
     <>
-      {/* Button to open the modal */}
       <div
         onClick={toggleModal}
         className="w-full select-none cursor-pointer border border-[#FFEBD5] hover:border-[#FF8800] hover:border-opacity-30 transition-all p-5 h-24 hidden lg:flex rounded-[9px] items-center justify-start bg-[#FFEBD5]"
@@ -19,7 +25,7 @@ export default function RegisterAssignment() {
               src={"/icons/write.svg"}
               width={20}
               height={20}
-              alt="check"
+              alt={registerAssignment?.customerSection?.title || "icon"}
             />
           </div>
           <div className="flex flex-col items-start justify-center gap-1">
@@ -27,12 +33,17 @@ export default function RegisterAssignment() {
               className="text-xl font-medium leading-normal"
               style={{ letterSpacing: "0.20px" }}
             >
-              Register assignment
+              {registerAssignment?.title || "Register Assignment"}
             </h2>
           </div>
         </div>
       </div>
-      <AssignmentForm toggleModal={toggleModal} isModalOpen={isModalOpen} />
+      <AssignmentForm
+        toggleModal={toggleModal}
+        isModalOpen={isModalOpen}
+        registerAssignment={registerAssignment}
+        addCustomerForm={addCustomerForm}
+      />
     </>
   );
 }

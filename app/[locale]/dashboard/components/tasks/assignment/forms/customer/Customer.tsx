@@ -1,13 +1,12 @@
 import React from "react";
 import AddCustomer from "./AddCustomer";
 
+type Props = { addCustomerForm: any };
 
-type Props = {};
-
-export default function Customer({}: Props) {
+export default function Customer({ addCustomerForm }: Props) {
   return (
     <div className="w-full min-w-full bg-white">
-      <AddCustomer />
+      <AddCustomer addCustomerForm={addCustomerForm} />
     </div>
   );
 }

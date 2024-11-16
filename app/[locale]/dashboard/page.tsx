@@ -7,7 +7,10 @@ export default async function DashboardPage({ params }: any) {
 
   // Fetch the dashboard data
   const dashboardRes = await fetch(
-    `${mediaBaseUrl}/api/dashboard-layout/1?locale=${locale}&draft=false&depth=1`
+    `${mediaBaseUrl}/api/dashboard-layout/1?locale=${locale}&draft=false&depth=1`,
+    {
+      cache: "force-cache",
+    }
   );
 
   if (!dashboardRes.ok) {
@@ -18,7 +21,10 @@ export default async function DashboardPage({ params }: any) {
 
   // Fetch the verifyYourselfForm data
   const verifyYourselfRes = await fetch(
-    `${mediaBaseUrl}/api/verifyYourselfForm/1?locale=${locale}&draft=false&depth=1`
+    `${mediaBaseUrl}/api/verifyYourselfForm/1?locale=${locale}&draft=false&depth=1`,
+    {
+      cache: "force-cache",
+    }
   );
 
   if (!verifyYourselfRes.ok) {
@@ -31,6 +37,32 @@ export default async function DashboardPage({ params }: any) {
   }
 
   const verifyYourselfData = await verifyYourselfRes.json();
+
+  const registerAssignmentRes = await fetch(
+    `${mediaBaseUrl}/api/registerAssignmentForm/1?locale=${locale}&draft=false&depth=1`,
+    {
+      cache: "force-cache",
+    }
+  );
+
+  if (!registerAssignmentRes.ok) {
+    throw new Error("Failed to fetch registerAssignment data.");
+  }
+
+  const registerAssignmentData = await registerAssignmentRes.json();
+
+  const addCustomerFormRes = await fetch(
+    `${mediaBaseUrl}/api/add-customer-form/1?locale=${locale}&draft=false&depth=1`,
+    {
+      cache: "force-cache",
+    }
+  );
+
+  if (!addCustomerFormRes.ok) {
+    throw new Error("Failed to fetch addCustomerForm data.");
+  }
+
+  const addCustomerFormData = await addCustomerFormRes.json();
 
   const dashboardProps = {
     sidebar: {
@@ -56,13 +88,16 @@ export default async function DashboardPage({ params }: any) {
       title: dashboardData.errandsSection.title,
       errandInfoBanner: {
         title: dashboardData.errandsSection.errandInfoBanner.infoTitle,
-        description: dashboardData.errandsSection.errandInfoBanner.infoDescription,
+        description:
+          dashboardData.errandsSection.errandInfoBanner.infoDescription,
       },
       seeAllText: dashboardData.errandsSection.seeAllText,
       assignmentTitle: dashboardData.errandsSection.assignmentTitle,
       invoicesTitle: dashboardData.errandsSection.invoicesTitle,
-      salarySpecificationsTitle: dashboardData.errandsSection.salarySpecificationsTitle,
-      employmentContractTitle: dashboardData.errandsSection.employmentContractTitle,
+      salarySpecificationsTitle:
+        dashboardData.errandsSection.salarySpecificationsTitle,
+      employmentContractTitle:
+        dashboardData.errandsSection.employmentContractTitle,
     },
     howItWorksSection: {
       title: dashboardData.howItWorksSection.title,
@@ -97,6 +132,8 @@ export default async function DashboardPage({ params }: any) {
       cancelText: dashboardData.helpersSection.cancelText,
     },
     verifyYourself: verifyYourselfData, // Pass verifyYourself data to the Dashboard component if needed
+    registerAssignment: registerAssignmentData, // Pass verifyYourself data to the Dashboard component if needed
+    addCustomerForm: addCustomerFormData, // Pass verifyYourself data to the Dashboard component if needed
   };
 
   return (

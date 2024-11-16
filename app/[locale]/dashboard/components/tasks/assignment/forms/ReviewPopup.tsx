@@ -6,13 +6,36 @@ import { motion, AnimatePresence } from "framer-motion";
 import Field from "./review/Field";
 
 export default function ReviewPopup({
+  reviewData,
   onClose,
   setIsToggled,
   isToggled,
+  sendButtonText
 }: {
+  reviewData: {
+    title: string;
+    subtitle: string;
+    fields: {
+      email: string;
+      phone: string;
+      profession: string;
+      agreementText: string;
+    };
+    successPopup: {
+      title: string;
+      subtitle: string;
+      description: string;
+    };
+    responsiveFields: {
+      popupTitle: string;
+      label: string;
+      nextStepText: string;
+    };
+  };
   onClose: () => void;
-  setIsToggled: any;
-  isToggled: any;
+  setIsToggled: (value: boolean) => void;
+  isToggled: boolean;
+  sendButtonText: string;
 }) {
   const [step, setStep] = useState(1);
   const [inputFocus, setInputFocus] = useState<{ [key: string]: boolean }>({});
@@ -21,7 +44,6 @@ export default function ReviewPopup({
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [bothStepsCompleted, setBothStepsCompleted] = useState(false);
 
-  // Declaration of allFieldsValid above the useEffect
   const allFieldsValid = ["email", "phoneNumber", "profession"].every(
     (field) => inputValues[field] && !errors[field]
   );
@@ -75,7 +97,6 @@ export default function ReviewPopup({
     }
   };
 
-  // Function to handle closing the success popup and reloading the page
   const handleSuccessClose = () => {
     setIsPopupOpen(false);
     window.location.reload();
@@ -83,9 +104,7 @@ export default function ReviewPopup({
 
   const renderStepIndicator = () => (
     <div className="p-4 pt-6">
-      {/* Circles and Line */}
       <div className="flex items-center justify-between relative">
-        {/* Step 1 */}
         <div className="flex flex-col items-center">
           <button
             onClick={() => setStep(1)}
@@ -106,25 +125,21 @@ export default function ReviewPopup({
                   ? "active"
                   : "inactive"
               }.svg`}
-              alt="Step 1"
+              alt={`${reviewData.responsiveFields.label} 1`}
               width={24}
               height={24}
             />
           </button>
         </div>
-
-        {/* Line between steps */}
         <div
           className="absolute left-0 right-0 top-1/2 transform -translate-y-1/2 h-0.5"
           style={{
             backgroundColor:
               step > 1 || bothStepsCompleted ? "#CBE3EF" : "#EFEFEF",
-            marginLeft: "calc(6rem / 2)", // Half of button width
-            marginRight: "calc(6rem / 2)", // Half of button width
+            marginLeft: "calc(6rem / 2)",
+            marginRight: "calc(6rem / 2)",
           }}
         ></div>
-
-        {/* Step 2 */}
         <div className="flex flex-col items-center">
           <button
             onClick={() => setStep(2)}
@@ -145,29 +160,27 @@ export default function ReviewPopup({
                   ? "active"
                   : "inactive"
               }.svg`}
-              alt="Step 2"
+              alt={`${reviewData.responsiveFields.label} 2`}
               width={24}
               height={24}
             />
           </button>
         </div>
       </div>
-
-      {/* Step Labels */}
       <div className="flex justify-between mt-2">
         <span
           className={`text-sm max-w-12 text-center w-full ${
             step >= 1 || bothStepsCompleted ? "" : "text-[#CECECE]"
           }`}
         >
-          Step 1
+          {reviewData.responsiveFields.label} 1
         </span>
         <span
           className={`text-sm max-w-12 text-center w-full ${
             step >= 2 || bothStepsCompleted ? "" : "text-[#CECECE]"
           }`}
         >
-          Step 2
+          {reviewData.responsiveFields.label} 2
         </span>
       </div>
     </div>
@@ -175,7 +188,6 @@ export default function ReviewPopup({
 
   return (
     <>
-      {/* Main Popup */}
       <motion.div
         className="fixed inset-0 z-50 flex items-end lg:items-center justify-center bg-black bg-opacity-50"
         onClick={onClose}
@@ -191,24 +203,23 @@ export default function ReviewPopup({
           exit={{ y: 50, opacity: 0 }}
           transition={{ duration: 0.2 }}
         >
-          {/* Step Header and Indicator */}
           <div className="grid grid-cols-3 w-full p-4 items-center border-b border-[#EFEFEF] rounded-t-md bg-white text-black">
             <div className="flex md:hidden items-center justify-start col-span-1">
               <button
-                onClick={() => setIsToggled(false)}
+                onClick={onClose}
                 className="text-sm text-[#5E5C5C] font-normal"
               >
                 Cancel
               </button>
             </div>
             <div className="flex items-center justify-center col-span-1 md:col-span-3 text-center">
-              <h2 className="text-base font-medium">Go ahead</h2>
+              <h2 className="text-base font-medium">
+                {reviewData.responsiveFields.popupTitle}
+              </h2>
             </div>
             <div className="flex md:hidden items-end justify-end w-full col-span-1"></div>
           </div>
           {renderStepIndicator()}
-
-          {/* Step Content */}
           <div className="flex flex-col gap-4 p-4">
             <AnimatePresence mode="wait">
               {step === 1 ? (
@@ -221,9 +232,8 @@ export default function ReviewPopup({
                   className="flex flex-col items-start gap-6"
                 >
                   <div className="flex flex-col items-start gap-4 bg-[#F4F4F4] rounded p-4 pb-5 w-full">
-                    {/* Email Field */}
                     <Field
-                      label="Enter your email address"
+                      label={reviewData.fields.email}
                       required={true}
                       value={inputValues.email || ""}
                       onChange={(value) => handleChange("email", value)}
@@ -232,10 +242,8 @@ export default function ReviewPopup({
                       error={errors.email}
                       inputFocus={inputFocus.email || false}
                     />
-
-                    {/* Phone Number Field */}
                     <Field
-                      label="Enter your phone number"
+                      label={reviewData.fields.phone}
                       required={true}
                       value={inputValues.phoneNumber || ""}
                       onChange={(value) => handleChange("phoneNumber", value)}
@@ -244,10 +252,8 @@ export default function ReviewPopup({
                       error={errors.phoneNumber}
                       inputFocus={inputFocus.phoneNumber || false}
                     />
-
-                    {/* Profession Field */}
                     <Field
-                      label="Enter profession"
+                      label={reviewData.fields.profession}
                       required={true}
                       value={inputValues.profession || ""}
                       onChange={(value) => handleChange("profession", value)}
@@ -268,17 +274,12 @@ export default function ReviewPopup({
                   className="flex flex-col gap-4"
                 >
                   <div className="flex items-center gap-3 p-4 border rounded">
-                    <p className="text-sm">
-                      I have taken note of the General terms and conditions
-                      applicable as of this date, the agreement on general
-                      fixed-term employment and the attachment on the processing
-                      of personal data.
-                    </p>
-                    {/* Toggle Switch */}
+                    <p className="text-sm">{reviewData.fields.agreementText}</p>
                     <div
                       className={`${
                         isToggled ? "bg-[#20B098]" : "bg-[#CECECE]"
                       } max-w-14 w-full px-0.5 h-8 rounded-full flex items-center transition-colors duration-300 cursor-pointer`}
+                      // @ts-ignore
                       onClick={() => setIsToggled((prev: any) => !prev)}
                     >
                       <div
@@ -292,9 +293,7 @@ export default function ReviewPopup({
               )}
             </AnimatePresence>
           </div>
-
           <div className="p-4">
-            {/* Bottom Button */}
             <button
               onClick={handleNextStep}
               disabled={
@@ -303,20 +302,20 @@ export default function ReviewPopup({
               className={`w-full py-[14px] text-white font-medium text-base rounded-xl ${
                 step === 1
                   ? allFieldsValid
-                    ? "bg-[#04567D] text-white"
-                    : "bg-[#04567D6B] text-white text-opacity-40"
+                    ? "bg-[#04567D]"
+                    : "bg-[#04567D6B]"
                   : isToggled
-                  ? "bg-[#F80] "
-                  : "bg-[#F80] bg-opacity-45  text-opacity-40"
+                  ? "bg-[#F80]"
+                  : "bg-[#F80] bg-opacity-45"
               }`}
             >
-              {step === 1 ? "Next Step" : "Register assignments"}
+              {step === 1
+                ? reviewData.responsiveFields.nextStepText
+                : sendButtonText}
             </button>
           </div>
         </motion.div>
       </motion.div>
-
-      {/* Additional Popup */}
       {isPopupOpen && (
         <motion.div
           className="fixed inset-0 z-[60] flex items-center justify-center bg-black bg-opacity-20 backdrop-blur-md"
@@ -344,23 +343,18 @@ export default function ReviewPopup({
               width: "100%",
             }}
           >
-            {/* Close button and mobile drag handle */}
             <div className="p-4 sm:p-6 flex items-center justify-between">
-              {/* Mobile Drag Handle */}
-              <div className=" flex justify-center w-full">
+              <div className="flex justify-center w-full">
                 <div className="w-8 h-1.5 bg-[#CECECE] rounded-full"></div>
               </div>
             </div>
-
-            {/* Popup content */}
             <div className="flex flex-col items-center p-4 gap-4 pb-20">
               <h2
                 className=" text-2xl font-medium"
                 style={{ letterSpacing: "0.48px" }}
               >
-                The assignment is created!
+                {reviewData.successPopup.title}
               </h2>
-
               <Image
                 src={"/icons/review/done.svg"}
                 width={125}
@@ -369,13 +363,14 @@ export default function ReviewPopup({
                 alt="done"
               />
               <div className="flex items-start flex-col text-start justify-start gap-2">
-                <h3 className=" text-lg font-semibold">What happens now?</h3>
+                <h3 className=" text-lg font-semibold">
+                  {reviewData.successPopup.subtitle}
+                </h3>
                 <p
                   className="text-sm font-normal leading-snug"
                   style={{ letterSpacing: "0.14px" }}
                 >
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  {reviewData.successPopup.description}
                 </p>
               </div>
               <button

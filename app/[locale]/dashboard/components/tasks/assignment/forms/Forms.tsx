@@ -8,18 +8,21 @@ type Props = {
   modalContentRef: React.RefObject<HTMLDivElement | null>;
   containerRefs: React.MutableRefObject<(HTMLDivElement | null)[]>;
   items: SidebarItem[];
+  reviewData: any;
+  sendButtonText: string;
 };
 
 export default function Forms({
+  sendButtonText,
   setActiveItemId,
   modalContentRef,
   containerRefs,
   items,
+  reviewData,
 }: Props) {
   const [activeAccordionIndex, setActiveAccordionIndex] = useState(0); // First item open by default
 
   // State variable to control visibility of 'Review and create' section
-  
 
   // Media query to detect if screen width is below lg (1024px)
   const isMobile = useMediaQuery({ maxWidth: 1023 });
@@ -99,16 +102,18 @@ export default function Forms({
             iconPath: "", // No icon needed
             activeIconPath: "",
             altText: "review",
-            component: <Review />,
+            component: (
+              <Review reviewData={reviewData} sendButtonText={sendButtonText} />
+            ),
           }}
           isMobile={false} // Do not make collapsible
           isOpen={true}
           onClick={() => {}}
         >
-          <Review />
+          <Review reviewData={reviewData} sendButtonText={sendButtonText} />
         </FormContainer>
       )}
-     
+
       <div className="w-full pt-10 text-transparent bg-transparent select-none">
         .
       </div>

@@ -14,7 +14,9 @@ export const metadata = async ({ params }: any) => {
   const { locale } = (await params) || "en-US";
 
   const res = await fetch(
-    `${mediaBaseUrl}/api/contact-us/1?locale=${locale}&draft=false&depth=1`
+    `${mediaBaseUrl}/api/contact-us/1?locale=${locale}&draft=false&depth=1`, {
+      cache: 'force-cache',
+    }
   );
 
   if (!res.ok) {
@@ -47,7 +49,9 @@ export default async function Contact({ params }: any) {
 
   // Fetch data from the contact-us API
   const contactRes = await fetch(
-    `${mediaBaseUrl}/api/contact-us/1?locale=${locale}&draft=false&depth=1`
+    `${mediaBaseUrl}/api/contact-us/1?locale=${locale}&draft=false&depth=1`, {
+      cache: 'force-cache',
+    }
   );
 
   if (!contactRes.ok) {
@@ -58,7 +62,9 @@ export default async function Contact({ params }: any) {
 
   // Fetch only the contactInfo section from the homepage API
   const contactInfoRes = await fetch(
-    `${mediaBaseUrl}/api/home/1?locale=${locale}&fields=contactInfo&draft=false&depth=1`
+    `${mediaBaseUrl}/api/home/1?locale=${locale}&fields=contactInfo&draft=false&depth=1`, {
+      cache: 'force-cache',
+    }
   );
 
   if (!contactInfoRes.ok) {

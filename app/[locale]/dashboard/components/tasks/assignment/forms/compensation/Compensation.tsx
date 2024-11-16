@@ -2,13 +2,32 @@ import React, { useState } from "react";
 import Invoice from "./Invoice";
 import Banner from "./Banner";
 
-type Props = {};
+type Props = {
+  compensation: {
+    subtitle: string;
+    instructions: string;
+    fields: {
+      amountLabel: string;
+      salaryNote: string;
+      currencies: {
+        id: string;
+        code: string;
+        name: string;
+        flag: {
+          url: string;
+          altText: string;
+        };
+      }[];
+    };
+  };
+};
 
-export default function Compensation({}: Props) {
+export default function Compensation({ compensation }: Props) {
   const [value, setValue] = useState("");
-  const [selectedCurrency, setSelectedCurrency] = useState("eur"); // Added state
+  const [selectedCurrency, setSelectedCurrency] = useState(
+    compensation?.fields?.currencies[0]?.code || "eur"
+  );
 
-  // Calculate half of the value, defaulting to "0.00" if value is empty
   const halfValue = value
     ? (parseFloat(value.replace(/,/g, "")) / 2).toLocaleString("en-US", {
         minimumFractionDigits: 2,
@@ -22,17 +41,22 @@ export default function Compensation({}: Props) {
         className="text-sm font-normal text-black"
         style={{ letterSpacing: "0.16px" }}
       >
-        Enter how much you will charge for the entire assignment. The billing is
-        divided and invoiced monthly during the assignment period. Local VAT may
-        be added to the invoice amount.
+        {compensation?.instructions ||
+          "Enter how much you will charge for the entire assignment. The billing is divided and invoiced monthly during the assignment period. Local VAT may be added to the invoice amount."}
       </p>
       <Invoice
         value={value}
         setValue={setValue}
         selectedCurrency={selectedCurrency}
         setSelectedCurrency={setSelectedCurrency}
+        currencies={compensation?.fields?.currencies || []}
+        amountLabel={compensation?.fields?.amountLabel || "Amount excl. VAT"}
       />
-      <Banner value={halfValue} selectedCurrency={selectedCurrency} /> {/* Pass selectedCurrency */}
+      <Banner
+        value={halfValue}
+        selectedCurrency={selectedCurrency}
+        salaryNote={compensation?.fields?.salaryNote || ""}
+      />
     </div>
   );
 }

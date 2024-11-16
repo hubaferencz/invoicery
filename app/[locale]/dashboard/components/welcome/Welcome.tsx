@@ -57,7 +57,6 @@
 //   );
 // }
 
-
 "use client";
 import Image from "next/image";
 import React, { useState } from "react";
@@ -70,10 +69,20 @@ interface WelcomeProps {
     src: string;
     alt: string;
   };
-  name:string
+  name: string;
+
+  registerAssignment: any;
+  addCustomerForm: any;
 }
 
-export default function Welcome({ firstLine, secondLine, image, name }: WelcomeProps) {
+export default function Welcome({
+  firstLine,
+  secondLine,
+  image,
+  registerAssignment,
+  addCustomerForm,
+  name,
+}: WelcomeProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const toggleModal = () => setIsModalOpen((prev) => !prev);
 
@@ -123,7 +132,12 @@ export default function Welcome({ firstLine, secondLine, image, name }: WelcomeP
           </h2>
         </button>
       </div>
-      <AssignmentForm toggleModal={toggleModal} isModalOpen={isModalOpen} />
+      <AssignmentForm
+        toggleModal={toggleModal}
+        isModalOpen={isModalOpen}
+        registerAssignment={registerAssignment}
+        addCustomerForm={addCustomerForm}
+      />
     </>
   );
 }

@@ -1,11 +1,12 @@
-
 import Image from "next/image";
 import React from "react";
 import Cta from "./Cta";
 
 type SidebarItem = {
-  id?: number;
+  id: number;
   label: string;
+  
+  subtitle: string;
   iconPath: string;
   altText: string;
 };
@@ -13,18 +14,22 @@ type SidebarItem = {
 type SidebarProps = {
   items: SidebarItem[];
   activeItemId: number;
+  ctaText: string;
+  title: string;
   scrollToForm: (index: number) => void;
 };
 
 export default function Sidebar({
   items,
+  ctaText,
+  title,
   activeItemId,
   scrollToForm,
 }: SidebarProps) {
   return (
     <aside className="max-w-[330px] fixed h-min bg-white rounded w-full py-6 gap-6 flex flex-col items-start">
       <h2 className="font-medium text-base px-6 text-[#878484]">
-        Create invoice
+        {title}
       </h2>
       <nav className="flex flex-col w-full gap-4">
         {items.map((item, idx) => (
@@ -54,7 +59,7 @@ export default function Sidebar({
         ))}
       </nav>
       <div className="w-full px-6">
-      <Cta scrollToForm={scrollToForm} />
+        <Cta scrollToForm={scrollToForm} ctaText={ctaText} />
       </div>
     </aside>
   );

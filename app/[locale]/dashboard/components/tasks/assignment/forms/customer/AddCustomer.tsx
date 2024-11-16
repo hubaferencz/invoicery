@@ -20,7 +20,11 @@ type FieldSection = {
   fields: Field[];
 };
 
-export default function AddCustomer() {
+export default function AddCustomer({
+  addCustomerForm,
+}: {
+  addCustomerForm: any;
+}) {
   const [showPopup, setShowPopup] = useState(false);
   const [saving, setSaving] = useState(false);
   const [inputFocus, setInputFocus] = useState<{ [key: string]: boolean }>({});
@@ -35,18 +39,17 @@ export default function AddCustomer() {
     return () => window.removeEventListener("keydown", handleEsc);
   }, []);
 
-  // Field definitions with validation criteria and error messages
   const personalFields: FieldSection = {
     fields: [
       {
-        label: "Name",
+        label: addCustomerForm.taxFields.nameLabel,
         required: true,
         minLength: 3,
         maxLength: 30,
         errorMessage: "Must be 2-30 characters.",
       },
       {
-        label: "VAT number / company number",
+        label: addCustomerForm.taxFields.vatNumberLabel,
         required: true,
         minLength: 5,
         maxLength: 30,
@@ -58,21 +61,21 @@ export default function AddCustomer() {
   const locationFields: FieldSection = {
     fields: [
       {
-        label: "Reference/Contact person",
+        label: addCustomerForm.contactFields.contactPersonLabel,
         required: true,
         minLength: 3,
         maxLength: 30,
         errorMessage: "Must be 3-30 characters.",
       },
       {
-        label: "PO number/reference number (optional)",
+        label: addCustomerForm.contactFields.poNumberLabel,
         required: false,
         minLength: 3,
         maxLength: 30,
         errorMessage: "Must be 3-30 characters.",
       },
       {
-        label: "Phone number",
+        label: addCustomerForm.contactFields.phoneLabel,
         required: true,
         minLength: 3,
         maxLength: 17,
@@ -80,7 +83,7 @@ export default function AddCustomer() {
         type: "tel",
       },
       {
-        label: "Email (agreement and invoice are sent here)",
+        label: addCustomerForm.contactFields.emailLabel,
         required: true,
         minLength: 3,
         maxLength: 40,
@@ -91,31 +94,30 @@ export default function AddCustomer() {
   };
 
   const paymentFields: FieldSection = {
-    // title: "Address line 1",
     fields: [
       {
-        label: "Address line 1",
+        label: addCustomerForm.addressFields.addressLine1Label,
         required: true,
         minLength: 3,
         maxLength: 40,
         errorMessage: "Must be 3-40 characters.",
       },
       {
-        label: "ZIP code",
+        label: addCustomerForm.addressFields.zipCodeLabel,
         required: true,
         minLength: 3,
         maxLength: 10,
         errorMessage: "Must be 3-10 characters.",
       },
       {
-        label: "City",
+        label: addCustomerForm.addressFields.cityLabel,
         required: true,
         minLength: 2,
         maxLength: 30,
         errorMessage: "Must be 2-30 characters.",
       },
       {
-        label: "Country",
+        label: addCustomerForm.addressFields.countryLabel,
         required: true,
         minLength: 2,
         maxLength: 30,
@@ -166,10 +168,10 @@ export default function AddCustomer() {
   };
 
   const handleSave = () => {
-    setSaving(true); // Start the saving animation
+    setSaving(true);
     setTimeout(() => {
       setShowPopup(false);
-      setSaving(false); // End the saving animation
+      setSaving(false);
     }, 3000);
   };
 
@@ -191,7 +193,7 @@ export default function AddCustomer() {
             <label
               className={`absolute left-0 flex items-center gap-0.5 bottom-1.5 transition-all duration-200 ease-in-out text-[#878484] pointer-events-none ${
                 inputFocus[field.label] || inputValues[field.label]
-                  ? "-translate-y-5 text-[10px]" // Shrinks to 10px on focus or input
+                  ? "-translate-y-5 text-[10px]"
                   : "text-sm"
               }`}
             >
@@ -212,8 +214,6 @@ export default function AddCustomer() {
 
   return (
     <>
-      {/* Verify Yourself Card */}
-
       <div
         className="bg-white lg:bg-[#F4F4F4] w-full min-w-full rounded p-4 lg:p-6 flex lg:flex-col items-center justify-between lg:justify-center gap-2 cursor-pointer"
         onClick={() => setShowPopup(true)}
@@ -226,13 +226,12 @@ export default function AddCustomer() {
           className="hidden w-10 h-10 rounded-full lg:block"
           style={{ boxShadow: "0px 2px 8px 0px rgba(153, 153, 153, 0.20)" }}
         />
-        <span className=" text-sm lg:text-base lg:font-semibold lg:text-[#04567D]">
-          Add customer
+        <span className="text-sm lg:text-base lg:font-semibold lg:text-[#04567D]">
+          {addCustomerForm.title}
         </span>
         <ChevronIcon className="block w-4 h-4 -rotate-90 lg:hidden" />
       </div>
 
-      {/* Popup overlay and content */}
       <AnimatePresence>
         {showPopup && (
           <motion.div
@@ -250,7 +249,6 @@ export default function AddCustomer() {
               exit={{ y: 50, opacity: 0 }}
               transition={{ duration: 0.2 }}
             >
-              {/* Close button and header styling */}
               <div className="grid grid-cols-3 w-full p-4 md:p-6 items-center z-20 justify-between border-b border-[#EFEFEF] md:rounded-t-md bg-white text-black">
                 <div className="flex items-center justify-start col-span-1">
                   <button
@@ -261,38 +259,32 @@ export default function AddCustomer() {
                   </button>
                 </div>
                 <div className="flex items-center justify-center col-span-1 text-center">
-                  <h2 className="text-base font-medium">New Customer</h2>
+                  <h2 className="text-base font-medium">
+                    {addCustomerForm.popupTitle}
+                  </h2>
                 </div>
                 <div className="flex lg:hidden items-end justify-end w-full col-span-1"></div>
               </div>
 
-              {/* Popup content */}
               <div className="flex flex-col items-start gap-6 px-4 md:px-6 py-8 md:py-6">
                 <h2
                   className="text-xl font-medium"
                   style={{ letterSpacing: "0.2px" }}
                 >
-                  Add customer
+                  {addCustomerForm.headerTitle}
                 </h2>
                 <div className="flex flex-col gap-2">
-                  {/* Personal Info Fields */}
                   {renderFields(personalFields)}
-
                   <Info
-                    title={"What is a VAT number?"}
+                    title={addCustomerForm.taxFields.vatInfoBanner.vatInfoTitle}
                     description={
-                      'A VAT number is a unique tax ID for businesses in the EU. It starts with a country code followed by a specific sequence of numbers. For example, a Swedish VAT number starts with "SE" and has 12 digits (e.g., SE123456789012).'
+                      addCustomerForm.taxFields.vatInfoBanner.vatInfoDescription
                     }
                   />
                 </div>
-
-                {/* Location Fields */}
                 {renderFields(locationFields)}
-
-                {/* Payment Fields */}
                 {renderFields(paymentFields)}
 
-                {/* Submit Button */}
                 <button
                   onClick={handleSave}
                   disabled={!allFieldsValid() || saving}
@@ -302,7 +294,9 @@ export default function AddCustomer() {
                       : "bg-[#04567D6B] text-white text-opacity-40"
                   }`}
                 >
-                  {saving ? "Saving..." : "Save"}
+                  {saving
+                    ? addCustomerForm.savingText
+                    : addCustomerForm.saveButtonText}
                 </button>
               </div>
             </motion.div>

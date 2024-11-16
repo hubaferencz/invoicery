@@ -5,31 +5,37 @@ import Image from "next/image";
 import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const currencies = [
-  { code: "eur", name: "Euro" },
-  { code: "usd", name: "USD" },
-  { code: "sek", name: "SEK" },
-  { code: "dkk", name: "DKK" },
-  { code: "nok", name: "NOK" },
-];
-
 type Props = {
-  selectedCurrency: string; // Added prop
-  setSelectedCurrency: (currency: string) => void; // Added prop
+  selectedCurrency: string; // Currently selected currency code
+  setSelectedCurrency: (currency: string) => void; // Function to update selected currency
+  currencies: {
+    id: string;
+    code: string;
+    name: string;
+    flag: {
+      url: string;
+      altText: string;
+    };
+  }[]; // Dynamic list of currencies
 };
 
-export default function Currency({ selectedCurrency, setSelectedCurrency }: Props) {
+export default function Currency({
+  selectedCurrency,
+  setSelectedCurrency,
+  currencies,
+}: Props) {
   const [showPopup, setShowPopup] = useState(false);
   const popupRef = useRef<HTMLDivElement>(null);
+  const mediaBaseUrl = process.env.NEXT_PUBLIC_API_URL ||"";
 
   const handleCurrencyChange = (currencyCode: string) => {
     setSelectedCurrency(currencyCode);
-    setShowPopup(false); // close on selection
+    setShowPopup(false); // Close popup on selection
   };
 
   const handleClickOutside = (event: MouseEvent) => {
     if (popupRef.current && !popupRef.current.contains(event.target as Node)) {
-      setShowPopup(false); // close on outside click
+      setShowPopup(false); // Close popup on outside click
     }
   };
 
@@ -40,8 +46,13 @@ export default function Currency({ selectedCurrency, setSelectedCurrency }: Prop
     };
   }, []);
 
+  const selectedCurrencyData = currencies.find(
+    (currency) => currency.code === selectedCurrency
+  );
+
   return (
     <div className="relative flex items-center justify-end">
+      {/* Trigger Button */}
       <div
         className="flex items-center justify-center gap-2 p-2 bg-white rounded-full cursor-pointer"
         onClick={() => setShowPopup(!showPopup)}
@@ -49,16 +60,17 @@ export default function Currency({ selectedCurrency, setSelectedCurrency }: Prop
         <Image
           width={20}
           height={20}
-          alt={selectedCurrency}
+          alt={selectedCurrencyData?.flag.altText || ""}
           className="rounded-full"
-          src={`/flags/${selectedCurrency}.svg`}
+          src={mediaBaseUrl + selectedCurrencyData?.flag.url}
         />
         <span className="text-sm text-black uppercase">
-          {currencies.find((c) => c.code === selectedCurrency)?.name}
+          {selectedCurrencyData?.code || ""}
         </span>
         <ChevronIcon width="16" height="16" />
       </div>
 
+      {/* Popup */}
       <AnimatePresence>
         {showPopup && (
           <motion.div
@@ -81,25 +93,27 @@ export default function Currency({ selectedCurrency, setSelectedCurrency }: Prop
               exit={{ y: 50, opacity: 0 }}
               transition={{ duration: 0.2 }}
             >
+              {/* Popup Header */}
               <div className="grid grid-cols-3 w-full p-4 md:p-6 items-center border-b border-[#EFEFEF] rounded-t-md bg-white text-black">
                 <div className="flex md:hidden items-center justify-start col-span-1">
                   <button
                     onClick={() => setShowPopup(false)}
                     className="text-sm text-[#5E5C5C] font-normal"
                   >
-                    Cancel
+                    Close
                   </button>
                 </div>
                 <div className="flex items-center justify-center col-span-1 md:col-span-3 text-center">
-                  <h2 className="text-base font-medium">Select currency</h2>
+                  <h2 className="text-base font-medium">Currencies</h2>
                 </div>
                 <div className="flex md:hidden items-end justify-end w-full col-span-1"></div>
               </div>
 
+              {/* Popup Content */}
               <div className="flex flex-col gap-2 p-4 md:p-6">
                 {currencies.map((currency) => (
                   <div
-                    key={currency.code}
+                    key={currency.id}
                     className={`flex items-center justify-between py-3 px-4 rounded-lg cursor-pointer ${
                       selectedCurrency === currency.code ? "bg-[#34a8c51a]" : ""
                     }`}
@@ -109,9 +123,9 @@ export default function Currency({ selectedCurrency, setSelectedCurrency }: Prop
                       <Image
                         width={32}
                         height={32}
-                        alt={currency.name}
+                        alt={currency.flag.altText || ""}
                         className="rounded-full shadow-xl"
-                        src={`/flags/${currency.code}.svg`}
+                        src={mediaBaseUrl + currency.flag.url}
                       />
                       <span className="text-base text-black uppercase">
                         {currency.name}
