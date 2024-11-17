@@ -17,8 +17,9 @@ export const metadata = async ({ params }: any) => {
   const { locale } = (await params) || "en-US";
 
   const res = await fetch(
-    `${mediaBaseUrl}/api/home/2?locale=${locale}&draft=false&depth=1`, {
-      cache: 'force-cache',
+    `${mediaBaseUrl}/api/home/2?locale=${locale}&draft=false&depth=1`,
+    {
+      cache: "force-cache",
     }
   );
 
@@ -52,9 +53,7 @@ export default async function Home({ params }: any) {
 
   const res = await fetch(
     `${mediaBaseUrl}/api/home/2?locale=${locale}&draft=false&depth=1`
-    , {
-      cache: 'force-cache',
-    });
+  );
 
   if (!res.ok) {
     throw new Error("Failed to fetch data.");
