@@ -48,7 +48,7 @@ export default function Sidebar({
                   src={item.iconPath}
                   width={20}
                   height={20}
-                  alt={item.altText}
+                  alt={item.altText || ""}
                 />
               </div>
               <span className="font-medium">

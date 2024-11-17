@@ -99,7 +99,7 @@ const FormContainer = React.forwardRef<HTMLDivElement, FormContainerProps>(
                             ? item.activeIconPath || item.iconPath
                             : item.iconPath
                         }
-                        alt={item.altText}
+                        alt={item.altText|| ""}
                         width={24}
                         height={24}
                       />

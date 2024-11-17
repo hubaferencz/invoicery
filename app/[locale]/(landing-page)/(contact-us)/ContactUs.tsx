@@ -168,7 +168,7 @@ export default function ContactUs({
                       <Image
                         src={contact.icon}
                         className="w-6 h-6"
-                        alt={contact.title}
+                        alt={contact.title || ""}
                         width={24}
                         height={24}
                       />

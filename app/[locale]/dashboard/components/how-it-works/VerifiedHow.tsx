@@ -204,7 +204,7 @@ export default function VerifiedHow({
                 <div className="relative overflow-hidden w-full h-[150px] rounded-lg">
                   <img
                     src={selectedStep.bgImage}
-                    alt={selectedStep.title}
+                    alt={selectedStep.title || ""}
                     className="rounded-lg w-full h-full object-cover"
                   />
                   <div

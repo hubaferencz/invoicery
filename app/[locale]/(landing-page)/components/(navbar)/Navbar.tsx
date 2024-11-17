@@ -81,7 +81,7 @@ export default function Navbar({
             className="flex items-center"
             aria-label="Homepage"
           >
-            <Image src={logo.src} alt={logo.alt} width={137} height={40} />
+            <Image src={logo.src} alt={logo.alt || ""} width={137} height={40} />
           </Link>
           {/* Desktop Links */}
           <div className="items-center justify-between flex-1 hidden gap-10 lg:flex">
@@ -193,7 +193,7 @@ export default function Navbar({
                 <Link href={`/${locale}`}>
                   <Image
                     src={logo.src}
-                    alt={logo.alt}
+                    alt={logo.alt || ""}
                     width={190}
                     height={56}
                   />

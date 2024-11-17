@@ -83,7 +83,7 @@ export default function Advantages({
                   <Image
                     src={advantage.icon}
                     className="w-6 h-6"
-                    alt={advantage.title}
+                    alt={advantage.title || ""}
                     width={24}
                     height={24}
                   />
@@ -121,7 +121,7 @@ export default function Advantages({
                     <Image
                       src={advantage.icon}
                       className="w-6 h-6"
-                      alt={advantage.title}
+                      alt={advantage.title || ""}
                       width={24}
                       height={24}
                     />

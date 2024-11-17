@@ -62,7 +62,7 @@ export default async function Contact({ params }: any) {
 
   // Fetch only the contactInfo section from the homepage API
   const contactInfoRes = await fetch(
-    `${mediaBaseUrl}/api/home/1?locale=${locale}&fields=contactInfo&draft=false&depth=1`, {
+    `${mediaBaseUrl}/api/home/2?locale=${locale}&fields=contactInfo&draft=false&depth=1`, {
       cache: 'force-cache',
     }
   );
@@ -111,8 +111,8 @@ export default async function Contact({ params }: any) {
     contactInfo: contactInfoData.contactInfo?.contactOptions.map(
       (option: any) => ({
         icon: `${mediaBaseUrl}${option.icon.url}`,
-        title: option.title,
-        description: option.description,
+        title: option.itemTitle,
+        description: option.itemDescription,
         contact: option.contact || option.linkDetails.url,
         type: option.type,
         action: option.linkDetails.text,
@@ -135,7 +135,7 @@ export default async function Contact({ params }: any) {
     <>
       <Image
         src={heroData.heroImage}
-        alt={heroData.heroImageAlt}
+        alt={heroData.heroImageAlt || ""}
         width={620}
         height={500}
         className="block w-full lg:hidden"

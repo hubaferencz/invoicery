@@ -67,7 +67,7 @@ export default async function FaqPage({ params }: any) {
       contactTitle: data.contactSection.contactTitle,
       contactDescription: data.contactSection.contactDescription,
       ctaText: data.contactSection.ctaText,
-      ctaLink: `/${locale}/contact-us`,
+      ctaLink: `contact`,
     },
     locale,
   };

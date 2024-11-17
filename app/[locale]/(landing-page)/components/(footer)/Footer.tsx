@@ -46,7 +46,7 @@ export default function Footer({
           src={logo.src}
           height={52}
           width={177}
-          alt={logo.alt}
+          alt={logo.alt || ""}
           className="block mx-auto lg:hidden"
         />
 

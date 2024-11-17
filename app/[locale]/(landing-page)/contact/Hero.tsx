@@ -43,7 +43,7 @@ export default function Hero({
         {heroImage && (
           <Image
             src={heroImage}
-            alt={heroImageAlt}
+            alt={heroImageAlt|| ""}
             width={620}
             height={500}
             className="hidden w-full lg:block rounded-2xl"

@@ -110,7 +110,7 @@ export default function Sidebar({ logo, homeText, signOutText }: SidebarProps) {
       >
         {/* Sidebar Logo */}
         <div className="bg-[#04567D] p-4 rounded-[9px]">
-          <Image src={logo.src} height={26} width={24} alt={logo.alt} />
+          <Image src={logo.src} height={26} width={24} alt={logo.alt || ""} />
         </div>
 
         {/* Navigation Links */}
@@ -170,7 +170,7 @@ export default function Sidebar({ logo, homeText, signOutText }: SidebarProps) {
         className="w-full pt-12 pb-4 bg-black bg-opacity-20 px-4 flex justify-between items-center fixed lg:hidden z-30"
       >
         {/* Mobile Logo */}
-        <Image src={"/dashboard/logo.png"} height={24} width={180} alt={logo.alt} />
+        <Image src={"/dashboard/logo.png"} height={24} width={180} alt={logo.alt || ""} />
 
         {/* Mobile Icons */}
         <div className="flex gap-4 items-center justify-end">
