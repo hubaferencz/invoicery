@@ -8,10 +8,12 @@ export default function page({}: Props) {
     <div className="flex flex-col gap-6">
       <SearchBanner
         title="Search client"
+        link="clients"
         placeholders={["Client name", "Phone number", "E-mail"]}
       />
       <SearchBanner
         title="Search customer"
+        link="customers"
         placeholders={["Customer name", "VAT number", "E-mail"]}
       />
     </div>

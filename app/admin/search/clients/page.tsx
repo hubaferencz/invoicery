@@ -29,7 +29,7 @@ export default function ClientsPage({}: Props) {
               <div className="w-px h-12 bg-[#EBEBEB]"></div>
             </div>
             <Link
-              href={""}
+              href={"/admin/search/clients/client"}
               className="h-full rounded hover:bg-neutral-100 transition-all text-black border border-[#808080] px-6 flex items-center justify-center"
             >
               <span>Open client</span>

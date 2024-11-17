@@ -1,13 +1,15 @@
 "use client";
 
+import Link from "next/link";
 import { useState, useRef } from "react";
 
 type Props = {
   title: string;
+  link: string;
   placeholders: [string, string, string]; // Tuple for exactly 3 placeholders
 };
 
-export default function SearchBanner({ title, placeholders }: Props) {
+export default function SearchBanner({ title, placeholders, link }: Props) {
   const [inputs, setInputs] = useState<[string, string, string]>(["", "", ""]);
   const [focusedInputs, setFocusedInputs] = useState<
     [boolean, boolean, boolean]
@@ -73,14 +75,15 @@ export default function SearchBanner({ title, placeholders }: Props) {
             </div>
           );
         })}
-        <button
-          disabled={!isAnyInputFilled}
+        <Link
+          // disabled={!isAnyInputFilled}
+          href={isAnyInputFilled ? "/admin/search/" + link : ""}
           className={`w-full transition-all border rounded text-sm border-primary-600 bg-primary-600 text-white font-bold px-4 py-3.5 ${
             isAnyInputFilled ? "" : "opacity-40"
           }`}
         >
           Search
-        </button>
+        </Link>
       </div>
     </div>
   );
