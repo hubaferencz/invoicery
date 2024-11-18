@@ -92,6 +92,8 @@
 import Image from "next/image";
 import React from "react";
 import Link from "next/link";
+import { createClient } from "@/utils/supabase/server";
+import { signOut } from "./signOut";
 
 interface SidebarProps {
   logo: {
@@ -105,9 +107,7 @@ interface SidebarProps {
 export default function Sidebar({ logo, homeText, signOutText }: SidebarProps) {
   return (
     <>
-      <nav
-        className="hidden lg:flex max-w-[260px] w-full p-6 flex-col items-start bg-white min-h-screen justify-start border-r border-[#EFEFEF] gap-14"
-      >
+      <nav className="hidden lg:flex max-w-[260px] w-full p-6 flex-col items-start bg-white min-h-screen justify-start border-r border-[#EFEFEF] gap-14">
         {/* Sidebar Logo */}
         <div className="bg-[#04567D] p-4 rounded-[9px]">
           <Image src={logo.src} height={26} width={24} alt={logo.alt || ""} />
@@ -144,7 +144,10 @@ export default function Sidebar({ logo, homeText, signOutText }: SidebarProps) {
           <div className="border-t border-[#EBEBEB] w-full"></div>
 
           {/* Sign Out Link */}
-          <div className="px-3 rounded-md w-full flex items-center gap-3 justify-start py-2.5 cursor-pointer hover:bg-red-50 transition-all">
+          <button
+            onClick={signOut}
+            className="px-3 rounded-md w-full flex items-center gap-3 justify-start py-2.5 cursor-pointer hover:bg-red-50 transition-all"
+          >
             <div className="bg-white rounded-md flex items-center justify-center p-1">
               <Image
                 src="/icons/sign-out.svg"
@@ -160,7 +163,7 @@ export default function Sidebar({ logo, homeText, signOutText }: SidebarProps) {
             >
               {signOutText}
             </span>
-          </div>
+          </button>
         </div>
       </nav>
 
@@ -170,26 +173,24 @@ export default function Sidebar({ logo, homeText, signOutText }: SidebarProps) {
         className="w-full pt-12 pb-4 bg-black bg-opacity-20 px-4 flex justify-between items-center fixed lg:hidden z-30"
       >
         {/* Mobile Logo */}
-        <Image src={"/dashboard/logo.png"} height={24} width={180} alt={logo.alt || ""} />
+        <Image
+          src={"/dashboard/logo.png"}
+          height={24}
+          width={180}
+          alt={logo.alt || ""}
+        />
 
         {/* Mobile Icons */}
         <div className="flex gap-4 items-center justify-end">
           <div className="cursor-pointer bg-white bg-opacity-20 w-10 h-10 rounded-full p-[5px] flex items-center justify-center">
-            <Image
-              src="/icons/chat.svg"
-              width={20}
-              height={21}
-              alt="support"
-            />
+            <Image src="/icons/chat.svg" width={20} height={21} alt="support" />
           </div>
-          <div className="cursor-pointer bg-white bg-opacity-20 w-10 h-10 rounded-full p-[5px] flex items-center justify-center">
-            <Image
-              src="/icons/leave.svg"
-              width={20}
-              height={21}
-              alt="leave"
-            />
-          </div>
+          <button
+            onClick={signOut}
+            className="cursor-pointer bg-white bg-opacity-20 w-10 h-10 rounded-full p-[5px] flex items-center justify-center"
+          >
+            <Image src="/icons/leave.svg" width={20} height={21} alt="leave" />
+          </button>
         </div>
       </nav>
     </>

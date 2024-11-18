@@ -15,7 +15,7 @@ interface DashboardProps {
       alt: string;
     };
     homeText: string;
-    signOutText: string;
+    signOutText: any;
   };
   welcomeSection: {
     firstLine: string;

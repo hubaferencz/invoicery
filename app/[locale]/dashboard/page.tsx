@@ -1,9 +1,18 @@
 import React from "react";
 import Dashboard from "./Dashboard";
+import { createClient } from "@/utils/supabase/server";
+import { redirect } from "next/navigation";
 
 export default async function DashboardPage({ params }: any) {
   const { locale } = await params;
   const mediaBaseUrl = process.env.NEXT_PUBLIC_API_URL;
+
+  const supabase = await createClient();
+
+  const { data, error } = await supabase.auth.getUser();
+  if (error || !data?.user) {
+    redirect("/" + locale);
+  }
 
   // Fetch the dashboard data
   const dashboardRes = await fetch(
@@ -11,7 +20,7 @@ export default async function DashboardPage({ params }: any) {
   );
 
   if (!dashboardRes.ok) {
-    throw new Error("Failed to fetch dashboard data.");
+    console.log("Failed to fetch dashboard data.");
   }
 
   const dashboardData = await dashboardRes.json();
@@ -27,7 +36,7 @@ export default async function DashboardPage({ params }: any) {
       verifyYourselfRes.status,
       verifyYourselfRes.statusText
     );
-    throw new Error("Failed to fetch verifyYourselfForm data.");
+    console.log("Failed to fetch verifyYourselfForm data.");
   }
 
   const verifyYourselfData = await verifyYourselfRes.json();
@@ -37,7 +46,7 @@ export default async function DashboardPage({ params }: any) {
   );
 
   if (!registerAssignmentRes.ok) {
-    throw new Error("Failed to fetch registerAssignment data.");
+    console.log("Failed to fetch registerAssignment data.");
   }
 
   const registerAssignmentData = await registerAssignmentRes.json();
@@ -47,7 +56,7 @@ export default async function DashboardPage({ params }: any) {
   );
 
   if (!addCustomerFormRes.ok) {
-    throw new Error("Failed to fetch addCustomerForm data.");
+    console.log("Failed to fetch addCustomerForm data.");
   }
 
   const addCustomerFormData = await addCustomerFormRes.json();

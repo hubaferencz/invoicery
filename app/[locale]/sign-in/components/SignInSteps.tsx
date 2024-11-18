@@ -1,21 +1,21 @@
-// SignUpSteps.tsx
+// SignInSteps.tsx
 "use client";
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Step1 from "./Step1";
 import Step2 from "./Step2";
-import Step3 from "./Step3";
+
 import Link from "next/link";
 
-export default function SignUpSteps({
+export default function SignInSteps({
   authenticationData,
-  createUser,
+  signInUser,
   verifyUser,
   locale,
 }: {
   authenticationData: any;
-  createUser: any;
+  signInUser: any;
   verifyUser: any;
   locale: string;
 }) {
@@ -52,13 +52,6 @@ export default function SignUpSteps({
           errorMessage = "Please enter a valid email address.";
         }
       } else if (
-        fieldLabel === authenticationData.createAccountStep.phoneField
-      ) {
-        // Phone number validation (simple)
-        if (value.length < 6) {
-          errorMessage = "Please enter a valid phone number.";
-        }
-      } else if (
         fieldLabel === authenticationData.verificationStep.inputField
       ) {
         // Code validation (assuming 6-digit code)
@@ -74,14 +67,8 @@ export default function SignUpSteps({
   const isStepValid = () => {
     if (currentStep === 1) {
       const emailField = authenticationData.createAccountStep.emailField;
-      const phoneField = authenticationData.createAccountStep.phoneField;
 
-      return (
-        inputValues[emailField] &&
-        !errors[emailField] &&
-        inputValues[phoneField] &&
-        !errors[phoneField]
-      );
+      return inputValues[emailField] && !errors[emailField];
     } else if (currentStep === 2) {
       const codeField = authenticationData.verificationStep.inputField;
       return inputValues[codeField] && !errors[codeField];
@@ -148,7 +135,7 @@ export default function SignUpSteps({
                   className="flex flex-col gap-6"
                 >
                   <Step1
-                    createUser={createUser}
+                    signInUser={signInUser}
                     authenticationData={authenticationData}
                     inputValues={inputValues}
                     inputFocus={inputFocus}
@@ -188,7 +175,6 @@ export default function SignUpSteps({
                   />
                 </motion.div>
               )}
-
               {currentStep === 3 && (
                 <motion.div
                   key="step3"
@@ -199,10 +185,7 @@ export default function SignUpSteps({
                   transition={{ duration: 0.3 }}
                   className="flex flex-col gap-6"
                 >
-                  <Step3
-                    authenticationData={authenticationData}
-                    locale={locale}
-                  />
+                  <p className=" text-center">Authenticating</p>
                 </motion.div>
               )}
             </AnimatePresence>
