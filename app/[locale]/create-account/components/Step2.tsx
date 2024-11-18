@@ -4,6 +4,7 @@ import InputField from "./InputField";
 
 type Step2Props = {
   authenticationData: any;
+  verifyUser: any;
   inputValues: { [key: string]: string };
   inputFocus: { [key: string]: boolean };
   errors: { [key: string]: string | null };
@@ -17,6 +18,7 @@ type Step2Props = {
 
 const Step2: React.FC<Step2Props> = ({
   authenticationData,
+  verifyUser,
   inputValues,
   inputFocus,
   errors,
@@ -30,7 +32,7 @@ const Step2: React.FC<Step2Props> = ({
   const codeField = authenticationData.verificationStep.inputField;
 
   return (
-    <div className="flex flex-col gap-6">
+    <form action={verifyUser} className="flex flex-col gap-6">
       <div className="flex flex-col gap-2">
         <h2 className="text-xl font-medium">
           {authenticationData.verificationStep.title}
@@ -44,6 +46,7 @@ const Step2: React.FC<Step2Props> = ({
           {/* Code Field */}
           <InputField
             type="text"
+            name="code"
             label={codeField}
             required={true}
             value={inputValues[codeField] || ""}
@@ -64,6 +67,7 @@ const Step2: React.FC<Step2Props> = ({
       <div className="w-full flex justify-end">
         <button
           onClick={handleNext}
+          type="submit"
           disabled={!isStepValid() || saving}
           className={`whitespace-nowrap w-full py-[14px] px-7 text-base rounded-xl ${
             isStepValid() && !saving
@@ -74,7 +78,7 @@ const Step2: React.FC<Step2Props> = ({
           {saving ? "Verifying..." : authenticationData.verificationStep.cta}
         </button>
       </div>
-    </div>
+    </form>
   );
 };
 

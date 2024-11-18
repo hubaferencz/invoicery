@@ -4,6 +4,7 @@ import InputField from "./InputField";
 
 type Step1Props = {
   authenticationData: any;
+  createUser: any;
   inputValues: { [key: string]: string };
   inputFocus: { [key: string]: boolean };
   errors: { [key: string]: string | null };
@@ -17,6 +18,7 @@ type Step1Props = {
 
 const Step1: React.FC<Step1Props> = ({
   authenticationData,
+  createUser,
   inputValues,
   inputFocus,
   errors,
@@ -31,7 +33,7 @@ const Step1: React.FC<Step1Props> = ({
   const phoneField = authenticationData.createAccountStep.phoneField;
 
   return (
-    <div className="flex flex-col gap-6">
+    <form action={createUser} className="flex flex-col gap-6">
       <h2 className="text-xl font-medium">
         {authenticationData.createAccountStep.title}
       </h2>
@@ -40,6 +42,7 @@ const Step1: React.FC<Step1Props> = ({
           {/* Email Field */}
           <InputField
             type="email"
+            name="email"
             label={emailField}
             required={true}
             value={inputValues[emailField] || ""}
@@ -52,6 +55,7 @@ const Step1: React.FC<Step1Props> = ({
           {/* Phone Field */}
           <InputField
             type="text"
+            name="phone"
             label={phoneField}
             required={true}
             value={inputValues[phoneField] || ""}
@@ -66,6 +70,7 @@ const Step1: React.FC<Step1Props> = ({
       <div className="w-full flex justify-end">
         <button
           onClick={handleNext}
+          type="submit"
           disabled={!isStepValid() || saving}
           className={`whitespace-nowrap w-full py-[14px] px-7 text-base rounded-xl ${
             isStepValid() && !saving
@@ -73,10 +78,12 @@ const Step1: React.FC<Step1Props> = ({
               : "bg-[#04567D6B] text-white text-opacity-40"
           }`}
         >
-          {saving ? "Sending code..." : authenticationData.createAccountStep.cta}
+          {saving
+            ? "Sending code..."
+            : authenticationData.createAccountStep.cta}
         </button>
       </div>
-    </div>
+    </form>
   );
 };
 

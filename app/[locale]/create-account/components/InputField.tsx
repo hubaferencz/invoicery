@@ -3,6 +3,7 @@ import React from 'react';
 
 type InputFieldProps = {
   type?: string;
+  name?: string;
   label: string;
   value: string;
   required?: boolean;
@@ -15,6 +16,7 @@ type InputFieldProps = {
 
 const InputField: React.FC<InputFieldProps> = ({
   type = 'text',
+  name = 'text',
   label,
   value,
   required = false,
@@ -28,6 +30,7 @@ const InputField: React.FC<InputFieldProps> = ({
     <div className="relative border-b border-[#EBEBEB]">
       <input
         type={type}
+        name={name}
         placeholder=" "
         className="w-full py-1 pt-4 pb-1 text-sm bg-transparent focus:outline-none"
         onFocus={onFocus}

@@ -9,15 +9,19 @@ import Cta from "../components/Cta";
 type Advantages = {
   rank: number;
   title: string;
+  
   subtitle: string;
   description: string;
   icon: string;
 };
 
 type AdvantagesProps = {
+  locale: string;
   advantages: Advantages[];
   headerTitle: string;
   highlightedHeaderSubtitle: string;
+  additionalInfoTitle: string;
+  additionalInfoDescription: string;
   headerSubtitle: string;
   ctaText: string;
   ctaLink: string;
@@ -25,11 +29,14 @@ type AdvantagesProps = {
 };
 
 export default function Advantages({
+  locale,
   advantages,
   headerTitle,
   highlightedHeaderSubtitle,
   headerSubtitle,
   ctaText,
+  additionalInfoTitle,
+  additionalInfoDescription,
   ctaLink,
   sectionImage,
 }: AdvantagesProps) {
@@ -61,7 +68,9 @@ export default function Advantages({
             className="text-[28px] leading-tight text-center lg:text-[40px] gap-1.5 md:gap-0 flex flex-col font-extrabold"
           >
             <span>{headerTitle}</span>
-            <span className="text-teal-600 md:pl-2">{highlightedHeaderSubtitle}</span>
+            <span className="text-teal-600 md:pl-2">
+              {highlightedHeaderSubtitle}
+            </span>
           </h2>
           <p
             className="text-base font-normal leading-normal text-center"
@@ -178,8 +187,7 @@ export default function Advantages({
             <div className="flex flex-col items-start justify-center w-full gap-10 px-10 py-16 bg-white rounded-xl lg:py-6">
               <div className="flex flex-col items-start justify-center gap-6">
                 <h3 className="text-[32px] lg:text-[40px] font-bold leading-tight">
-                  We only keep 6% <br />
-                  of the invoice amount
+                  {additionalInfoTitle}
                 </h3>
                 <p
                   className="text-base font-normal leading-normal text-[#5E5C5C]"
@@ -187,11 +195,10 @@ export default function Advantages({
                     letterSpacing: "0.16px",
                   }}
                 >
-                  Creating an account is free of charge. Only when invoices are
-                  created do we keep 6% of the invoice amount.
+                  {additionalInfoDescription}
                 </p>
               </div>
-              <Cta link={"/"} text={ctaText} />
+              <Cta link={locale + "/create-account"} text={ctaText} />
             </div>
           </div>
         </div>

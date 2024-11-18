@@ -69,18 +69,12 @@ export const metadata = async ({ params }: any) => {
 
   // Fetch localized data
   const localizedRes = await fetch(
-    `${mediaBaseUrl}/api/faq/1?locale=${locale}&draft=false&depth=1`,
-    {
-      cache: "force-cache",
-    }
+    `${mediaBaseUrl}/api/faq/1?locale=${locale}&draft=false&depth=1`
   );
 
   // Fetch fallback English data
   const fallbackRes = await fetch(
-    `${mediaBaseUrl}/api/faq/1?locale=en-US&draft=false&depth=1`,
-    {
-      cache: "force-cache",
-    }
+    `${mediaBaseUrl}/api/faq/1?locale=en-US&draft=false&depth=1`
   );
 
   if (!localizedRes.ok || !fallbackRes.ok) {
@@ -114,18 +108,12 @@ export default async function FaqPage({ params }: any) {
 
   // Fetch localized data
   const localizedRes = await fetch(
-    `${mediaBaseUrl}/api/faq/1?locale=${locale}&draft=false&depth=1`,
-    {
-      cache: "force-cache",
-    }
+    `${mediaBaseUrl}/api/faq/1?locale=${locale}&draft=false&depth=1`
   );
 
   // Fetch fallback English data
   const fallbackRes = await fetch(
-    `${mediaBaseUrl}/api/faq/1?locale=en-US&draft=false&depth=1`,
-    {
-      cache: "force-cache",
-    }
+    `${mediaBaseUrl}/api/faq/1?locale=en-US&draft=false&depth=1`
   );
 
   if (!localizedRes.ok || !fallbackRes.ok) {

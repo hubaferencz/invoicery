@@ -7,10 +7,7 @@ export default async function DashboardPage({ params }: any) {
 
   // Fetch the dashboard data
   const dashboardRes = await fetch(
-    `${mediaBaseUrl}/api/dashboard-layout/1?locale=${locale}&draft=false&depth=1`,
-    {
-      cache: "force-cache",
-    }
+    `${mediaBaseUrl}/api/dashboard-layout/1?locale=${locale}&draft=false&depth=1`
   );
 
   if (!dashboardRes.ok) {
@@ -21,10 +18,7 @@ export default async function DashboardPage({ params }: any) {
 
   // Fetch the verifyYourselfForm data
   const verifyYourselfRes = await fetch(
-    `${mediaBaseUrl}/api/verifyYourselfForm/1?locale=${locale}&draft=false&depth=1`,
-    {
-      cache: "force-cache",
-    }
+    `${mediaBaseUrl}/api/verifyYourselfForm/1?locale=${locale}&draft=false&depth=1`
   );
 
   if (!verifyYourselfRes.ok) {
@@ -39,10 +33,7 @@ export default async function DashboardPage({ params }: any) {
   const verifyYourselfData = await verifyYourselfRes.json();
 
   const registerAssignmentRes = await fetch(
-    `${mediaBaseUrl}/api/registerAssignmentForm/1?locale=${locale}&draft=false&depth=1`,
-    {
-      cache: "force-cache",
-    }
+    `${mediaBaseUrl}/api/registerAssignmentForm/1?locale=${locale}&draft=false&depth=1`
   );
 
   if (!registerAssignmentRes.ok) {
@@ -52,10 +43,7 @@ export default async function DashboardPage({ params }: any) {
   const registerAssignmentData = await registerAssignmentRes.json();
 
   const addCustomerFormRes = await fetch(
-    `${mediaBaseUrl}/api/add-customer-form/1?locale=${locale}&draft=false&depth=1`,
-    {
-      cache: "force-cache",
-    }
+    `${mediaBaseUrl}/api/add-customer-form/1?locale=${locale}&draft=false&depth=1`
   );
 
   if (!addCustomerFormRes.ok) {

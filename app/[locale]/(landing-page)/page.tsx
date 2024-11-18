@@ -17,10 +17,7 @@ export const metadata = async ({ params }: any) => {
   const { locale } = (await params) || "en-US";
 
   const res = await fetch(
-    `${mediaBaseUrl}/api/home/2?locale=${locale}&draft=false&depth=1`,
-    {
-      cache: "force-cache",
-    }
+    `${mediaBaseUrl}/api/home/2?locale=${locale}&draft=false&depth=1`
   );
 
   if (!res.ok) {
@@ -110,8 +107,11 @@ export default async function Home({ params }: any) {
 
   // Pass advantages data
   const advantagesData = {
+    locale: locale,
     headerTitle: data.advantages.headerTitle,
     highlightedHeaderSubtitle: data.advantages.highlightedHeaderSubtitle,
+    additionalInfoTitle: data.advantages.additionalInfoTitle,
+    additionalInfoDescription: data.advantages.additionalInfoDescription,
     headerSubtitle: data.advantages.headerSubtitle,
     advantages: data.advantages.advantages.map(
       (advantage: any, index: number) => ({

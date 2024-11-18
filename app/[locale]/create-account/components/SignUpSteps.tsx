@@ -10,9 +10,13 @@ import Link from "next/link";
 
 export default function SignUpSteps({
   authenticationData,
+  createUser,
+  verifyUser,
   locale,
 }: {
   authenticationData: any;
+  createUser: any;
+  verifyUser: any;
   locale: string;
 }) {
   const [currentStep, setCurrentStep] = useState(1);
@@ -144,6 +148,7 @@ export default function SignUpSteps({
                   className="flex flex-col gap-6"
                 >
                   <Step1
+                    createUser={createUser}
                     authenticationData={authenticationData}
                     inputValues={inputValues}
                     inputFocus={inputFocus}
@@ -171,6 +176,7 @@ export default function SignUpSteps({
                   <Step2
                     authenticationData={authenticationData}
                     inputValues={inputValues}
+                    verifyUser={verifyUser}
                     inputFocus={inputFocus}
                     errors={errors}
                     handleFocus={handleFocus}
