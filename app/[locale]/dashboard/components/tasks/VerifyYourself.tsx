@@ -4,9 +4,12 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import Passport from "./Passport";
+import { uploadPersonalData } from "./uploadPersonalData";
+import { useRouter } from "next/navigation";
 
 type Field = {
   label: string;
+  name: string;
   required: boolean;
   minLength?: number;
   maxLength?: number;
@@ -22,20 +25,18 @@ type FieldSection = {
 type Props = {
   verified: boolean;
   verifyYourself: any;
-  // setVerified: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export default function VerifyYourself({
-  verified,
-  // setVerified,
-  verifyYourself,
-}: Props) {
+export default function VerifyYourself({ verified, verifyYourself }: Props) {
+  const router = useRouter();
+
   const [showPopup, setShowPopup] = useState(false);
   const [saving, setSaving] = useState(false);
   const [inputFocus, setInputFocus] = useState<{ [key: string]: boolean }>({});
   const [inputValues, setInputValues] = useState<{ [key: string]: string }>({});
   const [errors, setErrors] = useState<{ [key: string]: string | null }>({});
   const [passportFile, setPassportFile] = useState<File | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
     const handleEsc = (event: KeyboardEvent) => {
@@ -50,6 +51,7 @@ export default function VerifyYourself({
     fields: [
       {
         label: verifyYourself.personalFields.firstNameLabel,
+        name: "firstNameLabel",
         required: true,
         minLength: 2,
         maxLength: 30,
@@ -57,6 +59,7 @@ export default function VerifyYourself({
       },
       {
         label: verifyYourself.personalFields.lastNameLabel,
+        name: "lastNameLabel",
         required: true,
         minLength: 2,
         maxLength: 30,
@@ -64,6 +67,7 @@ export default function VerifyYourself({
       },
       {
         label: verifyYourself.personalFields.personalIdLabel,
+        name: "personalIdLabel",
         required: true,
         minLength: 3,
         maxLength: 30,
@@ -77,6 +81,7 @@ export default function VerifyYourself({
     fields: [
       {
         label: verifyYourself.locationFields.addressLine1Label,
+        name: "addressLine1Label",
         required: true,
         minLength: 3,
         maxLength: 30,
@@ -84,6 +89,7 @@ export default function VerifyYourself({
       },
       {
         label: verifyYourself.locationFields.coLabel,
+        name: "coLabel",
         required: false,
         minLength: 3,
         maxLength: 30,
@@ -91,6 +97,7 @@ export default function VerifyYourself({
       },
       {
         label: verifyYourself.locationFields.zipCodeLabel,
+        name: "zipCodeLabel",
         required: true,
         minLength: 3,
         maxLength: 10,
@@ -99,13 +106,15 @@ export default function VerifyYourself({
       },
       {
         label: verifyYourself.locationFields.cityLabel,
+        name: "cityLabel",
         required: true,
         minLength: 2,
-        maxLength: 10,
-        errorMessage: "Must be 2-10 characters.",
+        maxLength: 40,
+        errorMessage: "Must be 2-40 characters.",
       },
       {
         label: verifyYourself.locationFields.countryLabel,
+        name: "countryLabel",
         required: true,
         minLength: 3,
         maxLength: 30,
@@ -119,6 +128,7 @@ export default function VerifyYourself({
     fields: [
       {
         label: verifyYourself.paymentFields.ibanLabel,
+        name: "ibanLabel",
         required: true,
         minLength: 15,
         maxLength: 34,
@@ -126,6 +136,7 @@ export default function VerifyYourself({
       },
       {
         label: verifyYourself.paymentFields.bicLabel,
+        name: "bicLabel",
         required: true,
         minLength: 8,
         maxLength: 11,
@@ -181,15 +192,6 @@ export default function VerifyYourself({
     );
   };
 
-  const handleSave = () => {
-    setSaving(true); // Start the saving animation
-    setTimeout(() => {
-      // setVerified(true);
-      setShowPopup(false);
-      setSaving(false); // End the saving animation
-    }, 3000);
-  };
-
   const renderFields = ({ title, fields }: FieldSection) => (
     <div className="flex flex-col w-full gap-2">
       {title && <h3 className="text-sm font-medium">{title}</h3>}
@@ -199,6 +201,7 @@ export default function VerifyYourself({
             <input
               type={field.type || "text"}
               placeholder=" "
+              name={field.name}
               className="w-full py-1 pt-4 pb-1 text-sm bg-transparent focus:outline-none"
               onFocus={() => handleFocus(field.label)}
               onBlur={() => handleBlur(field)}
@@ -208,7 +211,7 @@ export default function VerifyYourself({
             <label
               className={`absolute left-0 flex items-center gap-0.5 bottom-1.5 transition-all duration-200 ease-in-out text-[#878484] pointer-events-none ${
                 inputFocus[field.label] || inputValues[field.label]
-                  ? "-translate-y-5 text-[10px]" // Shrinks to 10px on focus or input
+                  ? "-translate-y-5 text-[10px]"
                   : "text-sm"
               }`}
             >
@@ -226,6 +229,35 @@ export default function VerifyYourself({
       </div>
     </div>
   );
+
+  const handleSave = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault(); // Prevent default form behavior
+
+    setSaving(true); // Start saving animation
+    setErrorMessage(null); // Clear any previous error messages
+
+    // Get the form element
+    const form = event.currentTarget.form as HTMLFormElement;
+
+    // Create a new FormData object from the form
+    const formData = new FormData(form);
+
+    // Manually append the passport file
+    if (passportFile) {
+      formData.append("passport", passportFile);
+    }
+
+    try {
+      await uploadPersonalData(formData); // Call the server action
+      setShowPopup(false); // Close the popup only after successful completion
+    } catch (err: any) {
+      console.error("Error saving data:", err.message);
+      setErrorMessage(err.message || "An error occurred while saving data.");
+    } finally {
+      setSaving(false); // Stop saving animation
+      router.refresh();
+    }
+  };
 
   return (
     <div className={`${verified ? "hidden" : "block"}`}>
@@ -314,7 +346,10 @@ export default function VerifyYourself({
               </div>
 
               {/* Popup content */}
-              <div className="flex flex-col items-start gap-6 px-4 md:px-6 py-8 md:py-6">
+              <form
+                encType="multipart/form-data"
+                className="flex flex-col items-start gap-6 px-4 md:px-6 py-8 md:py-6"
+              >
                 <h2
                   className="text-xl font-medium"
                   style={{ letterSpacing: "0.2px" }}
@@ -325,6 +360,7 @@ export default function VerifyYourself({
                 {/* Personal Info Fields */}
                 {renderFields(personalFields)}
 
+                {/* Passport Component */}
                 <Passport
                   attachPassportText={
                     verifyYourself.passportSection.attachPassportText
@@ -343,8 +379,15 @@ export default function VerifyYourself({
                 {/* Payment Fields */}
                 {renderFields(paymentFields)}
 
+                {errorMessage && (
+                  <div className="text-red-500 text-sm mb-2">
+                    {errorMessage}
+                  </div>
+                )}
+
                 {/* Submit Button */}
                 <button
+                  type="submit"
                   onClick={handleSave}
                   disabled={!allFieldsValid() || saving}
                   className={`w-full py-[14px] text-base rounded-xl ${
@@ -357,7 +400,7 @@ export default function VerifyYourself({
                     ? verifyYourself.savingText
                     : verifyYourself.saveButtonText}
                 </button>
-              </div>
+              </form>
             </motion.div>
           </motion.div>
         )}

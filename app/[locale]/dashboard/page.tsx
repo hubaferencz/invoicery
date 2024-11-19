@@ -14,6 +14,12 @@ export default async function DashboardPage({ params }: any) {
     redirect("/" + locale);
   }
 
+  const { data: client, error: clientError } = await supabase
+    .from("clients")
+    .select("first_name, is_verified")
+    .eq("id", data?.user?.id)
+    .single();
+
   // Fetch the dashboard data
   const dashboardRes = await fetch(
     `${mediaBaseUrl}/api/dashboard-layout/1?locale=${locale}&draft=false&depth=1`
@@ -71,6 +77,7 @@ export default async function DashboardPage({ params }: any) {
       signOutText: dashboardData.sidebar.signOutText,
     },
     welcomeSection: {
+      firstName: client?.first_name,
       firstLine: dashboardData.welcomeSection.firstLine,
       secondLine: dashboardData.welcomeSection.secondLine,
       image: {
@@ -80,6 +87,7 @@ export default async function DashboardPage({ params }: any) {
     },
     tasksSection: {
       title: dashboardData.todoSection.title,
+      isVerified: client?.is_verified,
     },
     errandsSection: {
       title: dashboardData.errandsSection.title,

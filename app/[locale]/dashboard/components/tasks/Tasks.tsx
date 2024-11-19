@@ -5,9 +5,10 @@ import RegisterAssignment from "./RegisterAssignment";
 
 
 type Props = {
-  verified: any;
+
   // setVerified: any;
   locale: string;
+  isVerified: boolean;
   title: string;
   verifyYourself: any;
   registerAssignment: any;
@@ -15,8 +16,9 @@ type Props = {
 };
 
 export default function Tasks({
-  verified,
+
   locale,
+  isVerified,
   // setVerified,
   title,
   verifyYourself,
@@ -26,7 +28,7 @@ export default function Tasks({
   return (
     <div
       className={`bg-white max-w-[778px] p-4 lg:p-6 w-full mx-auto lg:mx-0 grid grid-cols-1 ${
-        !verified ? "lg:grid-cols-2" : "hidden lg:grid"
+        !isVerified ? "lg:grid-cols-2" : "hidden lg:grid"
       } gap-6 rounded-sm`}
     >
       <h2
@@ -39,7 +41,7 @@ export default function Tasks({
       <VerifyYourself
         verifyYourself={verifyYourself}
         // setVerified={setVerified}
-        verified={verified}
+        verified={isVerified}
       />
       <RegisterAssignment registerAssignment={registerAssignment} addCustomerForm={addCustomerForm}/>
     </div>

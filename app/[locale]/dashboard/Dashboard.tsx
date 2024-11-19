@@ -18,6 +18,7 @@ interface DashboardProps {
     signOutText: any;
   };
   welcomeSection: {
+    firstName?: string;
     firstLine: string;
     secondLine: string;
     image: {
@@ -26,6 +27,7 @@ interface DashboardProps {
     };
   };
   tasksSection: {
+    isVerified: boolean;
     title: string;
   };
   errandsSection: {
@@ -91,14 +93,13 @@ export default function Dashboard({
   registerAssignment,
   addCustomerForm,
 }: DashboardProps) {
-  const verified = false;
   const closeText = helpersSection.cancelText;
   return (
     <>
       <Sidebar {...sidebar} />
       <div className="flex flex-col w-full">
         <Welcome
-          name="Alex"
+          name={welcomeSection.firstName || ""}
           {...welcomeSection}
           registerAssignment={registerAssignment}
           addCustomerForm={addCustomerForm}
@@ -108,28 +109,29 @@ export default function Dashboard({
             <Tasks
               // setVerified={setVerified}
               locale={locale}
-              verified={verified}
               verifyYourself={verifyYourself}
               registerAssignment={registerAssignment}
               addCustomerForm={addCustomerForm}
               {...tasksSection}
             />
-            <Errands verified={verified} {...errandsSection} />
+            <Errands verified={tasksSection.isVerified} {...errandsSection} />
             <How
-              verified={verified}
+              verified={tasksSection.isVerified}
               {...howItWorksSection}
               closeText={closeText}
             />
           </div>
           <div className="flex flex-col items-start w-full gap-6 xl:max-w-min">
-            {verified && (
+            {tasksSection.isVerified && (
               <VerifiedHow
-                verified={verified}
+                verified={tasksSection.isVerified}
                 {...howItWorksSection}
                 closeText={closeText}
               />
             )}
-            {verified && <Tools {...toolsSection} closeText={closeText} />}
+            {tasksSection.isVerified && (
+              <Tools {...toolsSection} closeText={closeText} />
+            )}
           </div>
         </div>
       </div>

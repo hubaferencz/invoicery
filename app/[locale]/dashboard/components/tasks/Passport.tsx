@@ -19,7 +19,9 @@ export default function Passport({
   setPassportFile,
   passportFile,
 }: PassportProps) {
-  const [fileName, setFileName] = useState<string | null>(null);
+  const [fileName, setFileName] = useState<string | null>(
+    passportFile ? passportFile.name : null
+  );
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0] || null;
@@ -30,12 +32,14 @@ export default function Passport({
   return (
     <div className="flex flex-col w-full gap-2">
       <div className="w-full bg-[#F4F4F4] rounded p-4 flex justify-between">
-        <span className="text-sm">{fileName || attachPassportText}</span>
+        <span className="text-sm">{fileName || attachPassportText}<span className="text-[#EB6060]"> *</span></span>
+        
         <label
           htmlFor="passport-file-input"
           className="flex items-center justify-center gap-3 cursor-pointer"
         >
           <span className="text-sm text-[#878484]">{selectText}</span>
+          
           <div className="w-3 h-3 flex items-center justify-center">
             <Image
               src={"/icons/right.svg"}
@@ -48,6 +52,7 @@ export default function Passport({
         </label>
         <input
           type="file"
+          name="passport"
           id="passport-file-input"
           className="hidden"
           accept=".jpg, .png, .jpeg, .webp"
