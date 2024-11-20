@@ -28,11 +28,11 @@ export default function Tasks({
   return (
     <div
       className={`bg-white max-w-[778px] p-4 lg:p-6 w-full mx-auto lg:mx-0 grid grid-cols-1 ${
-        !isVerified ? "lg:grid-cols-2" : "hidden lg:grid"
-      } gap-6 rounded-sm`}
+        !isVerified ? "lg:grid-cols-2 gap-x-6" : "hidden lg:grid "
+      } rounded-sm`}
     >
       <h2
-        className="leading-normal text-xl font-medium py-0.5 block lg:hidden"
+        className="leading-normal pb-6 text-xl font-medium py-0.5 block lg:hidden"
         style={{ letterSpacing: "0.20px" }}
       >
         {title}

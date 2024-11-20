@@ -112,6 +112,7 @@ export default function Welcome({
           </h1>
         </div>
         <button
+        type="button"
           onClick={toggleModal}
           className="p-3 py-4 w-min gap-2 flex lg:hidden flex-col rounded-[3px] items-center justify-center bg-white"
         >

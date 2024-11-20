@@ -26,7 +26,7 @@ export default function Currency({
 }: Props) {
   const [showPopup, setShowPopup] = useState(false);
   const popupRef = useRef<HTMLDivElement>(null);
-  const mediaBaseUrl = process.env.NEXT_PUBLIC_API_URL ||"";
+  const mediaBaseUrl = process.env.NEXT_PUBLIC_API_URL || "";
 
   const handleCurrencyChange = (currencyCode: string) => {
     setSelectedCurrency(currencyCode);
@@ -52,6 +52,9 @@ export default function Currency({
 
   return (
     <div className="relative flex items-center justify-end">
+      {/* Hidden Input Field */}
+      <input type="hidden" name="selectedCurrency" value={selectedCurrency} />
+
       {/* Trigger Button */}
       <div
         className="flex items-center justify-center gap-2 p-2 bg-white rounded-full cursor-pointer"
@@ -97,6 +100,7 @@ export default function Currency({
               <div className="grid grid-cols-3 w-full p-4 md:p-6 items-center border-b border-[#EFEFEF] rounded-t-md bg-white text-black">
                 <div className="flex md:hidden items-center justify-start col-span-1">
                   <button
+                  type="button"
                     onClick={() => setShowPopup(false)}
                     className="text-sm text-[#5E5C5C] font-normal"
                   >

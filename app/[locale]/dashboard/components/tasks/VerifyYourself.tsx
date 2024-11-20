@@ -322,6 +322,7 @@ export default function VerifyYourself({ verified, verifyYourself }: Props) {
               <div className="grid grid-cols-3 w-full p-4 md:p-6 items-center z-20 justify-between sm:border-b border-[#EFEFEF] md:rounded-t-md md:bg-white md:text-black bg-[#04567D] text-white pt-10 md:pt-6">
                 <div className="flex items-center justify-start col-span-1">
                   <button
+                  type="button"
                     onClick={() => setShowPopup(false)}
                     className="text-sm text-white md:text-[#5E5C5C] font-normal"
                   >

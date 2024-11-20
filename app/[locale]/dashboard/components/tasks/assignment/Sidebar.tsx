@@ -5,7 +5,7 @@ import Cta from "./Cta";
 type SidebarItem = {
   id: number;
   label: string;
-  
+
   subtitle: string;
   iconPath: string;
   altText: string;
@@ -28,12 +28,11 @@ export default function Sidebar({
 }: SidebarProps) {
   return (
     <aside className="max-w-[330px] fixed h-min bg-white rounded w-full py-6 gap-6 flex flex-col items-start">
-      <h2 className="font-medium text-base px-6 text-[#878484]">
-        {title}
-      </h2>
+      <h2 className="font-medium text-base px-6 text-[#878484]">{title}</h2>
       <nav className="flex flex-col w-full gap-4">
         {items.map((item, idx) => (
           <button
+            type="button"
             key={item.id}
             onClick={() => scrollToForm(idx)}
             className={`flex items-center justify-start px-6 py-2 gap-4 transition-all duration-300 ease-in-out ${

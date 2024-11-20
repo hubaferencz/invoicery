@@ -82,6 +82,7 @@ function PDFCategoryComponent({ category }: CategoryProps) {
             <span>Upload PDF</span>
           </Link>
           <button
+          type="button"
             onClick={() => setIsOpen(!isOpen)}
             className="h-full min-h-full font-medium rounded-xl bg-primary-300 transition-all text-[#04567D] border border-primary-300 px-6 gap-3 flex items-center justify-center"
           >

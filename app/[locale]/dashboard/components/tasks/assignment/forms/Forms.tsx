@@ -4,21 +4,35 @@ import FormContainer from "./FormContainer";
 import Review from "./review/Review";
 
 type Props = {
+  validationStatuses: boolean[];
+  allFieldsValid: boolean;
+  clientEmail?: string | null;
+  clientPhone?: string | null;
+  clientProfession?: string | null;
   setActiveItemId: React.Dispatch<React.SetStateAction<number>>;
   modalContentRef: React.RefObject<HTMLDivElement | null>;
   containerRefs: React.MutableRefObject<(HTMLDivElement | null)[]>;
   items: SidebarItem[];
   reviewData: any;
+  handleSave: any;
+  saving: boolean;
   sendButtonText: string;
 };
 
 export default function Forms({
+  clientEmail,
+  clientPhone,
+  clientProfession,
+  validationStatuses,
+  allFieldsValid,
   sendButtonText,
   setActiveItemId,
   modalContentRef,
   containerRefs,
   items,
   reviewData,
+  handleSave,
+  saving,
 }: Props) {
   const [activeAccordionIndex, setActiveAccordionIndex] = useState(0); // First item open by default
 
@@ -75,6 +89,7 @@ export default function Forms({
     <div className="flex flex-col items-start justify-start w-full rounded lg:gap-8 lg:max-w-2xl">
       {items.map((item, index) => (
         <FormContainer
+          isValid={validationStatuses[index]}
           key={item.id}
           ref={(el) => {
             containerRefs.current[index] = el;
@@ -101,16 +116,35 @@ export default function Forms({
             subtitle: "Fill in your details",
             iconPath: "", // No icon needed
             activeIconPath: "",
+            completeIconPath: "",
             altText: "review",
             component: (
-              <Review reviewData={reviewData} sendButtonText={sendButtonText} />
+              <Review
+                clientEmail={clientEmail}
+                clientPhone={clientPhone}
+                clientProfession={clientProfession}
+                allFieldsValid={allFieldsValid}
+                saving={saving}
+                reviewData={reviewData}
+                handleSave={handleSave}
+                sendButtonText={sendButtonText}
+              />
             ),
           }}
           isMobile={false} // Do not make collapsible
           isOpen={true}
           onClick={() => {}}
         >
-          <Review reviewData={reviewData} sendButtonText={sendButtonText} />
+          <Review
+            clientEmail={clientEmail}
+            clientPhone={clientPhone}
+            clientProfession={clientProfession}
+            allFieldsValid={allFieldsValid}
+            saving={saving}
+            reviewData={reviewData}
+            handleSave={handleSave}
+            sendButtonText={sendButtonText}
+          />
         </FormContainer>
       )}
 

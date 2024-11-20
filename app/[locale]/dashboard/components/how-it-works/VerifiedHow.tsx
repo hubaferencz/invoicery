@@ -97,6 +97,7 @@ export default function VerifiedHow({
       {/* Chevron Controls */}
       <div className="absolute top-6 right-6 flex gap-2">
         <button
+        type="button"
           onClick={scrollLeft}
           disabled={isAtStart}
           className={`w-6 h-6 aspect-square rounded-full flex items-center justify-center ${
@@ -112,6 +113,7 @@ export default function VerifiedHow({
           />
         </button>
         <button
+        type="button"
           onClick={scrollRight}
           disabled={isAtEnd}
           className={`w-6 h-6 aspect-square rounded-full flex items-center justify-center ${
@@ -188,6 +190,7 @@ export default function VerifiedHow({
               {/* Close button and mobile drag handle */}
               <div className="p-4 sm:p-6 flex items-center justify-between sm:border-b border-[#EFEFEF]">
                 <button
+                type="button"
                   onClick={() => setSelectedStep(null)}
                   className="text-sm text-[#5E5C5C] font-normal hidden sm:block"
                 >

@@ -4,6 +4,7 @@ type SidebarItem = {
     subtitle: string;
     iconPath: string;
     activeIconPath: string;
+    completeIconPath: string;
     altText: string;
     component: React.ReactNode;
   };

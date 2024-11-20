@@ -26,6 +26,7 @@ export default function Item({
         <h2 className="text-sm whitespace-nowrap font-medium text-[#878484]">{title}</h2>
         {count > 2 && (
           <button
+          type="button"
             onClick={onSeeAllClick}
             className="text-sm whitespace-nowrap text-[#04567D]"
           >
@@ -47,7 +48,7 @@ export default function Item({
               <span className="text-black text-sm whitespace-nowrap">
                 {assignment.name}
               </span>
-              <button className="w-4 h-4 aspect-square rounded-full flex items-center justify-center">
+              <button type="button" className="w-4 h-4 aspect-square rounded-full flex items-center justify-center">
                 <ChevronIcon width="16" height="16" className="-rotate-90" />
               </button>
             </div>
@@ -67,7 +68,7 @@ export default function Item({
               <span className="text-black text-sm whitespace-nowrap">
                 {assignment.name}
               </span>
-              <button className="w-4 h-4 aspect-square rounded-full flex items-center justify-center">
+              <button type="button" className="w-4 h-4 aspect-square rounded-full flex items-center justify-center">
                 <ChevronIcon width="16" height="16" className="-rotate-90" />
               </button>
             </div>

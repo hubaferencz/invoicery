@@ -13,6 +13,7 @@ setDefaultLocale("en-US");
 
 type CalendarInputProps = {
   placeholder: string;
+  name: string;
   isStartDate: boolean;
   pairedDate?: Date | null;
   onDateChange: (date: Date | null) => void;
@@ -20,6 +21,7 @@ type CalendarInputProps = {
 
 const CalendarInput: React.FC<CalendarInputProps> = ({
   placeholder,
+  name,
   isStartDate,
   pairedDate,
   onDateChange,
@@ -56,6 +58,7 @@ const CalendarInput: React.FC<CalendarInputProps> = ({
     <>
       <input
         type="text"
+        name={name}
         className="p-4 text-sm font-normal w-full outline outline-1 focus:outline-[#227297] transition-all text-black outline-[#EBEBEB] placeholder:text-[#878484] rounded appearance-none"
         placeholder={placeholder}
         value={formattedDate}
@@ -65,10 +68,11 @@ const CalendarInput: React.FC<CalendarInputProps> = ({
       <AnimatePresence>
         {showPopup && (
           <motion.div
-          className={`fixed inset-0 z-50 flex ${
-            window.innerWidth >= 1024 ? "items-center justify-center" : "items-end justify-center"
-          } bg-black bg-opacity-50`}
-          
+            className={`fixed inset-0 z-50 flex ${
+              window.innerWidth >= 1024
+                ? "items-center justify-center"
+                : "items-end justify-center"
+            } bg-black bg-opacity-50`}
             onClick={() => setShowPopup(false)}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -86,6 +90,7 @@ const CalendarInput: React.FC<CalendarInputProps> = ({
               <div className="grid grid-cols-3 w-full p-4 md:p-6 items-center border-b border-[#EFEFEF] rounded-t-md bg-white text-black">
                 <div className="flex items-center justify-start col-span-1">
                   <button
+                  type="button"
                     onClick={() => setShowPopup(false)}
                     className="text-sm text-[#5E5C5C] font-normal"
                   >
@@ -123,7 +128,7 @@ const CalendarInput: React.FC<CalendarInputProps> = ({
                     increaseMonth,
                   }) => (
                     <div className="react-datepicker__header--custom">
-                      <button onClick={decreaseMonth}>
+                      <button type="button" onClick={decreaseMonth}>
                         <ChevronIcon className="w-5 h-5 text-gray-500 rotate-90" />
                       </button>
                       <span className="text-base font-medium text-black">
@@ -132,7 +137,7 @@ const CalendarInput: React.FC<CalendarInputProps> = ({
                           month: "long",
                         })}
                       </span>
-                      <button onClick={increaseMonth}>
+                      <button type="button" onClick={increaseMonth}>
                         <ChevronIcon className="w-5 h-5 text-gray-500 -rotate-90" />
                       </button>
                     </div>

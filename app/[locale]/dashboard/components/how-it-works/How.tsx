@@ -125,6 +125,7 @@ export default function How({ verified, title, items, closeText }: HowProps) {
               {/* Close button and mobile drag handle */}
               <div className="p-4 sm:p-6  flex items-center justify-between sm:border-b border-[#EFEFEF]">
                 <button
+                type="button"
                   onClick={() => setSelectedStep(null)}
                   className="text-sm text-[#5E5C5C] font-normal hidden sm:block"
                 >

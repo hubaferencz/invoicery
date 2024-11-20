@@ -2,6 +2,8 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import AssignmentForm from "./assignment/forms/AssignmentForm";
+import { useRouter } from "next/navigation";
+import { sendAssignment } from "./sendAssignment";
 
 export default function RegisterAssignment({
   registerAssignment,
@@ -10,8 +12,13 @@ export default function RegisterAssignment({
   registerAssignment: any;
   addCustomerForm: any;
 }) {
+  // const router = useRouter();
+  // const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  // const [saving, setSaving] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
   const toggleModal = () => setIsModalOpen((prev) => !prev);
+
 
   return (
     <>
@@ -39,6 +46,7 @@ export default function RegisterAssignment({
         </div>
       </div>
       <AssignmentForm
+        // handleSave={handleSave}
         toggleModal={toggleModal}
         isModalOpen={isModalOpen}
         registerAssignment={registerAssignment}

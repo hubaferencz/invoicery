@@ -241,6 +241,7 @@ export default function ClientForms() {
       </div>
       <div className="w-full flex justify-end">
         <button
+        type="button"
           onClick={handleSave}
           disabled={!allFieldsValid() || saving}
           className={` whitespace-nowrap max-w-xs w-full py-[14px] px-7 text-base rounded-xl ${

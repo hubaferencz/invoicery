@@ -49,6 +49,7 @@ export default function ToolPopup({
         {/* Header */}
         <div className="w-full p-4 md:p-6 flex items-center justify-between border-b border-[#EFEFEF] bg-white text-black">
           <button
+          type="button"
             onClick={onClose}
             className="text-sm text-[#5E5C5C] font-normal"
           >
@@ -74,6 +75,7 @@ export default function ToolPopup({
           </div>
           {/* Submit Button */}
           <button
+          type="button"
             onClick={onClose}
             className={`w-full py-3 text-base rounded-xl ${
               textareaValue

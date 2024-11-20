@@ -48,6 +48,7 @@ export default function Modal({
               <div className="hidden lg:block">
                 <div className="absolute top-6 left-6">
                   <button
+                  type="button"
                     onClick={onClose}
                     className="w-10 h-10 aspect-square rounded-full bg-white shadow-lg flex items-center justify-center"
                   >
@@ -66,6 +67,7 @@ export default function Modal({
             <div className="lg:hidden grid grid-cols-3 w-full p-4 lg:p-6 items-center z-20 justify-between sm:border-b border-[#EFEFEF] lg:rounded-t-md lg:bg-white lg:text-black bg-[#04567D] text-white pt-10 lg:pt-6">
               <div className="col-span-1 flex items-center justify-start">
                 <button
+                type="button"
                   onClick={onClose}
                   className="text-sm text-white lg:text-[#5E5C5C] font-normal"
                 >

@@ -1,50 +1,14 @@
-// import React, { ReactNode } from "react";
-
-// type FormContainerProps = {
-//   title: string;
-//   index?: number;
-//   subtitle: string;
-//   children: ReactNode;
-// };
-
-// const FormContainer = React.forwardRef<HTMLDivElement, FormContainerProps>(
-//   ({ title, index, subtitle, children }, ref) => {
-//     return (
-//       <div
-//         ref={ref}
-//         className="w-full p-6 bg-white rounded"
-//         id={index ? index.toString() : "review"}
-//       >
-//         {/* Header with title and index */}
-//         <header className="flex items-baseline text-[#878484] text-base font-medium pb-4 border-b border-[#EBEBEB]">
-//           <h1>
-//             {index && index + "."} {title}
-//           </h1>
-//         </header>
-
-//         {/* Subtitle */}
-//         <p className="py-6 text-xl font-medium">{subtitle}</p>
-
-//         {/* Content */}
-//         <div className="w-full">{children}</div>
-//       </div>
-//     );
-//   }
-// );
-
-// FormContainer.displayName = "FormContainer";
-
 // export default FormContainer;
 import React, { ReactNode } from "react";
 import Image from "next/image";
 import { Collapse } from "react-collapse";
 import ChevronIcon from "@/app/[locale]/components/ChevronIcon";
 
-
 type FormContainerProps = {
   item: SidebarItem;
   children: ReactNode;
   isMobile: boolean;
+  isValid?: boolean;
   isOpen: boolean;
   onClick: () => void;
 };
@@ -59,18 +23,32 @@ const styles = (
 );
 
 const FormContainer = React.forwardRef<HTMLDivElement, FormContainerProps>(
-  ({ item, children, isMobile, isOpen, onClick }, ref) => {
+  ({ item, children, isMobile, isOpen, onClick, isValid }, ref) => {
+    const backgroundColor = isValid
+      ? "#3A7663"
+      : isOpen
+      ? "#CBE3EF"
+      : "transparent";
+
+    const iconSrc = isValid
+      ? item.completeIconPath || item.iconPath
+      : isOpen
+      ? item.activeIconPath || item.iconPath
+      : item.iconPath;
+
+    const textColor = isValid
+      ? "text-white"
+      : isOpen
+      ? "text-[#04567D]"
+      : "text-black";
+    const chevronColor = isValid ? "white" : "#878484";
     return (
       <>
         {styles}
         <div
           ref={ref}
           className={`w-full pt-3 px-4 lg:px-6  lg:pt-6 lg:p-6 rounded transition-all duration-500 ${
-            isMobile
-              ? isOpen
-                ? "bg-transparent"
-                : "bg-white"
-              : "bg-white"
+            isMobile ? (isOpen ? "bg-transparent" : "bg-white") : "bg-white"
           }`}
           id={item.id ? item.id.toString() : "review"}
         >
@@ -89,17 +67,12 @@ const FormContainer = React.forwardRef<HTMLDivElement, FormContainerProps>(
                 <div className="flex items-center gap-4">
                   {item.iconPath && (
                     <div
-                      className={`${
-                        isOpen ? "bg-[#CBE3EF]" : "bg-transparent"
-                      } flex w-10 h-10 aspect-square items-center justify-center rounded-full transition-all duration-500`}
+                      className={`flex w-10 h-10 items-center justify-center rounded-full transition-all duration-500`}
+                      style={{ backgroundColor }}
                     >
                       <Image
-                        src={
-                          isOpen
-                            ? item.activeIconPath || item.iconPath
-                            : item.iconPath
-                        }
-                        alt={item.altText|| ""}
+                        src={iconSrc}
+                        alt={item.altText || ""}
                         width={24}
                         height={24}
                       />
@@ -121,9 +94,12 @@ const FormContainer = React.forwardRef<HTMLDivElement, FormContainerProps>(
                   height={24}
                   
                   /> */}
-                  <ChevronIcon color="#878484" className={`transform w-4 h-4 transition-transform duration-500 ${
+                <ChevronIcon
+                  color="#878484"
+                  className={`transform w-4 h-4 transition-transform duration-500 ${
                     isOpen ? "rotate-180" : ""
-                  }`}/>
+                  }`}
+                />
               </div>
             ) : (
               <h1 className="text-[#878484]">
@@ -141,7 +117,9 @@ const FormContainer = React.forwardRef<HTMLDivElement, FormContainerProps>(
               }}
             >
               {/* Subtitle */}
-              <p className="hidden py-6 text-xl font-medium lg:block">{item.subtitle}</p>
+              <p className="hidden py-6 text-xl font-medium lg:block">
+                {item.subtitle}
+              </p>
               <div className="w-full py-4 lg:py-0">{children}</div>
             </Collapse>
           ) : (

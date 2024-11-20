@@ -1,9 +1,10 @@
-import React from "react";
+// Invoice.tsx
+import React, { useEffect, useState } from "react";
 import Currency from "./Currency";
 
 type InvoiceProps = {
-  value: string;
-  setValue: (value: string) => void;
+  value: number | null;
+  setValue: (value: number | null) => void;
   selectedCurrency: string;
   setSelectedCurrency: (currency: string) => void;
   currencies: {
@@ -16,7 +17,6 @@ type InvoiceProps = {
     };
   }[];
   amountLabel: string;
-
 };
 
 export default function Invoice({
@@ -26,23 +26,49 @@ export default function Invoice({
   setSelectedCurrency,
   currencies,
   amountLabel,
-
 }: InvoiceProps) {
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let input = e.target.value.replace(/\D/g, ""); // Remove non-digit characters
+  const [inputValue, setInputValue] = useState<string>("");
 
-    if (input === "") {
-      setValue("");
-      return;
+  // Update inputValue when value changes (e.g., when formatting)
+  useEffect(() => {
+    if (value !== null && !isNaN(value)) {
+      setInputValue(value.toString());
+    } else {
+      setInputValue("");
     }
+  }, [value]);
 
-    const numberValue = parseFloat(input) / 100;
-    const formattedValue = numberValue.toLocaleString("en-US", {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    });
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const input = e.target.value;
 
-    setValue(formattedValue); // Update lifted state in Compensation
+    // Allow only numbers and at most one dot
+    if (/^\d*\.?\d*$/.test(input)) {
+      setInputValue(input);
+
+      const numberValue = parseFloat(input);
+      if (!isNaN(numberValue)) {
+        setValue(numberValue);
+      } else {
+        setValue(null);
+      }
+    }
+    // If input doesn't match the pattern, do not update state (ignore invalid characters)
+  };
+
+  const handleBlur = () => {
+    if (value !== null && !isNaN(value)) {
+      const formattedValue = value.toLocaleString("en-US", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+      setInputValue(formattedValue);
+    }
+  };
+
+  const handleFocus = () => {
+    if (value !== null && !isNaN(value)) {
+      setInputValue(value.toString());
+    }
   };
 
   return (
@@ -53,9 +79,12 @@ export default function Invoice({
         </label>
         <input
           id="amount"
+          name="amount"
           type="text"
-          value={value}
+          value={inputValue}
           onChange={handleChange}
+          onBlur={handleBlur}
+          onFocus={handleFocus}
           className="border-b border-[#EBEBEB] bg-transparent placeholder:text-[#EBEBEB] focus:outline-none text-[32px] font-bold"
           placeholder="0.00"
           style={{ letterSpacing: "0.64px" }}

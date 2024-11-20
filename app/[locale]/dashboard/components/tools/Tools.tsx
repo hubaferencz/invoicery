@@ -72,7 +72,7 @@ export default function Tools({ title, closeText, subtitle, items }: ToolsProps)
               <Image width={40} height={40} alt={tool.icon.alt} src={tool.icon.src} />
               <div className="flex w-full justify-between items-center">
                 <span className="text-black text-sm text-start">{tool.title}</span>
-                <button className="w-4 h-4 aspect-square rounded-full flex items-center justify-center">
+                <button type="button" className="w-4 h-4 aspect-square rounded-full flex items-center justify-center">
                   <ChevronIcon width="16" height="16" className="-rotate-90" />
                 </button>
               </div>

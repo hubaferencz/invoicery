@@ -4,6 +4,8 @@ import React from "react";
 
 type FieldProps = {
   label: string;
+
+  name: string;
   required: boolean;
   value: string;
   onChange: (value: string) => void;
@@ -15,6 +17,8 @@ type FieldProps = {
 
 const Field: React.FC<FieldProps> = ({
   label,
+
+  name,
   required,
   value,
   onChange,
@@ -29,6 +33,7 @@ const Field: React.FC<FieldProps> = ({
     <div className="relative border-b w-full border-[#EBEBEB]">
       <input
         type="text"
+        name={name}
         placeholder=" "
         className="w-full py-1 pt-4 pb-1 text-sm bg-transparent focus:outline-none"
         value={value}
@@ -43,7 +48,9 @@ const Field: React.FC<FieldProps> = ({
       >
         <span>{label}</span>
         {required && <span className="text-[#EB6060]">*</span>}
-        {shouldShowError && <span className="text-[#EB6060] ml-2">{error}</span>}
+        {shouldShowError && (
+          <span className="text-[#EB6060] ml-2">{error}</span>
+        )}
       </label>
     </div>
   );

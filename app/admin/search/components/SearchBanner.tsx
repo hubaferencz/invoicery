@@ -86,6 +86,7 @@ export default function SearchBanner({ placeholders }: Props) {
             );
           })}
           <button
+          type="button"
             disabled={!isAnyInputFilled}
             className={`w-full transition-all border rounded text-sm border-primary-600 bg-primary-600 text-white font-bold px-4 py-3.5 ${
               isAnyInputFilled ? "" : "opacity-40"

@@ -44,7 +44,7 @@ export default function PopupTable({ title, assignments }: Props) {
                   <span className="text-black text-sm whitespace-nowrap">
                     {assignment.name}
                   </span>
-                  <button className="w-4 h-4 aspect-square rounded-full flex items-center justify-center">
+                  <button type="button" className="w-4 h-4 aspect-square rounded-full flex items-center justify-center">
                     <ChevronIcon
                       width="16"
                       height="16"
