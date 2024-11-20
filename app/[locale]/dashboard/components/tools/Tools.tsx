@@ -22,7 +22,12 @@ interface ToolsProps {
   }[];
 }
 
-export default function Tools({ title, closeText, subtitle, items }: ToolsProps) {
+export default function Tools({
+  title,
+  closeText,
+  subtitle,
+  items,
+}: ToolsProps) {
   const [activeTool, setActiveTool] = useState<null | {
     title: string;
     description: string;
@@ -69,10 +74,20 @@ export default function Tools({ title, closeText, subtitle, items }: ToolsProps)
                 })
               }
             >
-              <Image width={40} height={40} alt={tool.icon.alt} src={tool.icon.src} />
+              <Image
+                width={40}
+                height={40}
+                alt={tool.icon.alt}
+                src={tool.icon.src}
+              />
               <div className="flex w-full justify-between items-center">
-                <span className="text-black text-sm text-start">{tool.title}</span>
-                <button type="button" className="w-4 h-4 aspect-square rounded-full flex items-center justify-center">
+                <span className="text-black text-sm text-start">
+                  {tool.title}
+                </span>
+                <button
+                  type="button"
+                  className="w-4 h-4 aspect-square rounded-full flex items-center justify-center"
+                >
                   <ChevronIcon width="16" height="16" className="-rotate-90" />
                 </button>
               </div>
@@ -91,6 +106,10 @@ export default function Tools({ title, closeText, subtitle, items }: ToolsProps)
             placeholder={activeTool.inputPlaceholder}
             ctaText={activeTool.ctaText}
             closeText={closeText}
+            emailToSendTo={
+              items.find((item) => item.title === activeTool.title)
+                ?.emailToSendTo || ""
+            }
             onClose={handleClosePopup}
           />
         )}

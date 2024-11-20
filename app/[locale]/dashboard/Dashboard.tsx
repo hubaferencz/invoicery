@@ -7,6 +7,7 @@ import Errands from "./components/errands/Errands";
 import How from "./components/how-it-works/How";
 import VerifiedHow from "./components/how-it-works/VerifiedHow";
 import Tools from "./components/tools/Tools";
+import { Toaster } from "react-hot-toast";
 
 interface DashboardProps {
   sidebar: {
@@ -135,6 +136,7 @@ export default function Dashboard({
           </div>
         </div>
       </div>
+      <Toaster/>
     </>
   );
 }
