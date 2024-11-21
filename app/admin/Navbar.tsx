@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { signOut } from "./utils/signOut";
 
 type Props = {};
 
@@ -17,9 +18,9 @@ export default function Navbar({}: Props) {
         >
           <Image src={"/search.svg"} width={19} height={19} alt="logo" />
         </Link>
-        <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-transparent hover:bg-primary-700">
+        <button type="button" onClick={signOut} className="flex items-center justify-center w-10 h-10 rounded-lg bg-transparent hover:bg-primary-700">
           <Image src={"/leave.svg"} width={19} height={19} alt="logo" />
-        </div>
+        </button>
       </div>
     </div>
   );

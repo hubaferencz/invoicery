@@ -1,14 +1,14 @@
 "use client";
 
-import Image from "next/image";
-import Link from "next/link";
-import { useState, useRef } from "react";
+import React, { useState, useRef } from "react";
+import BackNavigation from "../../components/BackNavigation";
 
 type Props = {
   placeholders: [string, string, string]; // Tuple for exactly 3 placeholders
+  onSearch: (inputs: { name: string; phone: string; email: string }) => void;
 };
 
-export default function SearchBanner({ placeholders }: Props) {
+export default function SearchBanner({ placeholders, onSearch }: Props) {
   const [inputs, setInputs] = useState<[string, string, string]>(["", "", ""]);
   const [focusedInputs, setFocusedInputs] = useState<
     [boolean, boolean, boolean]
@@ -39,20 +39,24 @@ export default function SearchBanner({ placeholders }: Props) {
   // Check if at least one input field has text
   const isAnyInputFilled = inputs.some((input) => input.trim() !== "");
 
+  const handleSearch = () => {
+    if (isAnyInputFilled) {
+      onSearch({
+        name: inputs[0],
+        phone: inputs[1],
+        email: inputs[2],
+      });
+    }
+  };
+
   return (
     <div className="flex w-full bg-white border-b border-[#F2F2F2] pl-6">
       <div className="flex whitespace-nowrap min-h-full gap-4 items-center justify-center">
-        <Link
-          href={""}
-          className="flex items-center justify-center gap-1 select-none"
-        >
-          <Image src={"/back.svg"} width={20} height={20} alt="" />
-          <h2 className="text-sm font-normal">Back</h2>
-        </Link>
+        <BackNavigation fallbackRoute="/admin" />
         <div className="w-[1px] h-7 bg-[#EBEBEB]"></div>
         <h2 className="text-base font-semibold">Search</h2>
       </div>
-      <div className="flex flex-col items-start justify-start w-full gap-4 p-6 ">
+      <div className="flex flex-col items-start justify-start w-full gap-4 p-6">
         <div className="flex items-center justify-between w-full gap-6 bg-white">
           {placeholders.map((placeholder, index) => {
             const isActive = focusedInputs[index] || inputs[index] !== "";
@@ -86,7 +90,8 @@ export default function SearchBanner({ placeholders }: Props) {
             );
           })}
           <button
-          type="button"
+            type="button"
+            onClick={handleSearch}
             disabled={!isAnyInputFilled}
             className={`w-full transition-all border rounded text-sm border-primary-600 bg-primary-600 text-white font-bold px-4 py-3.5 ${
               isAnyInputFilled ? "" : "opacity-40"
