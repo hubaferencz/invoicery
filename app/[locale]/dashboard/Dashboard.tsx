@@ -8,6 +8,7 @@ import How from "./components/how-it-works/How";
 import VerifiedHow from "./components/how-it-works/VerifiedHow";
 import Tools from "./components/tools/Tools";
 import { Toaster } from "react-hot-toast";
+import Script from "next/script";
 
 interface DashboardProps {
   sidebar: {
@@ -79,6 +80,7 @@ interface DashboardProps {
   verifyYourself: any;
   registerAssignment: any;
   addCustomerForm: any;
+  userId: string;
 }
 
 export default function Dashboard({
@@ -93,6 +95,7 @@ export default function Dashboard({
   verifyYourself,
   registerAssignment,
   addCustomerForm,
+  userId,
 }: DashboardProps) {
   const closeText = helpersSection.cancelText;
   return (
@@ -115,7 +118,8 @@ export default function Dashboard({
               addCustomerForm={addCustomerForm}
               {...tasksSection}
             />
-            <Errands verified={tasksSection.isVerified} {...errandsSection} />
+            {/* <Errands verified={tasksSection.isVerified} {...errandsSection} userId={userId} /> */}
+            <Errands {...errandsSection} userId={userId} />
             <How
               verified={tasksSection.isVerified}
               {...howItWorksSection}
@@ -136,7 +140,44 @@ export default function Dashboard({
           </div>
         </div>
       </div>
-      <Toaster/>
+      <Toaster />
+      <Script id="freshchat-init" strategy="lazyOnload">
+        {`
+          function initFreshChat() {
+            window.fcWidget.init({
+              token: "77890fad-de08-4c19-8896-231e5a444ca3",
+              host: "https://frilansfinans-org.freshchat.com",
+              widgetUuid: "276d73ed-db71-4ffb-814b-a9ca258ac2c4"
+            });
+          }
+
+          function initialize(i, t) {
+            var e;
+            if (i.getElementById(t)) {
+              initFreshChat();
+            } else {
+              e = i.createElement("script");
+              e.id = t;
+              e.async = true;
+              e.src = "https://frilansfinans-org.freshchat.com/js/widget.js";
+              e.onload = initFreshChat;
+              i.head.appendChild(e);
+            }
+          }
+
+          function initiateCall() {
+            initialize(document, "Freshchat-js-sdk");
+          }
+
+          if (window.addEventListener) {
+            window.addEventListener("load", initiateCall, false);
+          } else if (window.attachEvent) {
+            window.attachEvent("onload", initiateCall);
+          }
+            console.log('Freshchat initialized');
+
+        `}
+      </Script>
     </>
   );
 }

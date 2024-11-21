@@ -141,9 +141,11 @@ export default async function DashboardPage({ params }: any) {
     addCustomerForm: addCustomerFormData, // Pass verifyYourself data to the Dashboard component if needed
   };
 
+  const userId = data?.user?.id
+
   return (
     <main className="flex overflow-x-clip w-full bg-[#F4F4F4]">
-      <Dashboard {...dashboardProps} locale={locale} />
+      <Dashboard {...dashboardProps} userId={userId} locale={locale} />
     </main>
   );
 }
