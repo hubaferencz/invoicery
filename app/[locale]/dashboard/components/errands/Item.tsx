@@ -79,7 +79,6 @@
 //   );
 // }
 
-
 "use client";
 
 import React from "react";
@@ -123,14 +122,18 @@ export default function Item({
         {assignments.slice(0, 2).map((assignment, index) => (
           <div
             key={assignment.id}
-            className={`px-4 py-3 flex items-center justify-between cursor-pointer hover:bg-black hover:bg-opacity-5 transition-all  ${index < assignments.length - 1 ? "border-b border-[#EBEBEB]" : ""}`}
+            className={`px-4 py-3 flex items-center justify-between cursor-pointer hover:bg-black hover:bg-opacity-5 transition-all  ${
+              index < assignments.length - 1 ? "border-b border-[#EBEBEB]" : ""
+            }`}
             onClick={() => {
               onView(assignment.id);
               window.open(assignment.pdf_link, "_blank");
             }}
           >
             <span className="text-black text-sm whitespace-nowrap flex items-start justify-start gap-1">
-              {assignment.pdf_link.split("/").pop()}
+              <span className="truncate max-w-48">
+                {assignment.pdf_link.split("/").pop()}
+              </span>
               {!assignment.is_viewed && (
                 <div className="w-1.5 h-1.5 aspect-square bg-primary-500 bg-opacity-70 rounded-full"></div>
               )}

@@ -74,7 +74,9 @@ interface ErrandsProps {
   invoicesTitle: string;
   salarySpecificationsTitle: string;
   employmentContractTitle: string;
-  userId: string;
+  loading: boolean;
+  documents: any;
+  fetchDocuments: any;
 }
 
 export default function Errands({
@@ -85,35 +87,37 @@ export default function Errands({
   invoicesTitle,
   salarySpecificationsTitle,
   employmentContractTitle,
-  userId,
+  loading,
+  documents,
+  fetchDocuments,
 }: ErrandsProps) {
-  const [documents, setDocuments] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  // const [documents, setDocuments] = useState<any[]>([]);
+  // const [loading, setLoading] = useState(true);
 
   const supabase = createClient();
 
-  const fetchDocuments = async () => {
-    setLoading(true);
-    try {
-      const { data, error } = await supabase
-        .from("pdf_documents")
-        .select("*")
-        .eq("client_id", userId)
-        .order("created_at", { ascending: false });
+  // const fetchDocuments = async () => {
+  //   setLoading(true);
+  //   try {
+  //     const { data, error } = await supabase
+  //       .from("pdf_documents")
+  //       .select("*")
+  //       .eq("client_id", userId)
+  //       .order("created_at", { ascending: false });
 
-      if (error) throw error;
+  //     if (error) throw error;
 
-      setDocuments(data || []);
-    } catch (err: any) {
-      console.error("Error fetching documents:", err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+  //     setDocuments(data || []);
+  //   } catch (err: any) {
+  //     console.error("Error fetching documents:", err.message);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
-  useEffect(() => {
-    fetchDocuments();
-  }, [userId]);
+  // useEffect(() => {
+  //   fetchDocuments();
+  // }, [userId]);
 
   return (
     <div className="bg-white max-w-[778px] p-6 w-full mx-auto lg:mx-0 flex flex-col gap-6 rounded-sm">

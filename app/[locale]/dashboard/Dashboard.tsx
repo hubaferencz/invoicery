@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "./components/Sidebar";
 import Welcome from "./components/welcome/Welcome";
 import Tasks from "./components/tasks/Tasks";
@@ -9,6 +9,7 @@ import VerifiedHow from "./components/how-it-works/VerifiedHow";
 import Tools from "./components/tools/Tools";
 import { Toaster } from "react-hot-toast";
 import Script from "next/script";
+import { createClient } from "@/utils/supabase/client";
 
 interface DashboardProps {
   sidebar: {
@@ -98,6 +99,35 @@ export default function Dashboard({
   userId,
 }: DashboardProps) {
   const closeText = helpersSection.cancelText;
+
+  const [documents, setDocuments] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const supabase = createClient();
+
+  const fetchDocuments = async () => {
+    setLoading(true);
+    try {
+      const { data, error } = await supabase
+        .from("pdf_documents")
+        .select("*")
+        .eq("client_id", userId)
+        .order("created_at", { ascending: false });
+
+      if (error) throw error;
+
+      setDocuments(data || []);
+    } catch (err: any) {
+      console.error("Error fetching documents:", err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchDocuments();
+  }, [userId]);
+
   return (
     <>
       <Sidebar {...sidebar} />
@@ -119,7 +149,12 @@ export default function Dashboard({
               {...tasksSection}
             />
             {/* <Errands verified={tasksSection.isVerified} {...errandsSection} userId={userId} /> */}
-            <Errands {...errandsSection} userId={userId} />
+            <Errands
+              {...errandsSection}
+              documents={documents}
+              fetchDocuments={fetchDocuments}
+              loading={loading}
+            />
             <How
               verified={tasksSection.isVerified}
               {...howItWorksSection}
@@ -134,7 +169,7 @@ export default function Dashboard({
                 closeText={closeText}
               />
             )}
-            {tasksSection.isVerified && (
+            {documents.length !== 0 && !loading && (
               <Tools {...toolsSection} closeText={closeText} />
             )}
           </div>

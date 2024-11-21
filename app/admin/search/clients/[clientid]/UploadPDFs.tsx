@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { v4 as uuidv4 } from "uuid";
+
 import Link from "next/link";
 import { createClient } from "@/utils/supabase/client";
 import ChevronIcon from "@/app/[locale]/components/ChevronIcon";
@@ -71,22 +73,69 @@ export default function UploadPDFs({ clientId }: Props) {
     }
   };
 
+  // const handleUpload = async (type: string, file: File) => {
+  //   const bucket = getBucketName(type);
+  //   const sanitizedFileName = file.name.replace(/\s+/g, "-"); // Replace spaces with hyphens
+
+  //   setUploadingType(type); // Set uploading state
+  //   try {
+  //     setErrorMessage(null);
+
+  //     // Check if file already exists
+  //     const { data: existingFiles } = await supabase.storage
+  //       .from(bucket)
+  //       .list("", { search: sanitizedFileName });
+
+  //     if (existingFiles && existingFiles.length > 0) {
+  //       throw new Error("A document with this name already exists.");
+  //     }
+
+  //     // Upload file
+  //     const { error: uploadError } = await supabase.storage
+  //       .from(bucket)
+  //       .upload(sanitizedFileName, file);
+
+  //     if (uploadError) throw uploadError;
+
+  //     const publicUrl = supabase.storage.from(bucket).getPublicUrl(sanitizedFileName)
+  //       .data.publicUrl;
+
+  //     // Insert into database
+  //     const { error: insertError } = await supabase
+  //       .from("pdf_documents")
+  //       .insert({
+  //         client_id: clientId,
+  //         type,
+  //         pdf_link: publicUrl,
+  //       });
+
+  //     if (insertError) throw insertError;
+
+  //     fetchPDFs(); // Refresh after upload
+  //   } catch (error: any) {
+  //     console.error("Error uploading PDF:", error.message);
+  //     setErrorMessage(error.message || "An error occurred while uploading.");
+  //   } finally {
+  //     setUploadingType(null); // Reset uploading state
+  //   }
+  // };
+
   const handleUpload = async (type: string, file: File) => {
     const bucket = getBucketName(type);
-    const sanitizedFileName = file.name.replace(/\s+/g, "-"); // Replace spaces with hyphens
+
+    // Generate a unique filename
+    const fileExtension = file.name.split(".").pop(); // Get file extension
+    const baseFileName = file.name
+      .replace(/\s+/g, "-")
+      .replace(`.${fileExtension}`, ""); // Remove spaces and extension
+    const sanitizedFileName = `${baseFileName}-${uuidv4().slice(
+      0,
+      8
+    )}.${fileExtension}`; // Append short UUID before extension
 
     setUploadingType(type); // Set uploading state
     try {
       setErrorMessage(null);
-
-      // Check if file already exists
-      const { data: existingFiles } = await supabase.storage
-        .from(bucket)
-        .list("", { search: sanitizedFileName });
-
-      if (existingFiles && existingFiles.length > 0) {
-        throw new Error("A document with this name already exists.");
-      }
 
       // Upload file
       const { error: uploadError } = await supabase.storage
@@ -95,8 +144,9 @@ export default function UploadPDFs({ clientId }: Props) {
 
       if (uploadError) throw uploadError;
 
-      const publicUrl = supabase.storage.from(bucket).getPublicUrl(sanitizedFileName)
-        .data.publicUrl;
+      const publicUrl = supabase.storage
+        .from(bucket)
+        .getPublicUrl(sanitizedFileName).data.publicUrl;
 
       // Insert into database
       const { error: insertError } = await supabase
@@ -221,7 +271,9 @@ function PDFCategoryComponent({
         </h3>
         <div className="flex gap-4 h-full">
           <label className="h-full min-h-full rounded hover:bg-neutral-100 transition-all text-black border border-[#808080] px-6 flex items-center justify-center cursor-pointer">
-            <span>{uploadingType === category.type ? "Uploading..." : "Upload PDF"}</span>
+            <span>
+              {uploadingType === category.type ? "Uploading..." : "Upload PDF"}
+            </span>
             <input
               type="file"
               className="hidden"
