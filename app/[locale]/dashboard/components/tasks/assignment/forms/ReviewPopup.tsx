@@ -350,8 +350,7 @@ export default function ReviewPopup({
             isToggled ? (
               // Submit Button when conditions are met
               <button
-                formAction={handleSave}
-                // type="submit"
+                onClick={handleSave}
                 disabled={saving}
                 className="w-full py-[14px] text-white font-medium text-base rounded-xl bg-[#F80] "
               >

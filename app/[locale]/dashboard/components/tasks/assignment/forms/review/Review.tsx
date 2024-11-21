@@ -165,16 +165,17 @@ export default function Review({
       >
         {saving ? "Sending..." : sendButtonText}
       </button> */}
-       <button
-        disabled={!allLocalFieldsValid() || saving}
-        formAction={allLocalFieldsValid() ? handleSave : () => {}}
+      <button
+        disabled={!allLocalFieldsValid() || saving} // Check this condition
+        onClick={allLocalFieldsValid() ? handleSave : () => {}}
+        type="submit"
         className={`w-full py-[14px] text-base rounded-xl ${
           allLocalFieldsValid() && !saving
             ? "bg-[#04567D] text-white"
             : "bg-[#04567D6B] text-white text-opacity-40 cursor-not-allowed"
         }`}
       >
-        {saving ? "Sending..." : sendButtonText ||"Send"}
+        {saving ? "Sending..." : sendButtonText || "Send"}
       </button>
     </div>
   );

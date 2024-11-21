@@ -65,6 +65,7 @@ export default function AssignmentForm({
     phoneNumber: clientPhone || "",
     profession: clientProfession || "",
   });
+
   const fetchCustomers = async () => {
     const supabase = await createClient();
     const { data: userData, error: userError } = await supabase.auth.getUser();
@@ -221,9 +222,14 @@ export default function AssignmentForm({
     isCompensationValid &&
     isDescriptionValid;
 
-  const handleSave = (formData: FormData) => {
-    setSaving(true);
+  const handleSave = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault(); //
+    setSaving(true); // Ensure this runs correctly
     setErrorMessage(null);
+    const form = event.currentTarget.form as HTMLFormElement;
+
+    // Create a new FormData object from the form
+    const formData = new FormData(form);
 
     sendAssignment(formData)
       .then(() => {
@@ -236,7 +242,7 @@ export default function AssignmentForm({
         toast.error(errorMessage);
       })
       .finally(() => {
-        setSaving(false);
+        setSaving(false); // Ensure this resets correctly
       });
   };
 
